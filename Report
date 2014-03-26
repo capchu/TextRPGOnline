@@ -1,5 +1,12 @@
 Idea: Online Text RPG Tools
-Details: This is a startup idea / tools to help make text RPGs more popular. Text RPGs are basically the forefathers of modern videogames (many even use systems from old text based RPGs). Many people still enjoy playing them but it’s hard to find people locally to play with. The goal is to make a set of tools that will allow people to play a text based RPG over the internet. The idea is to make it so anyone with a little coding experience could modify the server to host their favorite text RPGs so they can play with their friends or family who no longer live nearby. So far the best free thing I have found for this purpose is to use an image editor to fill out a character sheet (which is a pain) and share all the images over google docs with those who are in the game so these tools will help a lot.
+Details: This is a startup idea / tools to help make text RPGs more popular. Text RPGs are basically the 
+forefathers of modern videogames (many even use systems from old text based RPGs). Many people still enjoy 
+playing them but it’s hard to find people locally to play with. The goal is to make a set of tools that 
+will allow people to play a text based RPG over the internet. The idea is to make it so anyone with a 
+little coding experience could modify the server to host their favorite text RPGs so they can play with 
+their friends or family who no longer live nearby. So far the best free thing I have found for this purpose 
+is to use an image editor to fill out a character sheet (which is a pain) and share all the images over 
+google docs with those who are in the game so these tools will help a lot.
  
 Features (Implementing)
 -Character sheet creation (using a form)
