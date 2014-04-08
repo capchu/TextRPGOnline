@@ -1,20 +1,57 @@
 <!DOCTYPE html>
+    
 <html lang="en">
     <head>
         <title>RPG Online</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/static/img/favicon.ico">
-        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
-        <link href="/static/css/app.css" rel="stylesheet">
+        <link href="/static/css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+            body {
+                background: url('/static/img/background.png');
+            }
+            /* Custom container */
+            .container {
+                width: 960px;
+                color: #fff;
+                margin: 0 auto;
+            }
+            .header {
+                max-width: 960px;
+                background: #003366;
+                margin: 0 auto;
+            }
+            .navbar {
+                max-width: 960px;
+                margin: 0 auto;
+            }
+            .navbar .nav > li > a {
+                color: #fff;
+            }
+            .navbar .nav > li > a:hover,
+            .navbar .nav > li > a:focus {
+                color: #336699;
+            }
+            #content {
+                width: 960px;
+                background: #336699;
+                color: #fff;
+            }
+            
+            .row-fluid {
+                max-width: 960px;
+                margin: 0 auto; 
+            }
+        </style>
+        <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     </head>
   
     <body>
-        <div>
+        <div class="header">
             <img src="/static/img/header.png" alt="header" width="50" height="60">
         </div>
-        <div id="nav" class="navbar navbar-inverse">
+        <nav class="navbar navbar-inverse">
             <div class="navbar-inner">
                 <div class="container">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -43,7 +80,7 @@
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
-        </div>
+        </nav>
 
         <div id="content" class="container">
             {% for message in get_flashed_messages() %}
