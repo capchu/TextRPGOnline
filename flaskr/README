@@ -1,3 +1,7 @@
 For flaskr.py to work Flask needs to be installed on the computer.
 Installation instructions can be found: 
 http://flask.pocoo.org/docs/installation/#installation
+
+Files: static , templates
+need to be added to the flaskr folder, but they aren't going up when 
+I push them
