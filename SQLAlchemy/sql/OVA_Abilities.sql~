@@ -87,11 +87,6 @@ VALUES ("Famous",
 **
 INSERT INTO abilities (name, description) 
 VALUES ("Flight", 
-"Whether by wings, supernatural powers, or machine, you have the miraculous ability to fly. While flying itself is not an extraordinary action to you, you may roll your Flight dice when racing others, attempting daunting stunts, or otherwise testing your abilities in the air. By its nature, Flight allows combatants to create a sizable distance from their opponents, enough for Attacks to require the Ranged Perk. Conversely, it can also eliminate any such distance. In any given Combat Round, flying characters can choose to be far away or not, but never both. A character could not use an Attack without Ranged and decide to be far enough away to require Ranged of others in the same Round. Any other characters with Flight can always be within range."
-)
-**
-INSERT INTO abilities (name, description) 
-VALUES ("Flight", 
 "Whether by wings, supernatural powers, or machine, you have the miraculous ability to fly. While flying itself is not an extraordinary action to you, you may roll your Flight dice when racing others, attempting daunting stunts, or otherwise testing your abilities in the air. [By its nature, Flight allows combatants to create a sizable distance from their opponents, enough for Attacks to require the Ranged Perk. Conversely, it can also eliminate any such distance. In any given Combat Round, flying characters can choose to be far away or not, but never both. A character could not use an Attack without Ranged and decide to be far enough away to require Ranged of others in the same Round. Any other characters with Flight can always be within range.]"
 )
 **
@@ -383,10 +378,3 @@ INSERT INTO abilities (name, description)
 VALUES ("Wealthy", 
 "Your fat wallet is the envy of all that gaze upon it. At Level 1, you are mildly wealthy and can afford to be extravagant with fancy clothes and expensive dinners; Level 2, you can afford buying expensive items on a regular basis, including state-of-the-art electronic setups and designer suits or gowns; Level 3, you can afford expensive cars, personal servants, and other such luxuries; Level 4, you live in a mansion, drive in limousines, own a vast collection of cars and personal aircraft, and are easily the richest person around; Level 5, You can buy anything. Anything. [If the Players and the Game Master prefer it, purchasing—or already owning—items can be treated like any other roll, with Wealthy dice adding to that effort.]"
 )
-
-
-
-
-
-
-

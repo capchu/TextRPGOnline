@@ -34,11 +34,6 @@ VALUES ("Charismatic",
 )
 **
 INSERT INTO abilities (name, description) 
-VALUES ("Charismatic", 
-"You are incredibly influential. Your manner, attitude, and appearance make people acknowledge you and listen to what you have to say. You are also especially good at making people see it “your way.” You may add your Charismatic dice when trying to convince, distract, bribe, or in any way charm others to do what you like."
-)
-**
-INSERT INTO abilities (name, description) 
 VALUES ("Combat Expert", 
 "You have trained yourself in an array of offensive tactics. With this ability, you have the capacity to strike your opponent where it hurts, hit them hard, and look cool doing it. When making an Attack roll, add your Combat Expert dice. [This Ability covers the method of attacking in general, rather than any single weapon or fighting style. To specialize in a specific combat technique, choose it as a Knowledge instead.]"
 )
@@ -83,11 +78,6 @@ VALUES ("Evasive",
 INSERT INTO abilities (name, description) 
 VALUES ("Famous", 
 "Through valor, fortune, or just being at the right place at the right time, you’ve become easily recognizable and are thought of fondly by people you may never have met. At Level 1, a few people know your name and might give you a hearty handshake and humor small requests. At Level 2, you are recognized in your field, and those familiar with your work or history will be thrilled to meet you. At Level 3, you are well-known in many venues and can often cash in on your fame for a favor, accomodations, or other perk. At Level 4, you are world-famous with countless adoring fans. You can expect the proverbial carpet rolled out for you wherever you go, and are treated to luxuries, favors, and amenities befitting your status; Level 5, you are a legend. Meeting you in person is an unparalelled honor, and people will cater to your every need and want in hopes of being blessed with your presence a moment longer."
-)
-**
-INSERT INTO abilities (name, description) 
-VALUES ("Flight", 
-"Whether by wings, supernatural powers, or machine, you have the miraculous ability to fly. While flying itself is not an extraordinary action to you, you may roll your Flight dice when racing others, attempting daunting stunts, or otherwise testing your abilities in the air. By its nature, Flight allows combatants to create a sizable distance from their opponents, enough for Attacks to require the Ranged Perk. Conversely, it can also eliminate any such distance. In any given Combat Round, flying characters can choose to be far away or not, but never both. A character could not use an Attack without Ranged and decide to be far enough away to require Ranged of others in the same Round. Any other characters with Flight can always be within range."
 )
 **
 INSERT INTO abilities (name, description) 
