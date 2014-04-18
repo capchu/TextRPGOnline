@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/static/img/favicon.ico">
         <link href="/static/css/bootstrap.css" rel="stylesheet">
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
         <style type="text/css">
             body {
                 background: url('/static/img/background.png');
@@ -33,7 +34,8 @@
                 color: #336699;
             }
             #content {
-                width: 960px;
+                max-width: 960px;
+                margin: 0 auto;
                 background: #336699;
                 color: #fff;
             }
@@ -49,7 +51,7 @@
   
     <body>
         <div class="header">
-            <img src="/static/img/header.png" alt="header" width="50" height="60">
+            <img src="/static/img/logo.png" alt="logo">
         </div>
         <nav class="navbar navbar-inverse">
             <div class="navbar-inner">
@@ -64,6 +66,7 @@
                             <li {% if menu == "index" %}class="active"{% endif %}><a href="/">Home</a></li>
                             <li {% if menu == "games" %}class="active"{% endif %}><a href="/games">Games</a></li>
                             <li {% if menu == "characters" %}class="active"{% endif %}><a href="/characters">Characters</a></li>
+                            <li {% if menu == "characters" %}class="active"{% endif %}><a href="/character_edit">Character Creation</a></li>
                             <li {% if menu == "about" %}class="active"{% endif %}><a href="/about">About</a></li>
                             {% if menu == "ancestors" or menu == "profile" %}
                             <li><a id="menu-reload" href="#">Reload</a></li>
