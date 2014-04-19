@@ -12,7 +12,7 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-here = os.path.dirname(__file__)
+here = 'sqlite:///' + os.path.dirname(__file__)
 database = os.path.join(here, 'ova.db')
 engine = create_engine(database, echo=False)
 Base = declarative_base()
