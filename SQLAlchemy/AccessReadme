@@ -1,0 +1,72 @@
+POPULATING A CLIENTCHARACTER:
+get all of the data from the json/xml file and place it into the object
+<Character>
+  id
+  user_id
+  name
+  combat_notes
+  <ability_list>
+    ability_id
+    ability_name
+    ability_value
+    ability_note
+  </ability_list>
+  <weakness_list>
+    weakness_id
+    weakness_name
+    weakness_value
+    weakness_note
+  </weakness_list>
+  <attack_list>
+    name
+    <perks>
+     perk_id
+     perk_name
+     multiplier
+     note
+    </perks>
+    <flaws>
+     flaw_id
+     flaw_name
+     multiplier
+     note
+    </flaws>
+    roll
+    dx
+    end
+    note
+  </attack_list>
+  defense
+  health
+  endurance
+  tv
+  background
+  appearance
+  personality
+  other_notes
+  portrait_url
+  icon_url
+</Character>
+
+ADDING A CHARACTER TO THE DATABASE:
+Once you have a character:
+from clientCharacter import ClientCharacter
+from clientCharacter import ClientDataAccess
+Leon = ClientCharacter()
+CDA = ClientDataAccess()
+CDA.addClientCharacter(Leon)
+
+GETTING A LIST OF CHARACTERS:
+from databaseCreation import Character
+from dataAccess import DataAccess
+DA = DataAccess()
+DA.getCharacters(username) # this gives a list of Character objects (NOT ClientCharacter) -- these do not have attacks, abilites, or weaknesses in them
+
+GETTING A SPECIFIC CHARACTER:
+from clientCharacter import ClientCharacter
+from clientCharacter import ClientDataAccess
+CDA = ClientDataAccess()
+cchar = CDA.getClientCharacter(char.id) # get the char.id from the list of characters -- This returns a Client Character with ALL character data formatted exactly the submission to add it
+
+
+
