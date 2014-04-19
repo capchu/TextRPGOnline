@@ -20,8 +20,11 @@ from sqlalchemy.orm import aliased
 from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
+import os
 
-engine = create_engine('sqlite:///ova.sqlite', echo=False)
+here = os.path.dirname(__file__)
+database = os.path.join(here, 'ova.db')
+engine = create_engine(database, echo=False)
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
