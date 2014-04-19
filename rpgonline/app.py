@@ -8,15 +8,14 @@ from dataAccess import DataAccess
 # create our little application :)
 app = Flask(__name__)
 app.config.from_object(__name__)
-DA = DataAccess()
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/index')
-def index():
-    return render_template('index.html')
+#@app.route('/index')
+#def index():
+#    return render_template('index.html')
 
 @app.route('/games')
 def games():
@@ -28,6 +27,7 @@ def characters():
 
 @app.route('/character_edit')
 def character_edit():
+    DA = DataAccess()
     abilities = DA.getAbilities().all()
     weaknesses = DA.getWeaknesses().all()
     perks = DA.getPerks().all()
