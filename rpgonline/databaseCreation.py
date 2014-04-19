@@ -11,7 +11,7 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-engine = create_engine('sqlite:///ova.db', echo=False)
+engine = create_engine('sqlite:///ova.sqlite', echo=False)
 Base = declarative_base()
 
 class Ability(Base):
