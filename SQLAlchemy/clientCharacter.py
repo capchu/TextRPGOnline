@@ -14,6 +14,7 @@ class ClientCharacter():
     def __init__(self, user_id, name, combat_notes, ability_list, weakness_list, attack_list,
                  defense, health, endurance, tv, background, appearance, personality,
                  other_notes, portrait_url, icon_url):
+        self.id = ''
         self.user_id = user_id
         self.name = name
         self.combat_notes = combat_notes
@@ -37,12 +38,20 @@ class ClientAbility():
         self.ability_value = ability_value
         self.ability_note = ability_note
 
+    def toString(self):
+        DA = DataAccess()
+        return self.ability_value + " " + DA.getAbilityDetails(self.ability_id).name + " " + self.ability_note
+
 class ClientWeakness():
     def __init__(self, weakness_id, weakness_value, weakness_note):
         self.weakness_id = weakness_id
         self.weakness_value = weakness_value
         self.weakness_note = weakness_note
-        
+
+    def toString(self):
+        DA = DataAccess()
+        return self.weakness_value + " " + DA.getWeaknessDetails(self.weakness_id).name + " " + self.weakness_note
+       
 
 class ClientAttack():
     def __init__(self, name, perks, flaws, roll, dx, end, note):
@@ -60,11 +69,20 @@ class ClientFlaw():
         self.multiplier = multiplier
         self.note = note
 
+    def toString(self):
+        DA = DataAccess()
+        return DA.getFlawDetails(self.flaw_id).name + " " + self.multiplier + " " + self.note
+      
+
 class ClientPerk():
     def __init__(self, perk_id, multiplier, note):
         self.perk_id = perk_id
         self.multiplier = multiplier
         self.note = note
+
+    def toString(self):
+        DA = DataAccess()
+        return DA.getPerkDetails(self.perk_id).name + " " + self.multiplier + " " + self.note
 
 class ClientDataAccess():
 
@@ -79,6 +97,7 @@ class ClientDataAccess():
                         other_notes=cchar.other_notes)
         session.add(character)
         session.commit()
+        cchar.id = character.id
         for at in cchar.attack_list:
             attack = CharacterAttack(character_id=character.id, name=at.name,
                                 roll=at.roll, dx=at.dx, end=at.end, note=at.note)
@@ -111,9 +130,38 @@ class ClientDataAccess():
             session.add(cweakness)
             session.commit()
         session.commit()
+
+        print cchar.id
         
+    def getClientCharacter(self, char_id):
+        DA = DataAccess()
+        char = DA.getCharacter(char_id)
+        ability_list = []
+        for ab in DA.getCharAbilities(char.id):
+            ability_list.append(ClientAbility(ab.ability_id, ab.ability_value, ab.ability_note))
 
+        weakness_list = []
+        for wk in DA.getCharWeaknesses(char.id):
+            weakness_list.append(ClientWeakness(wk.weakness_id, wk.weakness_value, wk.weakness_note))
 
+        attack_list = []
+        for at in DA.getCharAttacks(char.id):
+            perks = []
+            for pk in DA.getAttackPerks(at.id):
+                perks.append(ClientPerk(pk.perk_id, pk.multiplier, pk.note))
+            flaws = []
+            for fl in DA.getAttackFlaws(at.id):
+                flaws.append(ClientFlaw(fl.flaw_id, fl.multiplier, fl.note))
+            attack_list.append(ClientAttack(at.name, perks, flaws, at.roll,
+                                            at.dx, at.end, at.note))
+
+        cchar = ClientCharacter(char.user_id, char.name, char.combat_notes,
+                            ability_list, weakness_list, attack_list,
+                            char.defense, char.health, char.endurance, char.tv,
+                            char.background, char.appearance, char.personality,
+                            char.other_notes, char.portrait_url, char.icon_url)
+        cchar.id = char_id
+        return cchar        
 
 
 

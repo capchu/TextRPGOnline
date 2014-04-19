@@ -1,4 +1,13 @@
 from dataAccess import DataAccess
+from databaseCreation import Ability
+from databaseCreation import Weakness
+from databaseCreation import Flaw
+from databaseCreation import Perk
+from databaseCreation import AttackFlaw
+from databaseCreation import AttackPerk
+from databaseCreation import CharacterWeakness
+from databaseCreation import CharacterAbility
+from databaseCreation import CharacterAttack
 from databaseCreation import Character
 from clientCharacter import ClientCharacter
 from clientCharacter import ClientAttack
@@ -49,7 +58,7 @@ def addDummyClientCharacter():
     attacks.append(ClientAttack('Backstab', a2perks, a2flaws, '7', '2',
                             '15', 'does double damage if unseen by target'))
     abilities = []
-    abilities.append(ClientAbility('3', '+3', ''))
+    abilities.append(ClientAbility('7', '+3', ''))
     abilities.append(ClientAbility('13', '+1', ''))
     abilities.append(ClientAbility('32', '+5', ''))
     weaknesses = []
@@ -57,12 +66,39 @@ def addDummyClientCharacter():
     weaknesses.append(ClientWeakness('14','-1',''))
     weaknesses.append(ClientWeakness('28','-5','(Eye Sight)'))
 
-    Leon = ClientCharacter('Sid', 'Leon', '', abilities,
+    Leon = ClientCharacter('Sid', 'Leon2', '', abilities,
                  weaknesses, attacks, '4', '35', '70',
                  '25', 'Born on the Streets', 'Cloaked', 'Sullen',
                  '', '', '')
 
     CDA.addClientCharacter(Leon)
+
+def printClientCharacter(char):
+    print str(char.id) + ":" + char.name
+    print " abilities:"
+    for ab in char.ability_list:
+        print " " + ab.toString()
+    print " weaknesses:"
+    for wk in char.weakness_list:
+        print " " + wk.toString()
+    print " attacks:"
+    for atk in char.attack_list:
+        print " " + atk.name
+        pkfl = ''
+        for pk in atk.perks:
+            pkfl += " " + pk.toString()
+        for fl in atk.flaws:
+            pkfl += " " + fl.toString()
+        print "  " + pkfl
+        print "  " + atk.note
+        print "  roll:" + atk.roll
+        print "  dx:" + atk.dx
+        print "  cost:" + atk.end
+    print " def:" + char.defense
+    print " hp:" + char.health
+    print " end:" + char.endurance
+    print " tv:" + char.tv
+    
 
 
 
@@ -79,10 +115,16 @@ DA = DataAccess()
 #DA.printWeaknesses()
 #DA.printFlaws()
 #DA.printPerks()
-addDummyClientCharacter()
+#addDummyClientCharacter()
 
 
 for char in DA.getCharacters('Sid'):
-    print char.name
-    
+    cchar = CDA.getClientCharacter(char.id)
+    printClientCharacter(cchar)
 
+
+
+
+
+
+    

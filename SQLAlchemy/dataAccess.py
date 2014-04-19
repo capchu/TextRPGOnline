@@ -49,32 +49,35 @@ class DataAccess():
     def getCharacters(self, username):
         return session.query(Character).filter(Character.user_id==username)
 
+    def getCharacter(self, char_id):
+        return session.query(Character).filter(Character.id==char_id).first()
+
     def getCharAbilities(self, char_id):
-        return session.query(CharacterAbilities).filter(CharacterAbilities.character_id==char_id)
+        return session.query(CharacterAbility).filter(CharacterAbility.character_id==char_id)
 
     def getAbilityDetails(self, ability_id):
-        return session.query(Ability).filter(Ability.id==ability_id)
+        return session.query(Ability).filter(Ability.id==ability_id).first()
 
     def getCharWeaknesses(self, char_id):
         return session.query(CharacterWeakness).filter(CharacterWeakness.character_id==char_id)
 
     def getWeaknessDetails(self, weakness_id):
-        return session.query(Weakness).filter(Weakness.id==weakness_id)
+        return session.query(Weakness).filter(Weakness.id==weakness_id).first()
 
     def getCharAttacks(self, char_id):
         return session.query(CharacterAttack).filter(CharacterAttack.character_id==char_id)
 
-    def getAttackFlaw(self, attack_id):
+    def getAttackFlaws(self, attack_id):
         return session.query(AttackFlaw).filter(AttackFlaw.attack_id==attack_id)
 
     def getFlawDetails(self, flaw_id):
-        return session.query(Flaw).filter(Flaw.id==flaw_id)
+        return session.query(Flaw).filter(Flaw.id==flaw_id).first()
 
-    def getAttackPerk(self, attack_id):
+    def getAttackPerks(self, attack_id):
         return session.query(AttackPerk).filter(AttackPerk.attack_id==attack_id)
 
     def getPerkDetails(self, perk_id):
-        return session.query(Perk).filter(Perk.id==perk_id)
+        return session.query(Perk).filter(Perk.id==perk_id).first()
         
 
     # Print them to console for testing
