@@ -138,8 +138,8 @@ class CharacterWeakness(Base):
     weakness_note = Column(String(2048))
     
     def __repr__(self):
-        return "<CharacterAbility(ability_id='%s', character_id='%s', ability_value='%s', ability_note='%s')>" % (
-                                self.ability_id, self.character_id, self.ability_value, self.ability_note)
+        return "<CharacterAbility(weakness_id='%s', character_id='%s', weakness_value='%s', weakness_note='%s')>" % (
+                                self.weakness_id, self.character_id, self.weakness_value, self.weakness_note)
 
 
 Base.metadata.create_all(engine)

@@ -40,31 +40,32 @@ def printFlawNames():
         print str(fl.id) + ":" + fl.name
 
 def addDummyClientCharacter():
+    DA = DataAccess()
     attacks = []
     a1perks = []
-    a1perks.append(ClientPerk('1','1',''))
-    a1perks.append(ClientPerk('16','1',''))
+    a1perks.append(ClientPerk('1', DA.getPerkDetails(1).name, '1',''))
+    a1perks.append(ClientPerk('16', DA.getPerkDetails(16).name,'1',''))
     a1flaws = []
-    a1flaws.append(ClientFlaw('2','1',''))
-    a1flaws.append(ClientFlaw('14','1',''))
+    a1flaws.append(ClientFlaw('2', DA.getFlawDetails(2).name, '1',''))
+    a1flaws.append(ClientFlaw('14', DA.getPerkDetails(14).name, '1',''))
     attacks.append(ClientAttack('Fan of Blades', a1perks, a1flaws, '5', '4',
                             '0', 'throws 6 blades infront of him in a cone'))
     a2perks = []
-    a2perks.append(ClientPerk('3','1',''))
-    a2perks.append(ClientPerk('5','1',''))
+    a2perks.append(ClientPerk('3', DA.getPerkDetails(3).name, '1',''))
+    a2perks.append(ClientPerk('5', DA.getPerkDetails(5).name, '1',''))
     a2flaws = []
-    a2flaws.append(ClientFlaw('5','1',''))
-    a2flaws.append(ClientFlaw('8','1',''))
+    a2flaws.append(ClientFlaw('5', DA.getFlawDetails(5).name, '1',''))
+    a2flaws.append(ClientFlaw('8', DA.getFlawDetails(8).name, '1',''))
     attacks.append(ClientAttack('Backstab', a2perks, a2flaws, '7', '2',
                             '15', 'does double damage if unseen by target'))
     abilities = []
-    abilities.append(ClientAbility('7', '+3', ''))
-    abilities.append(ClientAbility('13', '+1', ''))
-    abilities.append(ClientAbility('32', '+5', ''))
+    abilities.append(ClientAbility('7', DA.getAbilityDetails(7).name, '+3', ''))
+    abilities.append(ClientAbility('13', DA.getAbilityDetails(13).name, '+1', ''))
+    abilities.append(ClientAbility('32', DA.getAbilityDetails(32).name, '+5', ''))
     weaknesses = []
-    weaknesses.append(ClientWeakness('2','-3',''))
-    weaknesses.append(ClientWeakness('14','-1',''))
-    weaknesses.append(ClientWeakness('28','-5','(Eye Sight)'))
+    weaknesses.append(ClientWeakness('2', DA.getWeaknessDetails(2).name, '-3',''))
+    weaknesses.append(ClientWeakness('14', DA.getWeaknessDetails(14).name,'-1',''))
+    weaknesses.append(ClientWeakness('28', DA.getWeaknessDetails(28).name,'-5','(Eye Sight)'))
 
     Leon = ClientCharacter('Sid', 'Leon2', '', abilities,
                  weaknesses, attacks, '4', '35', '70',
@@ -76,13 +77,13 @@ def addDummyClientCharacter():
 def printClientCharacter(char):
     print str(char.id) + ":" + char.name
     print " abilities:"
-    for ab in char.ability_list:
+    for ab in char.abilities:
         print " " + ab.toString()
     print " weaknesses:"
-    for wk in char.weakness_list:
+    for wk in char.weaknesses:
         print " " + wk.toString()
     print " attacks:"
-    for atk in char.attack_list:
+    for atk in char.attacks:
         print " " + atk.name
         pkfl = ''
         for pk in atk.perks:
