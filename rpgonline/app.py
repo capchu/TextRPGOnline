@@ -1,5 +1,7 @@
 # all the imports
+import random
 import os
+import string
 import sqlite3
 from flask import Flask, jsonify, request, session, g, redirect, url_for, abort, \
      render_template, flash
@@ -95,7 +97,10 @@ def login():
     return render_template('login.html', email1=email1, email2=email2)
 
 def get_code():
-    return 'alkdjf'
+    size = 10
+    chars=string.ascii_letters + string.digits
+
+    return ''.join(random.choice(chars) for _ in range(size))
 
 ##
 #
