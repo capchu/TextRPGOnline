@@ -1,5 +1,6 @@
 #using sqlalchemy version 0.9.4
 #http://docs.sqlalchemy.org/en/rel_0_9/orm/tutorial.html
+import os
 from databaseCreation import Ability
 from databaseCreation import Weakness
 from databaseCreation import Flaw
@@ -21,7 +22,9 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-engine = create_engine('sqlite:///ova.db', echo=False)
+here = 'sqlite:///' + os.path.dirname(__file__)
+database = os.path.join(here, 'ova.db')
+engine = create_engine(database, echo=False)
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
