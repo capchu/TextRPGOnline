@@ -1,25 +1,84 @@
 {% extends "base.html" %}
 {% block body %}
-  <div class="span12">
-    <h2>Login</h2>
-    {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
-    {% if 'username' in session %}
-      <form action="{{ url_for('login') }}" method=post>
-        <dl>
-	  <dd>{{session['username']}}!
-          <dd><input type="submit" name="logout" value="logout">
-        </dl>
-      </form>
-    {% else %}
-      <form action="{{ url_for('login') }}" method=post>
-        <dl>
-          <dt>Username:
-          <dd><input type="text" name="username">
-          <dt>Password:
-          <dd><input type="password" name="password">
-          <dd><input type="submit" value="login">
-        </dl>
-      </form>
-    {% endif %}
+<div class="container">
+  <div class="row-fluid heading">
+    <div class="span12">
+      <h1>Login In</h1>
+      <p class="bigtext"><i>A Code will be sent to your email, use that code to log in</i></p>
+    </div>
   </div>
+  <div class="row-fluid spacing20">
+  </div>
+  <div class="row-fluid heading">
+    <div class="span12">
+      <span class="circle">1</span> Get a login code
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span11 offset1">
+      <p id="code-error"></p>
+      <form class="form" id="code-form" method="post">
+	<table>
+	  <tr>
+	    <td>
+	      Email:
+	    </td>
+	    <td>
+	      <input type="text" name="Email">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <input type="submit" value="Send">
+	    </td>
+	  </tr>
+	</table>
+	{% if email1 %}<p>{{ email1 }}</p>{% endif %}
+      </form>
+    </div>
+  </div>
+  <br>
+  <div class="row-fluid spacing20">
+  </div>
+  <div class="row-fluid heading">
+    <div class="span12">
+      <span class="circle">2</span> Enter the code you were sent
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span11 offset1">
+      <p id="login-error"></p>
+      <form class="form" id="login-form" method="post">
+	<table>
+	  <tr>
+	    <td>
+	      Email:
+	    </td>
+	    <td>
+	      <input type="text" name="Email">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      Code:
+	    </td>
+	    <td>
+	      <input type="text" name="Code">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <input type="submit" value="Login">
+	    </td>
+	  </tr>
+	</table>
+	{% if email2 %}<p>{{ email2 }}</p>{% endif %}
+      </form>
+    </div>
+  </div>
+  <br>
+</div>
+
+
+
 {% endblock %}
