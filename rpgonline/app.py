@@ -14,18 +14,30 @@ from clientCharacter import ClientDataAccess
 # create our little application :)
 app = Flask(__name__)
 app.config.from_object(__name__)
-mail = Mail(app)
+#mail = Mail(app)
 login_code = {}
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-app.config['MAIL_SERVER'] = 'smtp.google.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'cs360rpg.online@gmail.com'
-app.config['MAIL_PASSWORD'] = 'RPGOnline'
-app.config['DEFAULT_MAIL_SENDER'] = 'cs360rpg.online@gmail.com'
+##app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+##app.config['MAIL_PORT'] = 465
+##app.config['MAIL_USE_TLS'] = False
+##app.config['MAIL_USE_SSL'] = True
+##app.config['MAIL_USERNAME'] = 'ova.app.test@gmail.com'
+##app.config['MAIL_PASSWORD'] = 'testovaapp'
+##app.config['DEFAULT_MAIL_SENDER'] = 'ova.app.test@gmail.com'
 
+app.config.update(dict(
+    DEBUG = True,
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = 465,
+    MAIL_USE_TLS = False,
+    MAIL_USE_SSL = True,
+    MAIL_USERNAME = 'ova.app.test@gmail.com',
+    MAIL_PASSWORD = 'testovaapp',
+    MAIL_DEFAULT_SENDER = 'ova.app.test@gmail.com'
+))
+
+mail = Mail(app)
 ##
 #
 # Methods for html page requests
