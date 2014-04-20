@@ -101,7 +101,7 @@ def login():
 	    msg = Message("Hello", 
 				recipients=[email])
 	    email1 = "Sending login code to %s" % email
-#	    mail.send(msg)
+	    mail.send(msg)
 
 	    return render_template('login.html', email1=email1, email2=email2)
 
