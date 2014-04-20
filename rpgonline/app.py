@@ -65,7 +65,6 @@ def login():
 	    email = request.form['Email']
 	    log_code = request.form['Code']
 
-	    print "Check"
 	    print login_code
 	    if email not in login_code:
 		email2 = "Invalid E-mail and Code combination"
@@ -74,7 +73,6 @@ def login():
 		email2 = "Invalid E-mail and Code combination"
 		return render_template('login.html', email1=email1, email2=email2)
 
-	    print "Login"
 	    session['username'] = email
 	    del login_code[email]
 	    return render_template('index.html')
