@@ -66,18 +66,20 @@
                         <ul class="nav">
                             <li {% if menu == "index" %}class="active"{% endif %}><a href="/">Home</a></li>
                             <li {% if menu == "games" %}class="active"{% endif %}><a href="/games">Games</a></li>
+			    {% if 'username' in session %}
                             <li {% if menu == "characters" %}class="active"{% endif %}><a href="/characters">Characters</a></li>
                             <li {% if menu == "characters" %}class="active"{% endif %}><a href="/character_edit">Character Edit (testing)</a></li>
                             <li {% if menu == "characters" %}class="active"{% endif %}><a href="/character_create">Character Creation</a></li>
+			    {% endif %}
                             <li {% if menu == "about" %}class="active"{% endif %}><a href="/about">About</a></li>
                             {% if menu == "ancestors" or menu == "profile" %}
                             <li><a id="menu-reload" href="#">Reload</a></li>
                             {% endif %}
                         </ul>
                         <div class="pull-right">
-                            {% if login %}
-                                <span class="nav-welcome">Welcome, {{ user.displayName() }}</span>
-                                <a id="logout-button" class="btn btn-primary" href="/logout">Logout</a><br>
+                            {% if 'username' in session %}
+                                <span class="nav-welcome">Welcome, {{ session['username'] }}</span>
+                                <a id="logout-button" class="btn btn-primary" href="/login">Logout</a><br>
                             {% else %}
                                 <a id="login-button" class="btn btn-primary" href="/login">Login</a>
                             {% endif %}
