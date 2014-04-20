@@ -53,6 +53,7 @@ def world():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
+	session.pop('username', None)
 	return render_template('index.html')
 
     email1 = None
@@ -72,7 +73,7 @@ def login():
 		return render_template('login.html', email1=email1, email2=email2)
 
 	    print "Login"
-#	    session['username'] = email
+	    session['username'] = email
 	    del login_code[email]
 	    return render_template('index.html')
 	else:
@@ -190,5 +191,6 @@ def specific_character_json():
     return jsonify(character_info)
 
 if __name__ == '__main__':
+    app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
     app.run(host='0.0.0.0', debug=True)
 
