@@ -110,8 +110,9 @@ def login():
 
 	    login_code[email] = get_code()
 
-	    msg = Message("Hello", 
+	    msg = Message("Login Code for RPG Online", 
 				recipients=[email])
+	    msg.body = "login code: %s" % login_code[email]
 	    email1 = "Sending login code to %s" % email
 	    mail.send(msg)
 
