@@ -143,26 +143,26 @@ def character_list_json():
 def specific_character_json():
     #DA = DataAccess()
     CDA = ClientDataAccess()
-    character = CDA.getClientCharacter('1')#request.args.get('id', 0))
+    character = CDA.getClientCharacter('1')#request.args.get('id', 0, type=int))
     character_info = {}
     
     character_info['user_id'] = character.user_id
     character_info['name'] = character.name
     character_info['combat_notes'] = character.combat_notes
     
-    for a in character.ability_list:
+    for a in character.abilities:
         character_info['ability_list'] = {}
         character_info['ability_list']['ability_id'] = a.ability_id
-        character_info['ability_list']['ability_value'] = a.ability_value
-        character_info['ability_list']['ability_note'] = a.ability_note
+        character_info['ability_list']['ability_value'] = a.value
+        character_info['ability_list']['ability_note'] = a.note
         
-    for w in character.weakness_list:
+    for w in character.weaknesses:
         character_info['weakness_list'] = {}
-        character_info['weakness_list']['weakness_id'] = w.weakness_id #DA.getWeaknesses().get(w.weakness_id).name
+        character_info['weakness_list']['weakness_id'] = w.weakness_id
         character_info['weakness_list']['weakness_value'] = w.weakness_value
         character_info['weakness_list']['weakness_note'] = w.weakness_note
 
-    for a in character.attack_list:
+    for a in character.attacks:
         character_info['attack_list'] = {}
         character_info['attack_list']['name'] = a.name
         

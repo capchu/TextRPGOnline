@@ -1,6 +1,5 @@
 #using sqlalchemy version 0.9.4
 #http://docs.sqlalchemy.org/en/rel_0_9/orm/tutorial.html
-import os
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -12,9 +11,7 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-here = 'sqlite:///' + os.path.dirname(__file__)
-database = os.path.join(here, 'ova.db')
-engine = create_engine(database, echo=False)
+engine = create_engine('sqlite:///ova.db', echo=False)
 Base = declarative_base()
 
 class Ability(Base):
@@ -141,8 +138,8 @@ class CharacterWeakness(Base):
     weakness_note = Column(String(2048))
     
     def __repr__(self):
-        return "<CharacterAbility(ability_id='%s', character_id='%s', ability_value='%s', ability_note='%s')>" % (
-                                self.ability_id, self.character_id, self.ability_value, self.ability_note)
+        return "<CharacterAbility(weakness_id='%s', character_id='%s', weakness_value='%s', weakness_note='%s')>" % (
+                                self.weakness_id, self.character_id, self.weakness_value, self.weakness_note)
 
 
 Base.metadata.create_all(engine)
