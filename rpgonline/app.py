@@ -168,8 +168,8 @@ def specific_character_json():
     for w in character.weaknesses:
         character_info['weakness_list'] = {}
         character_info['weakness_list']['weakness_id'] = w.weakness_id
-        character_info['weakness_list']['weakness_value'] = w.weakness_value
-        character_info['weakness_list']['weakness_note'] = w.weakness_note
+        character_info['weakness_list']['weakness_value'] = w.value
+        character_info['weakness_list']['weakness_note'] = w.note
 
     for a in character.attacks:
         character_info['attack_list'] = {}
