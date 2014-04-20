@@ -111,7 +111,7 @@ class DataAccess():
         print attacks[0].name
 
     def addDummyCharacter(self):
-        character = Character(user_id='Sid', name='Codex', combat_notes='', defense='2', health='40', endurance='60', tv='22', background='codex is a member of the knights of good', appearance='red hair', personality='strong willed', other_notes='she is a priestess')
+        character = Character(user_id='ova.app.test@gmail.com', name='Codex', combat_notes='', defense='2', health='40', endurance='60', tv='22', background='codex is a member of the knights of good', appearance='red hair', personality='strong willed', other_notes='she is a priestess')
         session.add(character)
         session.commit()
         attack1 = CharacterAttack(character_id=character.id, name='holy cross', roll='5', dx='6', end='0', note='does aoe damage')

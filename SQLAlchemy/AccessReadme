@@ -100,5 +100,6 @@ from clientCharacter import ClientDataAccess
 CDA = ClientDataAccess()
 cchar = CDA.getClientCharacter(char.id) # get the char.id from the list of characters -- This returns a Client Character with ALL character data formatted exactly the submission to add it
 
-
+EMAIL ADDRESS FOR TEST
+ova.app.test@gmail.com password=testovaapp
 
