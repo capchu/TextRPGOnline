@@ -90,7 +90,6 @@ def login():
 	    email = request.form['Email']
 	    log_code = request.form['Code']
 
-	    print login_code
 	    if email not in login_code:
 		email2 = "Invalid E-mail and Code combination"
 		return render_template('login.html', email1=email1, email2=email2)
@@ -105,7 +104,6 @@ def login():
 	    email = request.form['Email']
 	    if email.find('@') == -1:
 		email1 = "%s is not a valid E-mail address" % email
-		print email1
 		return render_template('login.html', email1=email1, email2=email2)
 
 	    login_code[email] = get_code()
