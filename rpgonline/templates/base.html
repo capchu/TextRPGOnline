@@ -14,7 +14,7 @@
             }
             /* Custom container */
             .container {
-                width: 960px;
+                max-width: 960px;
                 color: #fff;
                 margin: 0 auto;
             }
@@ -36,6 +36,7 @@
             }
             #content {
                 max-width: 960px;
+                min-width: 960px;
                 margin: 0 auto;
                 background: #336699;
                 color: #fff;
@@ -52,7 +53,7 @@
   
     <body>
         <div class="header">
-            <img src="/static/img/logo.png" alt="logo">
+            <a href="/"><img src="/static/img/logo.png" alt="logo"></a>
         </div>
         <nav class="navbar navbar-inverse">
             <div class="navbar-inner">
@@ -67,7 +68,8 @@
                             <li {% if menu == "index" %}class="active"{% endif %}><a href="/">Home</a></li>
                             <li {% if menu == "games" %}class="active"{% endif %}><a href="/games">Games</a></li>
                             <li {% if menu == "characters" %}class="active"{% endif %}><a href="/characters">Characters</a></li>
-                            <li {% if menu == "characters" %}class="active"{% endif %}><a href="/character_edit">Character Creation</a></li>
+                            <li {% if menu == "characters" %}class="active"{% endif %}><a href="/character_edit">Character Edit (testing)</a></li>
+                            <li {% if menu == "characters" %}class="active"{% endif %}><a href="/character_create">Character Creation</a></li>
                             <li {% if menu == "about" %}class="active"{% endif %}><a href="/about">About</a></li>
                             {% if menu == "ancestors" or menu == "profile" %}
                             <li><a id="menu-reload" href="#">Reload</a></li>

@@ -29,6 +29,10 @@ def games():
 def characters():
     return render_template('characters.html')
 
+@app.route('/character_create')
+def character_create():
+    return render_template('character_create.html')
+
 @app.route('/character_edit')
 def character_edit():
     DA = DataAccess()
@@ -72,7 +76,7 @@ def logout():
 # Methods for JSON requests
 #
 ##
-@app.rout('/add_character_json')
+@app.route('/add_character_json')
 def add_character_json():
     CDA = ClientDataAccess()
     #new_character = ClientCharacter()
