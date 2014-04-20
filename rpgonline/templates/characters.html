@@ -5,7 +5,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $("#button1").click(function() {
-                    $.getJSON( '/character_list_json', { name: "Sid" }, function( data ) {
+                    $.getJSON( '/character_list_json', { name: "ova.app.test@gmail.com" }, function( data ) {
                         var table_obj = $('#table');
                         $.each(data, function(index, field) {
                             $('#title').text('Characters for ' + field.user_id)
@@ -83,7 +83,7 @@
             });
         </script>
         <div>
-             <button id="button1" type="button">Click to load Sid's Characters</button>
+             <button id="button1" type="button">Click to load ova.app.test@gmail.com Characters</button>
         </div>
         
         <br>
