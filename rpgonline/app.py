@@ -17,6 +17,15 @@ app.config.from_object(__name__)
 mail = Mail(app)
 login_code = {}
 
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+app.config['MAIL_SERVER'] = 'smtp.google.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'cs360rpg.online@gmail.com'
+app.config['MAIL_PASSWORD'] = 'RPGOnline'
+app.config['DEFAULT_MAIL_SENDER'] = 'cs360rpg.online@gmail.com'
+
 ##
 #
 # Methods for html page requests
@@ -198,6 +207,5 @@ def specific_character_json():
     return jsonify(character_info)
 
 if __name__ == '__main__':
-    app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
     app.run(host='0.0.0.0', debug=True)
 
