@@ -3,7 +3,7 @@ import random
 import os
 import string
 import sqlite3
-from flask import Flask, jsonify, request, session, g, redirect, url_for, abort, \
+from flask import Flask, jsonify, json, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from flask.ext.mail import Mail, Message
 from dataAccess import DataAccess
@@ -88,9 +88,8 @@ def character_submit():
         return render_template('index.html')
     
     if request.method == 'POST':
-        print request.data
-        #print jsonify(request.data)
-        #print request.json('user_id')
+        character =  json.loads(request.data)
+        print character['user_id']
     
     return render_template('characters.html')
 
