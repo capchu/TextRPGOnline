@@ -1,8 +1,29 @@
 {% extends "base.html" %}
 {% block body %}
-    <div class="row">
-        <div class="span12">
-            <h1>About Page</h1>
-        </div>
+    <style type="text/css">
+        .jumbotron {
+            text-align: center;
+            padding-top: 40px;
+            padding-bottom: 20px;
+        }
+        .jumbotron h1 {
+            font-size: 48px;
+            line-height: 1;
+        }
+        .jumbotron .btn {
+            font-size: 21px;
+            padding: 14px 24px;
+        }
+    </style>
+    <div class="jumbotron">
+        <h1>About Page</h1>
+        <p class="lead">RPG Online gives you a platform for creating role playing games and storing <br>
+          character information.  The current game types that are supported are:</p>
+        <p class="lead">OVA: The Anime Role-Playing Game</p>
+        <h1>Cite Navigation</h1>
+	<p class="lead">New games can be created or joined under the Games tab</p>
+	<p class="lead">Use the Character Creation tab to build a new character</p>
+	<p class="lead">All of the characters you have previously designed can be viewed or edited <br>
+          in the Character tab</p>
     </div>
 {% endblock %}
