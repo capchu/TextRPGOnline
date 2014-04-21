@@ -69,6 +69,7 @@
                         <input id="abilitiesvalue_text" type="text" placeholder="Value...">
                         <input id="abilitiesnote_text" type="text" placeholder="Note..."><br><br>
                         <button id="abilities_btn" type="submit" class="btn">Add</button>
+                        <br><br>
                     </div>
                     <div class="module span6">
                         <h3>Weaknesses</h3>
@@ -90,103 +91,199 @@
                         <input id="weaknessesvalue_text" type="text" placeholder="Value...">
                         <input id="weaknessesnote_text" type="text" placeholder="Note..."><br><br>
                         <button id="weaknesses_btn" type="submit" class="btn">Add</button>
+                        <br><br>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="module span12">
                         <h3>Combat Stats</h3>
-                    </div>
-                    <div class="span12">
-                        <table id="abilities_table" border="1" width="800">
-                            <tr>
-                                <th>Value</th>
-                                <th>Name</th>
-                                <th>Note</th>
-                            </tr>
-                        </table>
-                        <br>
-                    </div>
-                    <div class="span8" style="text-align: left;">
-                        <div>
-                            Health: <input id="statshealth_text" type="number" class="span3 pull-left" placeholder="2000">
-                        </div>
-                        <br>
-                        <div>
-                            Defense: <input id="statsdefense_text" type="number" class="span3  pull-left" placeholder="350">
-                        </div>
-                        <br>
-                        <div>
-                            Endurance: <input id="statsedurance_text" type="number" class="span3  pull-left" placeholder="50">
-                        </div>
-                        <br>
-                        <div>
-                            TV: <input id="statstv_text" type="number" class="span3  pull-left" placeholder="25">
-                        </div>
-                        <br>
-                    </div>
-                    <div class="span8" style="border: 3px white solid;">
-                        <h5>Add Attack</h5>
-                        <div>
-                            Name: <input id="attackname_text" type="text" class="span3  pull-right" placeholder="Punch">
-                        </div>
-                        <br>
-                        <div>
-                            Roll: <input id="attackroll_text" type="text" class="span3  pull-right" placeholder="">
-                        </div>
-                        <br>
-                        <div>
-                            DX: <input id="attackdx_text" type="text" class="span3  pull-right" placeholder="">
-                        </div>
-                        <br>
-                        <div>
-                            End: <input id="attackend_text" type="text" class="span3  pull-right" placeholder="">
-                        </div>
-                        <br>
-                        <div>
-                            Note: <input id="attacknote_text" type="text" class="span3  pull-right" placeholder="">
-                        </div>
-                        <br>
-                        <div class="span4">
-                            <h5>Add Perk</h5>
-                            <select id="perk_select" class="span3 pull-right">  
-                                <option>1</option>  
-                                <option>2</option>  
-                                <option>3</option>  
-                                <option>4</option>  
-                                <option>5</option>  
-                            </select>
-                            <br><br>
-                            <div class="span4" style="text-align: center">
-                                Multiplier: <input id="perkmultiplier_text" type="number" class="span3 pull-right" placeholder="3">
+                        <div class="row">
+                            <div class="span4 offset1" style="text-align: left;">
+                                <div>
+                                    Health: <input id="statshealth_text" type="number" class="span3 pull-right" placeholder="2000">
+                                </div>
+                                <br>
+                                <div>
+                                    Defense: <input id="statsdefense_text" type="number" class="span3  pull-right" placeholder="350">
+                                </div>
                             </div>
-                            <br><br>
-                            <div class="span4" style="text-align: center">
-                                Note: <input id="perknote_text" type="text" class="span3 pull-right" placeholder="Note...">
+                            <div class="span4 offset1" style="text-align: left;">
+                                <div>
+                                    Endurance: <input id="statsedurance_text" type="number" class="span3  pull-right" placeholder="50">
+                                </div>
+                                <br>
+                                <div>
+                                    TV: <input id="statstv_text" type="number" class="span3  pull-right" placeholder="25">
+                                </div>
+                                <br>
                             </div>
-                            <br><br>
-                            <button id="perkadd_btn" type="submit" class="btn pull-right">Add</button>
                         </div>
-                        <br>
-                        <div>
-                            <h5>Add Flaw</h5>
-                            <select id="flaw_select" class="span3 pull-right">  
-                                <option>1</option>  
-                                <option>2</option>  
-                                <option>3</option>  
-                                <option>4</option>  
-                                <option>5</option>  
-                            </select>
-                            <br><br>
-                            <div class="span4" style="text-align: center">
-                                Multiplier: <input id="flawmultiplier_text" type="number" class="span3 pull-right" placeholder="-5">
+                        <div class="row">
+                            <div class="span12">
+                                <table id="abilities_table" border="1" width="910">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Perks</th>
+                                        <th>Flaws</th>
+                                        <th>Roll</th>
+                                        <th>DX</th>
+                                        <th>End</th>
+                                        <th>Note</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Body Slam</td>
+                                        <td>
+                                            <table id="perks_table" border="1" width="300" align="center">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Multiplier</th>
+                                                    <th>Note</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Happy</td>
+                                                    <td>3</td>
+                                                    <td>No Note</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table id="flaws_table" border="1" width="300" align="center">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Multiplier</th>
+                                                    <th>Note</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Bored</td>
+                                                    <td>2</td>
+                                                    <td>No Note</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>95</td>
+                                        <td>4</td>
+                                        <td>25</td>
+                                        <td>Awesome</td>
+                                    </tr>
+                                </table>
+                                <br>
                             </div>
-                            <br><br>
-                            <div class="span4" style="text-align: center">
-                                Note: <input id="flawnote_text" type="text" class="span3 pull-right" placeholder="Note...">
+                        </div>
+                        <div class="row">
+                            <div class="span9 offset1" style="background: #336699;">
+                                <div class="span9"><h4>Add Attack</h4><hr width="660"></div>
+                                <div class="span4">
+                                    <div>
+                                        Name: <input id="attackname_text" type="text" class="span3  pull-right" placeholder="Punch">
+                                    </div>
+                                    <div class="span4"><br></div>
+                                    <div>
+                                        Roll: <input id="attackroll_text" type="text" class="span3  pull-right" placeholder="">
+                                    </div>
+                                    <div class="span4"><br></div>
+                                    <div>
+                                        DX: <input id="attackdx_text" type="text" class="span3 pull-right" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div>
+                                        End: <input id="attackend_text" type="text" class="span3  pull-right" placeholder="">
+                                    </div>
+                                    <div class="span4"><br></div>
+                                    <div>
+                                        Note: <input id="attacknote_text" type="text" class="span3  pull-right" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="span5"><br></div>
+                                <div class="span4">
+                                    <div class="row">
+                                        <div class="span4" style="text-align: center">
+                                            <h5>Add Perk</h5>
+                                            Name:
+                                            <select id="perk_select" class="span2 pull-right">  
+                                                <option>1</option>  
+                                                <option>2</option>  
+                                                <option>3</option>  
+                                                <option>4</option>  
+                                                <option>5</option>  
+                                            </select>
+                                        </div>
+                                        <div class="span4"><br></div>
+                                        <div class="span4" style="text-align: center">
+                                            Multiplier: <input id="perkmultiplier_text" type="number" class="span2 pull-right" placeholder="-5">
+                                        </div>
+                                        <div class="span4"><br></div>
+                                        <div class="span4" style="text-align: center">
+                                            Note: <input id="perknote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                        </div>
+                                        <div class="span4"><br></div>
+                                        <div class="span4">
+                                            <button id="perkadd_btn" type="submit" class="btn pull-right">Add Perk</button>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <h5>Perks</h5>
+                                    <table id="perkselect_table" border="1" width="910">
+                                        <tr>
+                                            <th>Perk Name</th>
+                                            <th>Multiplier</th>
+                                            <th>Note</th>
+                                        </tr>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="span5"><br></div>
+                                <div class="span4">
+                                    <div class="row">
+                                        <div class="span4" style="text-align: center">
+                                            <h5>Add Flaw</h5>
+                                            Name:
+                                            <select id="flaw_select" class="span2 pull-right">  
+                                                <option>1</option>  
+                                                <option>2</option>  
+                                                <option>3</option>  
+                                                <option>4</option>  
+                                                <option>5</option>  
+                                            </select>
+                                        </div>
+                                        <div class="span4"><br></div>
+                                        <div class="span4" style="text-align: center">
+                                            Multiplier: <input id="flawmultiplier_text" type="number" class="span2 pull-right" placeholder="-5">
+                                        </div>
+                                        <div class="span4"><br></div>
+                                        <div class="span4" style="text-align: center">
+                                            Note: <input id="flawnote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                        </div>
+                                        <div class="span4"><br></div>
+                                        <div class="span4">
+                                            <button id="flawadd_btn" type="submit" class="btn pull-right">Add Flaw</button>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <h5>Flaws</h5>
+                                    <table id="flawselect_table" border="1" width="910">
+                                        <tr>
+                                            <th>Flaw Name</th>
+                                            <th>Multiplier</th>
+                                            <th>Note</th>
+                                        </tr>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="span9">
+                                    <hr width="660">
+                                    <button id="attackadd_btn" type="submit" class="btn">Add Attack</button>
+                                    <br><br>
+                                </div>
                             </div>
-                            <br><br>
-                            <button id="flawadd_btn" type="submit" class="btn pull-right">Add</button>
+                            <div class="span3">
+                                <br>
+                            </div>
                         </div>
                     </div>
                 </div>
