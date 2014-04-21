@@ -253,6 +253,9 @@ def specific_character_json():
     character_info['user_id'] = character.user_id
     character_info['name'] = character.name
     character_info['combat_notes'] = character.combat_notes
+
+    if character_info['user_id'] != username:
+	return render_template('characters.html')
     
     character_info['ability_list'] = {}
     count = 0
