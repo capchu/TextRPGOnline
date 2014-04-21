@@ -91,6 +91,9 @@ class DataAccess():
     def getGames(self):
         return session.query(Game)
 
+    def getGameOwner(self, game_id):
+        return session.query(Game).filter(Game.id == game_id).first().owner_id
+
     def getGameCharacters(self, game_id):
         chars = []
         for gc in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):

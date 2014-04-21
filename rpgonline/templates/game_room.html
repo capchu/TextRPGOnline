@@ -3,26 +3,14 @@
     <div class="row">
         <div class="span12">
             <h1>Game Room</h1>
-            <div>
-                {% if 'username' in session %}
-                    <div>
-                        <form class="form" id="create-form" method="post" action="/create_game">
-                            Add Character:&nbsp;&nbsp;<input type="text" name="char_name" placeholder="character name">
-                            <input type="text" name="user_name" placeholder="user who owns it">                         
-                            &nbsp;&nbsp;<input type="submit" value="add">
-                        </form>
-                    </div>
-                {% else %}
-                    
-                {% endif %}
-            </div>
+
             <script type="text/javascript">
                 var cur_game_id;
                 $(document).ready(function() {
                     cur_game_id = window.location.search.substring(1).split('=')[1];          
                 });
                 $(document).ready(function() {
-                        $.getJSON( '/game_room_json', { game_id: cur_game_id }, function( data ) {
+                        $.getJSON( '/game_room_json', { game_id: cur_game_id, user_id: "{{ session['username'] }}" }, function( data ) {
                             var table_obj = $('#table');
                             $.each(data, function(index, field) {
                                 $('#title').text('Characters')
@@ -31,15 +19,23 @@
                                 var char_owner = $('<td>', {html: field.owner_id})
                                 var char_name = $('<tr>', {html: field.char_name});
                                 
+                                if (field.can_edit == 'Y') {
+                                    var edit_char = "/edit_character?char_id=" + field.char_id
+                                    var edit_character_link = $('<td>', {html: "<a href='"+edit_char+"'>edit</a>"});
+                                }else{
+                                    var edit_character_link = $('<td>', {html: ""});
+                                }
+                                
+                                if (field.can_remove == 'Y') {
+                                    var remove_char = "/remove_character?char_id=" + field.char_id
+                                    var remove_character_link = $('<td>', {html: "<a href='"+remove_char+"'>remove</a>"});
+                                }else{
+                                    var remove_character_link = $('<td>', {html: ""});
+                                }
+                                
                                 var view_char= "/view_character?char_id=" + field.char_id
                                 var view_character_link = $('<td>', {html: "<a href='"+view_char+"'>view</a>"});
-                                
-                                var remove_char = "/remove_character?char_id=" + field.char_id
-                                var remove_character_link = $('<td>', {html: "<a href='"+remove_char+"'>remove</a>"});
-                                
-                                var edit_char = "/edit_character?char_id=" + field.char_id
-                                var edit_character_link = $('<td>', {html: "<a href='"+edit_char+"'>edit</a>"});
-                                
+
                                 table_row.append(char_name);
                                 table_row.append(char_owner);
                                 table_row.append(view_character_link);
@@ -51,6 +47,21 @@
                         });
                 });
             </script>
+            
+            <div>
+                {% if session['can_add'] == 'Y'%}
+                    {{ session['can_add'] }}
+                    <div>
+                        <form class="form" id="create-form" method="post" action="/character_search">
+                            Add Character:&nbsp;&nbsp;<input type="text" name="char_name" placeholder="character name">
+                            <input type="text" name="user_name" placeholder="user who owns it">                         
+                            &nbsp;&nbsp;<input type="submit" value="add">
+                        </form>
+                    </div>
+                {% else %}
+                    {{ session['can_add'] }}
+                {% endif %}
+            </div>
             
             <div id="characters">
                 <style>
