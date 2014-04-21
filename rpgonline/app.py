@@ -209,6 +209,7 @@ def character_list_json():
     
     for char_obj in characters_object:
         character_list[char_obj.id] = {}
+        character_list[char_obj.id]['char_id'] = char_obj.id
         character_list[char_obj.id]['user_id'] = char_obj.user_id
         character_list[char_obj.id]['name'] = char_obj.name
         character_list[char_obj.id]['combat_notes'] = char_obj.combat_notes
@@ -228,9 +229,11 @@ def character_list_json():
 
 @app.route('/specific_character_json')
 def specific_character_json():
+    username = request.args.get('name', 0, type=str)
+    char_id = request.args.get('id', 0, type=int)
     #DA = DataAccess()
     CDA = ClientDataAccess()
-    character = CDA.getClientCharacter('1')#request.args.get('id', 0, type=int))
+    character = CDA.getClientCharacter(char_id)
     character_info = {}
     
     character_info['user_id'] = character.user_id
