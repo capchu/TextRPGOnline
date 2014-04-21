@@ -306,6 +306,7 @@ function add__new_character() {
         combat_notes: "",
         ability_list: [],
         weakness_list: [],
+        attack_list: [],
         defense: "",
         health: "",
         endurance: "",
@@ -324,7 +325,7 @@ function add__new_character() {
             name: "",
             value: "",
             note: "",
-        }
+        };
         ability_obj.id = ability_list[i][0];
         ability_obj.name = ability_list[i][1];
         ability_obj.value = ability_list[i][2];
@@ -338,7 +339,7 @@ function add__new_character() {
             name: "",
             value: "",
             note: "",
-        }
+        };
         weakness_obj.id = weaknesses_list[i][0];
         weakness_obj.name = weaknesses_list[i][1];
         weakness_obj.value = weaknesses_list[i][2];
@@ -348,8 +349,49 @@ function add__new_character() {
     
     for (var i=0;i<attack_list.length;i++) {
         var attack_obj = {
-            
+            name: "",
+            perks: [],
+            flaws: [],
+            roll: "",
+            dx: "",
+            end: "",
+            note: "",
+        };
+        
+        for (var p=0;p<attack_list[i][1].length;p++) {
+            var perk_obj = {
+                perk_id: "",
+                name: "",
+                multiplier: "",
+                note: ""
+            }
+            perk_obj.perk_id = attack_list[i][1][p][0];
+            perk_obj.name = attack_list[i][1][p][1];
+            perk_obj.multiplier = attack_list[i][1][p][2];
+            perk_obj.note = attack_list[i][1][p][3];
+            attack_obj['perks'].push(perk_obj);
         }
+        
+        for (var f=0;f<attack_list[i][2].length;f++) {
+            var flaw_obj = {
+                flaw_id: "",
+                name: "",
+                multiplier: "",
+                note: ""
+            }
+            flaw_obj.flaw_id = attack_list[i][2][f][0];
+            flaw_obj.name = attack_list[i][2][f][1];
+            flaw_obj.multiplier = attack_list[i][2][f][2];
+            flaw_obj.note = attack_list[i][2][f][3];
+            attack_obj['flaws'].push(flaw_obj);
+        }
+        
+        attack_obj['name'] = attack_list[i][0];
+        attack_obj['roll'] = attack_list[i][3];
+        attack_obj['dx'] = attack_list[i][4];
+        attack_obj['end'] = attack_list[i][5];
+        attack_obj['note'] = attack_list[i][6];
+        character_obj['attack_list'].push(attack_obj);
     }
     
     character_obj['name'] = $('#name_text').val();
