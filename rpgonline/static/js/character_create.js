@@ -415,7 +415,7 @@ function add__new_character() {
         type: "POST",
         contentType: "application/json",
         url: "/character_submit",
-        data: JSON.parse(JSON.stringify(character_obj)),
+        data: JSON.stringify(character_obj),
         sucess: function(data, status) {
             alert("Data: " + data + "\nStatus: " + status);
             },

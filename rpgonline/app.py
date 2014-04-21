@@ -90,7 +90,7 @@ def character_submit():
     if request.method == 'POST':
         print request.data
         #print jsonify(request.data)
-        print request.json('user_id')
+        #print request.json('user_id')
     
     return render_template('characters.html')
 
