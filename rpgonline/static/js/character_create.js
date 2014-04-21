@@ -11,7 +11,7 @@ $(document).ready(function() {
         $.each(data, function(index, field) {
             $('#abilitiesname_select').append($("<option></option>").attr('value', field.id).text(field.name));
         });
-        //console.log(JSON.stringify(data));
+        console.log(JSON.stringify(data));
     });
     
     $.getJSON( '/all_weaknesses_json', { name: "{{ session['username'] }}" }, function( data ) {
@@ -39,7 +39,7 @@ $(document).ready(function() {
     $("#weaknesses_btn").on("click", add_to_weakness_table);
     $("#perkadd_btn").on("click", add_to_perk_table);
     $("#flawadd_btn").on("click", add_to_flaw_table);
-    $("#attackadd_btn").on("click", add_to_attack_table);
+    $("#attackadd_btn").on("click", add_to_attack_table);   
     $("#submit_btn").on("click", add__new_character);
 });
 
@@ -302,6 +302,7 @@ function update_attack_table() {
 
 function add__new_character() {
     var character_obj = {
+        user_id: "",
         name: "",
         combat_notes: "",
         ability_list: [],
@@ -394,6 +395,7 @@ function add__new_character() {
         character_obj['attack_list'].push(attack_obj);
     }
     
+    character_obj['user_id'] = $('#username').text();
     character_obj['name'] = $('#name_text').val();
     character_obj['combat_notes'] = $('#combatnotes_text').val();
     character_obj['defense'] = $('#statsdefense_text').val();
@@ -406,7 +408,9 @@ function add__new_character() {
     character_obj['other_notes'] = $('#othernotes_text').val();
     character_obj['portrait_url'] = $('#portraiturl_text').val();
     character_obj['icon_url'] = $('#portraiturl_text').val();
-
-    var test = JSON.stringify(character_obj);
-    console.log(test);
+    var json = JSON.stringify(character_obj);
+    console.log(json);
+    $.post("/character_submit", json, function(data, status) {
+        alert("Data: " + data + "\nStatus: " + status);
+    }, "json");
 }
