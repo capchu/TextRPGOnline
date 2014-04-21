@@ -7,7 +7,7 @@
        }
     </style>
     <div class="row">
-        <div class="span12" style="text-align: center;"><h3>Character Creation</h3></div>
+        <div class="span12" style="text-align: center;"><h3>Character Creation</h3><p id="username">{{ session['username'] }}</p></div>
     </div>
     <div class="row">
         <div style="text-align: center;">
@@ -326,8 +326,8 @@
              <br>
             <div class="row">
                 <div class="span12">
-                    <button id="submit_btn" type="submit" class="btn">Add Attack</button>
-                    <!--<a href="#" id="submit_btn" class="btn btn-lg btn-success">Add Character</a>-->
+                    <button id="submit_btn" type="submit" class="btn btn-lg btn-success">Create Character</button>
+                    <br><br>
                 </div>
             </div>
         </div>

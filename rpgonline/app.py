@@ -51,6 +51,30 @@ def home():
 def games():
     return render_template('games.html')
 
+@app.route('/create_game', methods=['GET', 'POST'])
+def create_game():
+    DA = DataAccess()
+
+    if request.method == 'POST':
+        if 'owner_id' in request.form:
+            print 'in create game correct'
+            owner_id = request.form['owner_id']
+            print 'here1'
+            print request.form
+            name = request.form['game_name']
+            print 'here2'
+            game = DA.addGame(owner_id, name)
+            print 'returning'
+            return render_template('game_room.html')
+        else:
+            return render_template('games.html')
+    else:
+        return render_template('games.html')
+
+@app.route('/game_room')
+def game_room():
+    return render_template('game_room.html')
+
 @app.route('/characters')
 def characters():
     if 'username' not in session:
@@ -59,9 +83,18 @@ def characters():
 
 @app.route('/character_create')
 def character_create():
-    #if 'username' not in session:
-	#return render_template('index.html')
+    if 'username' not in session:
+        return render_template('index.html')
     return render_template('character_create.html')
+
+@app.route('/character_submit', methods=['GET', 'POST'])
+def character_submit():
+    if not request.json:
+        abort(400)
+    if 'username' not in session:
+        return render_template('index.html')
+    print request.json('user_id')
+    return render_template('characters.html')
 
 @app.route('/character_edit')
 def character_edit():
@@ -148,6 +181,20 @@ def get_games_json():
 
     return jsonify(gameList)
 
+@app.route('/game_room_json')
+def get_game_room_json():
+    DA= DataAccess()
+    characters = DA.getGameCharacters(request.args.get('game_id', 0, type=str))
+    charList = {}
+
+    for char in characters:
+        charList[char.id] = {}
+        charList[char.id]['owner_id'] = char.user_id
+        charList[char.id]['char_name'] = char.name
+        charList[char.id]['char_id'] = char.id
+
+    return jsonify(charList)
+
 @app.route('/add_character_json')
 def add_character_json():
     CDA = ClientDataAccess()
@@ -162,7 +209,6 @@ def character_list_json():
     
     for char_obj in characters_object:
         character_list[char_obj.id] = {}
-        character_list[char_obj.id]['char_id'] = char_obj.id
         character_list[char_obj.id]['user_id'] = char_obj.user_id
         character_list[char_obj.id]['name'] = char_obj.name
         character_list[char_obj.id]['combat_notes'] = char_obj.combat_notes
@@ -182,16 +228,12 @@ def character_list_json():
 
 @app.route('/specific_character_json')
 def specific_character_json():
-    char_id = request.args.get('id', 0, type=int)
-    username = request.args.get('name', 0, type=str)
     #DA = DataAccess()
     CDA = ClientDataAccess()
-    character = CDA.getClientCharacter(char_id)
+    character = CDA.getClientCharacter('1')#request.args.get('id', 0, type=int))
     character_info = {}
     
     character_info['user_id'] = character.user_id
-    if character.user_id != username:
-	return render_template('characters.html')
     character_info['name'] = character.name
     character_info['combat_notes'] = character.combat_notes
     

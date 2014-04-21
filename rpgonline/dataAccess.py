@@ -86,6 +86,7 @@ class DataAccess():
         game = Game(owner_id=owner_id, name=name)
         session.add(game)
         session.commit()
+        return game
     
     def getGames(self):
         return session.query(Game)
