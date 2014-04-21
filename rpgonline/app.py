@@ -90,6 +90,7 @@ def character_create():
 @app.route('/character_submit', methods=['GET', 'POST'])
 def character_submit():
     if not request.json:
+        print 'bad'
         abort(400)
     if 'username' not in session:
         return render_template('index.html')

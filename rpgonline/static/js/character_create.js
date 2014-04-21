@@ -11,7 +11,7 @@ $(document).ready(function() {
         $.each(data, function(index, field) {
             $('#abilitiesname_select').append($("<option></option>").attr('value', field.id).text(field.name));
         });
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
     });
     
     $.getJSON( '/all_weaknesses_json', { name: "{{ session['username'] }}" }, function( data ) {
@@ -395,22 +395,30 @@ function add__new_character() {
         character_obj['attack_list'].push(attack_obj);
     }
     
-    character_obj['user_id'] = $('#username').text();
-    character_obj['name'] = $('#name_text').val();
-    character_obj['combat_notes'] = $('#combatnotes_text').val();
-    character_obj['defense'] = $('#statsdefense_text').val();
-    character_obj['health'] = $('#statshealth_text').val();
-    character_obj['endurance'] = $('#statsedurance_text').val();
-    character_obj['tv'] = $('#statstv_text').val();
-    character_obj['background'] = $('#background_text').val();
-    character_obj['appearance'] = $('#appearance_text').val();
-    character_obj['personality'] = $('#personality_text').val();
-    character_obj['other_notes'] = $('#othernotes_text').val();
-    character_obj['portrait_url'] = $('#portraiturl_text').val();
-    character_obj['icon_url'] = $('#portraiturl_text').val();
-    var json = JSON.stringify(character_obj);
-    console.log(json);
-    $.post("/character_submit", json, function(data, status) {
-        alert("Data: " + data + "\nStatus: " + status);
-    }, "json");
+    character_obj["user_id"] = $('#username').text();
+    character_obj["name"] = $('#name_text').val();
+    character_obj["combat_notes"] = $('#combatnotes_text').val();
+    character_obj["defense"] = $('#statsdefense_text').val();
+    character_obj["health"] = $('#statshealth_text').val();
+    character_obj["endurance"] = $('#statsedurance_text').val();
+    character_obj["tv"] = $('#statstv_text').val();
+    character_obj["background"] = $('#background_text').val();
+    character_obj["appearance"] = $('#appearance_text').val();
+    character_obj["personality"] = $('#personality_text').val();
+    character_obj["other_notes"] = $('#othernotes_text').val();
+    character_obj["portrait_url"] = $('#portraiturl_text').val();
+    character_obj["icon_url"] = $('#portraiturl_text').val();
+    console.log(JSON.stringify(character_obj, null, 2));
+    //var json = JSON.parse(character_obj);
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/character_submit",
+        data: JSON.parse(JSON.stringify(character_obj)),
+        sucess: function(data, status) {
+            alert("Data: " + data + "\nStatus: " + status);
+            },
+        dataType: "json"
+    });
 }
