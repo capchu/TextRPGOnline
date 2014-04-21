@@ -188,13 +188,6 @@ def get_game_room_json():
     print game_owner
     print user
     charList = {}
-    
-    if user == game_owner:
-        print 'user is owner'
-        session['can_add'] = 'Y'
-    else:
-        print 'user not owner'
-        session['can_add'] = 'N'
 
     for char in characters:
         charList[char.id] = {}
@@ -211,6 +204,24 @@ def get_game_room_json():
             charList[char.id]['can_remove'] = 'N'
 
     return jsonify(charList)
+
+@app.route('/add_rights_json')
+def get_add_rights_json():
+    DA= DataAccess()
+    game_owner = DA.getGameOwner(request.args.get('game_id', 0, type=str))
+    user = request.args.get('user_id', 0, type=str)
+    print game_owner
+    print user
+    rightsList = {}
+    rightsList[0] = {}
+    if user == game_owner:
+        print 'user is owner'
+	rightsList[0]['can_add'] = 'Y'
+    else:
+        print 'user not owner'
+	rightsList[0]['can_add'] = 'N'
+
+    return jsonify(rightsList)
 
 @app.route('/add_character_json')
 def add_character_json():
@@ -296,14 +307,14 @@ def specific_character_json():
             character_info['attack_list'][count]['perks'][num]['note'] = p.note
             num += 1
 
-	character_info['attack_list'][count]['perks'] = {}
+	character_info['attack_list'][count]['flaws'] = {}
 	num = 0
         for f in a.flaws:
-            character_info['attack_list'][count]['perks'][num] = {}
-            character_info['attack_list'][count]['perks'][num]['perk_id'] = f.flaw_id
-            character_info['attack_list'][count]['perks'][num]['perk_name'] = f.name
-            character_info['attack_list'][count]['perks'][num]['multiplier'] = f.multiplier
-            character_info['attack_list'][count]['perks'][num]['note'] = f.note
+            character_info['attack_list'][count]['flaws'][num] = {}
+            character_info['attack_list'][count]['flaws'][num]['flaw_id'] = f.flaw_id
+            character_info['attack_list'][count]['flaws'][num]['flaw_name'] = f.name
+            character_info['attack_list'][count]['flaws'][num]['multiplier'] = f.multiplier
+            character_info['attack_list'][count]['flaws'][num]['note'] = f.note
             num += 1
 
         character_info['attack_list'][count]['roll'] = a.roll

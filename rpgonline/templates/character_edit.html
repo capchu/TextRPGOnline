@@ -29,10 +29,59 @@
 					      data['weakness_list'][i]['weakness_name'],
 					      data['weakness_list'][i]['weakness_value'],
 					      data['weakness_list'][i]['weakness_note']];
-			    weaknesses_list.push(ability);
+			    weaknesses_list.push(weaknesses);
 			    update_weakness_table();
 			}
 		    }	
+
+		    if(data['attack_list'])
+		    {
+			for(var i=0; i < Object.keys(data['attack_list']).length; i++ )
+			{
+			
+			    for(var z=0; z < Object.keys(data['attack_list'][i]['perks']).length; z++ )
+			    {
+				var perk = [data['attack_list'][i]['perks'][z]['perk_id'],
+						data['attack_list'][i]['perks'][z]['perk_name'],
+						data['attack_list'][i]['perks'][z]['multiplier'],
+						data['attack_list'][i]['perks'][z]['note']
+						];
+				perks_list.push(perk);
+				update_perk_table();
+			    }
+
+			    for(var z=0; z < Object.keys(data['attack_list'][i]['flaws']).length; z++ )
+			    {
+				var flaw = [data['attack_list'][i]['flaws'][z]['flaw_id'],
+						data['attack_list'][i]['flaws'][z]['flaw_name'],
+						data['attack_list'][i]['flaws'][z]['multiplier'],
+						data['attack_list'][i]['flaws'][z]['note']
+						];
+				flaws_list.push(flaw);
+				update_flaw_table();
+			    }
+
+			    var pl = perks_list.slice();
+    			    var fl = flaws_list.slice();
+    
+			    var attack = [data['attack_list'][i]['name'],
+						pl, fl,
+						data['attack_list'][i]['roll'],
+						data['attack_list'][i]['dx'],
+						data['attack_list'][i]['end'],
+						data['attack_list'][i]['note']
+					    	];
+    
+    			    attack_list.push(attack);
+    
+    			    update_attack_table();
+    			    flaws_list.length = 0;
+    			    perks_list.length = 0;
+    			    update_flaw_table();
+    			    update_perk_table();
+			}
+		    }
+
 		    if(data['health']) $("#statshealth_text").val(data['health']);
 		    if(data['endurance']) $("#statsedurance_text").val(data['endurance']);    
 		    if(data['defense']) $("#statsdefense_text").val(data['defense']);
@@ -55,7 +104,7 @@
        }
     </style>
     <div class="row">
-        <div class="span12" style="text-align: center;"><h3>Character Creation</h3></div>
+        <div class="span12" style="text-align: center;"><h3>Character Creation</h3><p id="username">{{ session['username'] }}</p></div>
     </div>
     <div class="row">
         <div style="text-align: center;">
@@ -374,8 +423,8 @@
              <br>
             <div class="row">
                 <div class="span12">
-                    <button id="submit_btn" type="submit" class="btn">Add Attack</button>
-                    <!--<a href="#" id="submit_btn" class="btn btn-lg btn-success">Add Character</a>-->
+                    <button id="submit_btn" type="submit" class="btn btn-lg btn-success">Create Character</button>
+                    <br><br>
                 </div>
             </div>
         </div>

@@ -43,7 +43,19 @@
                                 table_row.append(edit_character_link);
                                 table_obj.append(table_row);
                                 
-                                if ('{{ session['can_add'] }}' == 'Y') {
+                            });
+                            
+                            //console.log(JSON.stringify(data));
+                        });
+                        
+                });
+                $(document).ready(function() {
+                        $.getJSON( '/add_rights_json', { game_id: cur_game_id, user_id: "{{ session['username'] }}" }, function( data ) {
+                            var table_obj = $('#table');
+                            $.each(data, function(index, field) {
+                                $('#title').text('Characters')
+                                
+                                if (field.can_add == 'Y') {
                                     console.log("setting visible");
                                     var e = document.getElementById("add")
                                     e.style.display = 'block';
@@ -52,6 +64,7 @@
                                     var e = document.getElementById("add")
                                     e.style.display = 'none';
                                 }
+                                
                             });
                             
                             //console.log(JSON.stringify(data));
