@@ -293,14 +293,14 @@ def specific_character_json():
             character_info['attack_list'][count]['perks'][num]['note'] = p.note
             num += 1
 
-	character_info['attack_list'][count]['perks'] = {}
+	character_info['attack_list'][count]['flaws'] = {}
 	num = 0
         for f in a.flaws:
-            character_info['attack_list'][count]['perks'][num] = {}
-            character_info['attack_list'][count]['perks'][num]['perk_id'] = f.flaw_id
-            character_info['attack_list'][count]['perks'][num]['perk_name'] = f.name
-            character_info['attack_list'][count]['perks'][num]['multiplier'] = f.multiplier
-            character_info['attack_list'][count]['perks'][num]['note'] = f.note
+            character_info['attack_list'][count]['flaws'][num] = {}
+            character_info['attack_list'][count]['flaws'][num]['flaw_id'] = f.flaw_id
+            character_info['attack_list'][count]['flaws'][num]['flaw_name'] = f.name
+            character_info['attack_list'][count]['flaws'][num]['multiplier'] = f.multiplier
+            character_info['attack_list'][count]['flaws'][num]['note'] = f.note
             num += 1
 
         character_info['attack_list'][count]['roll'] = a.roll
