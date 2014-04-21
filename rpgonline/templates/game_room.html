@@ -50,6 +50,7 @@
             
             <div>
                 {% if session['can_add'] == 'Y'%}
+                    {{ session['can_add'] }}
                     <div>
                         <form class="form" id="create-form" method="post" action="/character_search">
                             Add Character:&nbsp;&nbsp;<input type="text" name="char_name" placeholder="character name">

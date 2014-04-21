@@ -57,14 +57,9 @@ def create_game():
 
     if request.method == 'POST':
         if 'owner_id' in request.form:
-            print 'in create game correct'
             owner_id = request.form['owner_id']
-            print 'here1'
-            print request.form
             name = request.form['game_name']
-            print 'here2'
             game = DA.addGame(owner_id, name)
-            print 'returning'
             return render_template('games.html')
         else:
             return render_template('games.html')
@@ -190,6 +185,13 @@ def get_game_room_json():
     print game_owner
     print user
     charList = {}
+    
+    if user == game_owner:
+        print 'user is owner'
+        session['can_add'] = 'Y'
+    else:
+        print 'user not owner'
+        session['can_add'] = 'N'
 
     for char in characters:
         charList[char.id] = {}
@@ -201,15 +203,9 @@ def get_game_room_json():
         else:
             charList[char.id]['can_edit'] = 'N'
         if user == game_owner:
-            print 'user is owner'
             charList[char.id]['can_remove'] = 'Y'
-            session['can_add'] = 'Y'
-            charList[char.id]['can_add'] = 'Y'
         else:
-            print 'user not owner'
             charList[char.id]['can_remove'] = 'N'
-            session['can_add'] = None
-            charList[char.id]['can_add'] = 'N'
 
     return jsonify(charList)
 
