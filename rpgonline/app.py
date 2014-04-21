@@ -162,7 +162,7 @@ def character_list_json():
         character_list[char_obj.id]['other_notes'] = char_obj.other_notes
         character_list[char_obj.id]['portrait_url'] = char_obj.portrait_url
         character_list[char_obj.id]['icon_url'] = char_obj.icon_url
-        
+    
     return jsonify(character_list)
 
 @app.route('/specific_character_json')
@@ -220,7 +220,6 @@ def specific_character_json():
     character_info['portrait_url'] = character.portrait_url
     character_info['icon_url'] = character.icon_url
     
-    print character_info
     return jsonify(character_info)
 
 if __name__ == '__main__':
