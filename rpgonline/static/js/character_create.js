@@ -54,7 +54,7 @@ $(document).ready(function() {
 
     $("#abilities_btn").on("click", add_to_ability_table);
     $("#weaknesses_btn").on("click", add_to_weakness_table);
-    $("#perkadd_btn").on("click", add_to_perk_table(perks_list, flaws_list));
+    $("#perkadd_btn").on("click", add_to_perk_table);
     $("#flawadd_btn").on("click", add_to_flaw_table);
     $("#attackadd_btn").on("click", add_to_attack_table);
 });
@@ -247,7 +247,7 @@ function add_to_attack_table(ol, fl) {
     var s_attack_cost = $('#attackcost_text').val();
     var s_attack_note = $('#attacknote_text').val();
     
-    var attack = [s_attack_name, ol, fl, s_attack_roll, s_attack_dx, s_attack_cost, s_attack_note];
+    var attack = [s_attack_name, perks_list, flaws_list, s_attack_roll, s_attack_dx, s_attack_cost, s_attack_note];
     
     attack_list.push(attack);
     
