@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block body %}
-
     <div class="row">
         <div class="span12">
             <h1>Games List Page</h1>
@@ -27,7 +26,7 @@
                                 var table_row = $('<tr>', {id: index});
                                 var table_game_name = $('<td>', {html: field.name});
                                 var table_user_id = $('<td>', {html: field.owner_id});
-                                var game_ref = "/game_room"
+                                var game_ref = "/game_room?game_id=" + index
                                 var game_link = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"});
                                 
                                 table_row.append(table_game_name);

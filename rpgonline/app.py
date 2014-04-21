@@ -175,15 +175,16 @@ def get_games_json():
 @app.route('/game_room_json')
 def get_game_room_json():
     DA= DataAccess()
-    games = DA.getGames()
-    gameList = {}
+    characters = DA.getGameCharacters(request.args.get('game_id', 0, type=str))
+    charList = {}
 
-    for game in games:
-        gameList[game.id] = {}
-        gameList[game.id]['owner_id'] = game.owner_id
-        gameList[game.id]['name'] = game.name
+    for char in characters:
+        charList[char.id] = {}
+        charList[char.id]['owner_id'] = char.user_id
+        charList[char.id]['char_name'] = char.name
+        charList[char.id]['char_id'] = char.id
 
-    return jsonify(gameList)
+    return jsonify(charList)
 
 @app.route('/add_character_json')
 def add_character_json():
@@ -199,7 +200,6 @@ def character_list_json():
     
     for char_obj in characters_object:
         character_list[char_obj.id] = {}
-        character_list[char_obj.id]['char_id'] = char_obj.id
         character_list[char_obj.id]['user_id'] = char_obj.user_id
         character_list[char_obj.id]['name'] = char_obj.name
         character_list[char_obj.id]['combat_notes'] = char_obj.combat_notes
@@ -219,16 +219,12 @@ def character_list_json():
 
 @app.route('/specific_character_json')
 def specific_character_json():
-    char_id = request.args.get('id', 0, type=int)
-    username = request.args.get('name', 0, type=str)
     #DA = DataAccess()
     CDA = ClientDataAccess()
-    character = CDA.getClientCharacter(char_id)
+    character = CDA.getClientCharacter('1')#request.args.get('id', 0, type=int))
     character_info = {}
     
     character_info['user_id'] = character.user_id
-    if character.user_id != username:
-	return render_template('characters.html')
     character_info['name'] = character.name
     character_info['combat_notes'] = character.combat_notes
     

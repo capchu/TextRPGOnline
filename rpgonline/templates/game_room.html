@@ -2,7 +2,7 @@
 {% block body %}
     <div class="row">
         <div class="span12">
-            <h1>Game Room  {{ session['game_id'] }}</h1>
+            <h1>Game Room</h1>
             <div>
                 {% if 'username' in session %}
                     <div>
@@ -17,25 +17,30 @@
                 {% endif %}
             </div>
             <script type="text/javascript">
+                var cur_game_id;
                 $(document).ready(function() {
-                        $.getJSON( '/game_room_json', { game_id: "{{ session['game_id'] }}" }, function( data ) {
+                    cur_game_id = window.location.search.substring(1).split('=')[1];          
+                });
+                $(document).ready(function() {
+                        $.getJSON( '/game_room_json', { game_id: cur_game_id }, function( data ) {
                             var table_obj = $('#table');
                             $.each(data, function(index, field) {
-                                $('#title').text('Games')
+                                $('#title').text('Characters')
                                 
                                 var table_row = $('<tr>', {id: index});
-                                var char_owner = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"})
-                                var char_name = $('<tr>', {id: name});
+                                var char_owner = $('<td>', {html: field.owner_id})
+                                var char_name = $('<tr>', {html: field.char_name});
                                 
-                                var view_char= "/game/" + index
-                                var view_character_link = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"});
+                                var view_char= "/view_character?char_id=" + field.char_id
+                                var view_character_link = $('<td>', {html: "<a href='"+view_char+"'>view</a>"});
                                 
-                                var remove_char = "/game/" + index
-                                var remove_character_link = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"});
+                                var remove_char = "/remove_character?char_id=" + field.char_id
+                                var remove_character_link = $('<td>', {html: "<a href='"+remove_char+"'>remove</a>"});
                                 
-                                var edit_char = "/game/" + index
-                                var edit_character_link = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"});
+                                var edit_char = "/edit_character?char_id=" + field.char_id
+                                var edit_character_link = $('<td>', {html: "<a href='"+edit_char+"'>edit</a>"});
                                 
+                                table_row.append(char_name);
                                 table_row.append(char_owner);
                                 table_row.append(view_character_link);
                                 table_row.append(remove_character_link);
@@ -56,7 +61,7 @@
                         padding:5px;
                     }
                 </style>
-                <table id="table" border="3" style="width:600px">
+                <table id="table" border="0" style="width:600px">
                     <tr>
                         <th colspan="12">
                             <h3 id="title"></h3>
@@ -65,6 +70,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Owner</th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                     </tr>
                 </table>
