@@ -1,5 +1,6 @@
 #using sqlalchemy version 0.9.4
 #http://docs.sqlalchemy.org/en/rel_0_9/orm/tutorial.html
+import os
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -11,7 +12,8 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-engine = create_engine('sqlite:///ova.db', echo=False)
+database = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'ova.db')
+engine = create_engine(database, echo=False)
 Base = declarative_base()
 
 class Ability(Base):

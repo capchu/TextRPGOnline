@@ -11,6 +11,8 @@ from databaseCreation import CharacterWeakness
 from databaseCreation import CharacterAbility
 from databaseCreation import CharacterAttack
 from databaseCreation import Character
+from databaseCreation import Game
+from databaseCreation import GameCharacter
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -24,7 +26,6 @@ from sqlalchemy.orm import relationship, backref
 
 database = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'ova.db')
 engine = create_engine(database, echo=False)
-Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -80,24 +81,53 @@ class DataAccess():
 
     def getPerkDetails(self, perk_id):
         return session.query(Perk).filter(Perk.id==perk_id).first()
-        
+
+    def addGame(self, owner_id, name):
+        game = Game(owner_id=owner_id, name=name)
+        session.add(game)
+        session.commit()
+    
     def getGames(self):
         return session.query(Game)
 
     def getGameCharacters(self, game_id):
-        return session.query(GameCharacter).filter(GameCharacter.game_id == game_id)
+        chars = []
+        for gc in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
+            char = self.getCharacter(gc.character_id)
+            if char != None:
+                chars.append(char)
+            else:
+                print 'character no longer exists' 
+        return chars
 
-    def addCharacterToGame(game_id, character_id):
-        gameChar = GameCharacter(game_id = game_id, character_id = character_id)
-        session.add(gameChar)
-        session.commit()
+    def addCharacterToGame(self, game_id, character_id):
+        if self.getCharacter(character_id) != None:
+            gameChar = session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
+                                  filter(GameCharacter.character_id == character_id).first()
+            if gameChar == None:
+                gameChar = GameCharacter(game_id = game_id, character_id = character_id)
+                session.add(gameChar)
+                session.commit()
+            else:
+                print 'already in game'
+        else:
+            print 'added character does not exist'
 
-    def deleteGame(game_id):
+    def removeCharacterFromGame(self, game_id, character_id):
+        gameChar = session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
+                                  filter(GameCharacter.character_id == character_id).first()
+        if gameChar != None:
+            session.delete(gameChar)
+            session.commit()
+
+    def deleteGame(self, game_id):
         for gameChar in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
             session.delete(gameChar)
 
-        game = session.query(Game).filter(Game.id == game_id)
-        session.delete(game)
+        game = session.query(Game).filter(Game.id == game_id).first()
+        if game != None:
+            session.delete(game)
+            
         session.commit()
 
     # Print them to console for testing

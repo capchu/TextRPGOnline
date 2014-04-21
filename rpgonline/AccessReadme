@@ -1,0 +1,105 @@
+POPULATING A CLIENTCHARACTER:
+get all of the data from the json/xml file and place it into the object
+<Character>
+  id
+  user_id
+  name
+  combat_notes
+  <ability_list>
+    ability_id
+    ability_name
+    ability_value
+    ability_note
+  </ability_list>
+  <weakness_list>
+    weakness_id
+    weakness_name
+    weakness_value
+    weakness_note
+  </weakness_list>
+  <attack_list>
+    name
+    <perks>
+     perk_id
+     perk_name
+     multiplier
+     note
+    </perks>
+    <flaws>
+     flaw_id
+     flaw_name
+     multiplier
+     note
+    </flaws>
+    roll
+    dx
+    end
+    note
+  </attack_list>
+  defense
+  health
+  endurance
+  tv
+  background
+  appearance
+  personality
+  other_notes
+  portrait_url
+  icon_url
+</Character>
+## example character build (all hadcoded data
+    attacks = []
+    a1perks = []
+    a1perks.append(ClientPerk('1', DA.getPerkDetails(1).name, '1','')) # the call gets the name of the numbered perk
+    a1perks.append(ClientPerk('16', DA.getPerkDetails(16).name,'1',''))
+    a1flaws = []
+    a1flaws.append(ClientFlaw('2', DA.getFlawDetails(2).name, '1',''))
+    a1flaws.append(ClientFlaw('14', DA.getPerkDetails(14).name, '1',''))
+    attacks.append(ClientAttack('Fan of Blades', a1perks, a1flaws, '5', '4',
+                            '0', 'throws 6 blades infront of him in a cone'))
+    a2perks = []
+    a2perks.append(ClientPerk('3', DA.getPerkDetails(3).name, '1',''))
+    a2perks.append(ClientPerk('5', DA.getPerkDetails(5).name, '1',''))
+    a2flaws = []
+    a2flaws.append(ClientFlaw('5', DA.getFlawDetails(5).name, '1',''))
+    a2flaws.append(ClientFlaw('8', DA.getFlawDetails(8).name, '1',''))
+    attacks.append(ClientAttack('Backstab', a2perks, a2flaws, '7', '2',
+                            '15', 'does double damage if unseen by target'))
+    abilities = []
+    abilities.append(ClientAbility('7', DA.getAbilityDetails(7).name, '+3', ''))
+    abilities.append(ClientAbility('13', DA.getAbilityDetails(13).name, '+1', ''))
+    abilities.append(ClientAbility('32', DA.getAbilityDetails(32).name, '+5', ''))
+    weaknesses = []
+    weaknesses.append(ClientWeakness('2', DA.getWeaknessDetails(2).name, '-3',''))
+    weaknesses.append(ClientWeakness('14', DA.getWeaknessDetails(14).name,'-1',''))
+    weaknesses.append(ClientWeakness('28', DA.getWeaknessDetails(28).name,'-5','(Eye Sight)'))
+
+    Leon = ClientCharacter('Sid', 'Leon2', '', abilities,
+                 weaknesses, attacks, '4', '35', '70',
+                 '25', 'Born on the Streets', 'Cloaked', 'Sullen',
+                 '', '', '')
+
+
+ADDING A CHARACTER TO THE DATABASE:
+Once you have a character:
+from clientCharacter import ClientCharacter
+from clientCharacter import ClientDataAccess
+Leon = ClientCharacter()
+CDA = ClientDataAccess()
+CDA.addClientCharacter(Leon)
+
+GETTING A LIST OF CHARACTERS:
+from databaseCreation import Character
+from dataAccess import DataAccess
+DA = DataAccess()
+DA.getCharacters(username) # this gives a list of Character objects (NOT ClientCharacter) -- these do not have attacks, abilites, or weaknesses in them
+
+GETTING A SPECIFIC CHARACTER:
+from clientCharacter import ClientCharacter
+from clientCharacter import ClientDataAccess
+CDA = ClientDataAccess()
+cchar = CDA.getClientCharacter(char.id) # get the char.id from the list of characters -- This returns a Client Character with ALL character data formatted exactly the submission to add it
+
+EMAIL ADDRESS FOR TEST
+ova.app.test@gmail.com password=testovaapp
+

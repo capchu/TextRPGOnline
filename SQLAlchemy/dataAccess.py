@@ -1,5 +1,6 @@
 #using sqlalchemy version 0.9.4
 #http://docs.sqlalchemy.org/en/rel_0_9/orm/tutorial.html
+import os
 from databaseCreation import Ability
 from databaseCreation import Weakness
 from databaseCreation import Flaw
@@ -25,7 +26,6 @@ from sqlalchemy.orm import relationship, backref
 
 database = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'ova.db')
 engine = create_engine(database, echo=False)
-Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -114,17 +114,11 @@ class DataAccess():
             print 'added character does not exist'
 
     def removeCharacterFromGame(self, game_id, character_id):
-        if self.getCharacter(character_id) != None:
-            gameChar = session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
+        gameChar = session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
                                   filter(GameCharacter.character_id == character_id).first()
-            if gameChar == None:
-                gameChar = GameCharacter(game_id = game_id, character_id = character_id)
-                session.add(gameChar)
-                session.commit()
-            else:
-                print 'already in game'
-        else:
-            print 'added character does not exist'
+        if gameChar != None:
+            session.delete(gameChar)
+            session.commit()
 
     def deleteGame(self, game_id):
         for gameChar in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
