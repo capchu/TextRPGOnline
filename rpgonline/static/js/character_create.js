@@ -49,12 +49,12 @@ $(document).ready(function() {
         $.each(data, function(index, field) {
             $('#flawname_select').append($("<option></option>").attr('value', field.id).text(field.name));
         });
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
     });
 
     $("#abilities_btn").on("click", add_to_ability_table);
     $("#weaknesses_btn").on("click", add_to_weakness_table);
-    $("#perkadd_btn").on("click", add_to_perk_table);
+    $("#perkadd_btn").on("click", add_to_perk_table(perks_list, flaws_list));
     $("#flawadd_btn").on("click", add_to_flaw_table);
     $("#attackadd_btn").on("click", add_to_attack_table);
 });
@@ -240,44 +240,80 @@ function update_flaw_table() {
     }
 }
 
-function add_to_attack_table() {
+function add_to_attack_table(ol, fl) {
     var s_attack_name = $('#attackname_text').val();
     var s_attack_roll = $('#attackroll_text').val();
     var s_attack_dx = $('#attackdx_text').val();
     var s_attack_cost = $('#attackcost_text').val();
     var s_attack_note = $('#attacknote_text').val();
     
-    var attack = [s_attack_name, perks_list, flaws_list, s_attack_roll, s_attack_dx, s_attack_cost, s_attack_note];
+    var attack = [s_attack_name, ol, fl, s_attack_roll, s_attack_dx, s_attack_cost, s_attack_note];
     
     attack_list.push(attack);
     
     update_attack_table();
+    flaws_list.length = new Array();
+    perks_list.length = new Array();
+    update_flaw_table();
+    update_perk_table();
 }
 
 function update_attack_table() {
     $("#combatstats_table tr").remove();
     
+    // Header
     var table_obj = $('#combatstats_table tbody');
     
     var table_row = $('<tr>', {id: "w_header"});
-    var table_c_name = $('<th>', {html: 'Flaw Name'});
-    var table_c_value = $('<th>', {html: 'Mult'});
+    var table_c_name = $('<th>', {html: 'Name'});
+    var table_c_perks = $('<th>', {html: 'Perks'});
+    var table_c_flaws = $('<th>', {html: 'Flaws'});
+    var table_c_roll = $('<th>', {html: 'Roll'});
+    var table_c_dx = $('<th>', {html: 'DX'});
+    var table_c_cost = $('<th>', {html: 'Cost'});
     var table_c_note = $('<th>', {html: 'Note'});
     
     table_row.append(table_c_name);
-    table_row.append(table_c_value);
+    table_row.append(table_c_perks);
+    table_row.append(table_c_flaws);
+    table_row.append(table_c_roll);
+    table_row.append(table_c_dx);
+    table_row.append(table_c_cost);
     table_row.append(table_c_note);
     
     table_obj.append(table_row);
     
-    for (var i=0;i<flaws_list.length;i++) {
-        var table_row = $('<tr>', {id: flaws_list[i][0]});
-        var table_c_name = $('<td>', {html: flaws_list[i][1]});
-        var table_c_value = $('<td>', {html: flaws_list[i][2]});
-        var table_c_note = $('<td>', {html: flaws_list[i][3]});
+    for (var i=0;i<attack_list.length;i++) {
+        var table_row = $('<tr>', {id: attack_list[i][0]});
+        var table_c_name = $('<td>', {html: attack_list[i][0]});
+        console.log(i);
+        var temp_perks = "";
+        for (var p=0;p<attack_list[i][1].length;p++) {
+            console.log(attack_list[i][1][p][1]);
+            temp_perks += attack_list[i][1][p][1] + " ";
+        }
+        
+        var temp_flaws = "";
+        for (var f=0;f<attack_list[i][2].length;f++) {
+            temp_flaws += attack_list[i][2][f][1] + " " + attack_list[i][2][f][2];
+            if (f+1<attack_list[i][2].length) {
+                temp_flaws += ", "
+            }
+        }
+        
+        var table_c_perks = $('<td>', {html: temp_perks});
+        var table_c_flaws = $('<td>', {html: temp_flaws});
+        var table_c_roll = $('<td>', {html: attack_list[i][3]});
+        var table_c_dx = $('<td>', {html: attack_list[i][4]});
+        var table_c_cost = $('<td>', {html: attack_list[i][5]});
+        var table_c_note = $('<td>', {html: attack_list[i][6]});
         
         table_row.append(table_c_name);
-        table_row.append(table_c_value);
+        table_row.append(table_c_perks);
+        table_row.append(table_c_flaws);
+        table_row.append(table_c_roll);
+        table_row.append(table_c_dx);
+        table_row.append(table_c_cost);
         table_row.append(table_c_note);
         
         table_obj.append(table_row);
