@@ -136,6 +136,92 @@ class ClientDataAccess():
         session.commit()
 
         print cchar.id
+
+    def updateClientCharacter(self, cchar, char_id):
+        DA = DataAccess()
+        session = DA.getSession()
+        character = DA.getCharacter(char_id)
+        character.user_id=cchar.user_id
+        character.name=cchar.name
+        character.combat_notes=cchar.combat_notes
+        character.defense=cchar.defense
+        character.health=cchar.health
+        character.endurance=cchar.endurance
+        character.tv=cchar.tv
+        character.background=cchar.background
+        character.appearance=cchar.appearance
+        character.personality=cchar.personality
+        character.other_notes=cchar.other_notes
+        session.add(character)
+        session.commit()
+        cchar.id = character.id
+        for atk in DA.getCharAttacks(char_id):
+            session.delete(atk)
+            for pk in DA.getAttackPerks(atk.id):
+                session.delete(pk)
+            for fl in DA.getAttackFlaws(atk.id):
+                session.delete(fl)
+            
+        for at in cchar.attacks:
+            attack = CharacterAttack(character_id=character.id, name=at.name,
+                                roll=at.roll, dx=at.dx, end=at.end, note=at.note)
+            session.add(attack)
+            session.commit()
+            for pk in at.perks:
+                aperk = AttackPerk(perk_id=pk.perk_id, attack_id=attack.id,
+                                   multiplier=pk.multiplier, note=pk.note)
+                session.add(aperk)
+                session.commit()
+            for fl in at.flaws:
+                aflaw = AttackFlaw(flaw_id=fl.flaw_id, attack_id=attack.id,
+                                   multiplier=fl.multiplier, note=fl.note)
+                session.add(aflaw)
+                session.commit()
+
+        for abi in DA.getCharAbilities(char_id):
+            session.delete(abi)
+            
+        for ab in cchar.abilities:
+            cability = CharacterAbility(ability_id=ab.ability_id,
+                               character_id=character.id,
+                               ability_value=ab.value,
+                               ability_note=ab.note)
+            session.add(cability)
+            session.commit()
+
+        for wkn in DA.getCharWeaknesses(char_id):
+            session.delete(wkn)
+            
+        for wk in cchar.weaknesses:
+            cweakness = CharacterWeakness(weakness_id=wk.weakness_id,
+                               character_id=character.id,
+                               weakness_value=wk.value,
+                               weakness_note=wk.note)
+            session.add(cweakness)
+            session.commit()
+        session.commit()
+
+    def deleteClientCharacter(self, char_id):
+        DA = DataAccess()
+        session = DA.getSession()
+        character = DA.getCharacter(char_id)
+        if character != None:
+            session.delete(character)
+            for atk in DA.getCharAttacks(char_id):
+                session.delete(atk)
+                for pk in DA.getAttackPerks(atk.id):
+                    session.delete(pk)
+                for fl in DA.getAttackFlaws(atk.id):
+                    session.delete(fl)
+
+            for abi in DA.getCharAbilities(char_id):
+                session.delete(abi)
+
+            for wkn in DA.getCharWeaknesses(char_id):
+                session.delete(wkn)
+
+            session.commit()
+
         
     def getClientCharacter(self, char_id):
         DA = DataAccess()

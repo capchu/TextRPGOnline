@@ -144,6 +144,41 @@ def addDummyClientCharacter4():
 
     CDA.addClientCharacter(Leon)
 
+def updateDummyClientCharacter4(char_id):
+    DA = DataAccess()
+    attacks = []
+    a1perks = []
+    a1perks.append(ClientPerk('1', DA.getPerkDetails(11).name, '1',''))
+    a1perks.append(ClientPerk('2', DA.getPerkDetails(10).name,'1',''))
+    a1flaws = []
+    a1flaws.append(ClientFlaw('1', DA.getFlawDetails(5).name, '1',''))
+    a1flaws.append(ClientFlaw('2', DA.getPerkDetails(1).name, '1',''))
+    attacks.append(ClientAttack('Sleep', a1perks, a1flaws, '5', '4',
+                            '0', 'Take A Nap'))
+    a2perks = []
+    a2perks.append(ClientPerk('4', DA.getPerkDetails(1).name, '1',''))
+    a2perks.append(ClientPerk('3', DA.getPerkDetails(3).name, '1',''))
+    a2flaws = []
+    a2flaws.append(ClientFlaw('4', DA.getFlawDetails(15).name, '1',''))
+    a2flaws.append(ClientFlaw('3', DA.getFlawDetails(3).name, '1',''))
+    attacks.append(ClientAttack('Backstab', a2perks, a2flaws, '7', '2',
+                            '15', 'does double damage if unseen by target'))
+    abilities = []
+    abilities.append(ClientAbility('1', DA.getAbilityDetails(17).name, '+1', ''))
+    abilities.append(ClientAbility('2', DA.getAbilityDetails(3).name, '+1', ''))
+    abilities.append(ClientAbility('3', DA.getAbilityDetails(2).name, '+1', ''))
+    weaknesses = []
+    weaknesses.append(ClientWeakness('1', DA.getWeaknessDetails(21).name, '-5',''))
+    weaknesses.append(ClientWeakness('2', DA.getWeaknessDetails(1).name,'-5',''))
+    weaknesses.append(ClientWeakness('3', DA.getWeaknessDetails(2).name,'-5',''))
+
+    Leon = ClientCharacter('ova.app.test@gmail.com', 'Jacobugath', '', abilities,
+                 weaknesses, attacks, '1', '10', '10',
+                 '1', 'Mighty Warrior', 'Looks Like Godzilla', 'Sleepy',
+                 '', '', '')
+
+    CDA.updateClientCharacter(Leon, char_id)
+
 def printClientCharacter(char):
     print str(char.id) + ":" + char.name
     print " abilities:"
@@ -195,9 +230,12 @@ for char in DA.getCharacters('ova.app.test@gmail.com'):
     cchar = CDA.getClientCharacter(char.id)
     printClientCharacter(cchar)
 
+updateDummyClientCharacter4(4)
+CDA.deleteClientCharacter(1)
 
-
-
+for char in DA.getCharacters('ova.app.test@gmail.com'):
+    cchar = CDA.getClientCharacter(char.id)
+    printClientCharacter(cchar)
 
 
     
