@@ -57,15 +57,10 @@ def create_game():
 
     if request.method == 'POST':
         if 'owner_id' in request.form:
-            print 'in create game correct'
             owner_id = request.form['owner_id']
-            print 'here1'
-            print request.form
             name = request.form['game_name']
-            print 'here2'
             game = DA.addGame(owner_id, name)
-            print 'returning'
-            return render_template('game_room.html')
+            return render_template('games.html')
         else:
             return render_template('games.html')
     else:
@@ -186,13 +181,32 @@ def get_games_json():
 def get_game_room_json():
     DA= DataAccess()
     characters = DA.getGameCharacters(request.args.get('game_id', 0, type=str))
+    game_owner = DA.getGameOwner(request.args.get('game_id', 0, type=str))
+    user = request.args.get('user_id', 0, type=str)
+    print game_owner
+    print user
     charList = {}
+    
+    if user == game_owner:
+        print 'user is owner'
+        session['can_add'] = 'Y'
+    else:
+        print 'user not owner'
+        session['can_add'] = 'N'
 
     for char in characters:
         charList[char.id] = {}
         charList[char.id]['owner_id'] = char.user_id
         charList[char.id]['char_name'] = char.name
         charList[char.id]['char_id'] = char.id
+        if user == char.user_id:
+            charList[char.id]['can_edit'] = 'Y'
+        else:
+            charList[char.id]['can_edit'] = 'N'
+        if user == game_owner:
+            charList[char.id]['can_remove'] = 'Y'
+        else:
+            charList[char.id]['can_remove'] = 'N'
 
     return jsonify(charList)
 
@@ -210,6 +224,7 @@ def character_list_json():
     
     for char_obj in characters_object:
         character_list[char_obj.id] = {}
+        character_list[char_obj.id]['char_id'] = char_obj.id
         character_list[char_obj.id]['user_id'] = char_obj.user_id
         character_list[char_obj.id]['name'] = char_obj.name
         character_list[char_obj.id]['combat_notes'] = char_obj.combat_notes
@@ -229,47 +244,71 @@ def character_list_json():
 
 @app.route('/specific_character_json')
 def specific_character_json():
+    username = request.args.get('name', 0, type=str)
+    char_id = request.args.get('id', 0, type=int)
     #DA = DataAccess()
     CDA = ClientDataAccess()
-    character = CDA.getClientCharacter('1')#request.args.get('id', 0, type=int))
+    character = CDA.getClientCharacter(char_id)
     character_info = {}
     
     character_info['user_id'] = character.user_id
     character_info['name'] = character.name
     character_info['combat_notes'] = character.combat_notes
-    
-    for a in character.abilities:
-        character_info['ability_list'] = {}
-        character_info['ability_list']['ability_id'] = a.ability_id
-        character_info['ability_list']['ability_value'] = a.value
-        character_info['ability_list']['ability_note'] = a.note
-        
-    for w in character.weaknesses:
-        character_info['weakness_list'] = {}
-        character_info['weakness_list']['weakness_id'] = w.weakness_id
-        character_info['weakness_list']['weakness_value'] = w.value
-        character_info['weakness_list']['weakness_note'] = w.note
 
+    if character_info['user_id'] != username:
+	return render_template('characters.html')
+    
+    character_info['ability_list'] = {}
+    count = 0
+    for a in character.abilities:
+        character_info['ability_list'][count] = {}
+        character_info['ability_list'][count]['ability_id'] = a.ability_id
+	character_info['ability_list'][count]['ability_name'] = a.name
+        character_info['ability_list'][count]['ability_value'] = a.value
+        character_info['ability_list'][count]['ability_note'] = a.note
+	count += 1
+
+    character_info['weakness_list'] = {}
+    count = 0        
+    for w in character.weaknesses:
+        character_info['weakness_list'][count] = {}
+        character_info['weakness_list'][count]['weakness_id'] = w.weakness_id
+	character_info['weakness_list'][count]['weakness_name'] = w.name
+        character_info['weakness_list'][count]['weakness_value'] = w.value
+        character_info['weakness_list'][count]['weakness_note'] = w.note
+	count += 1
+
+    character_info['attack_list'] = {}
+    count = 0
     for a in character.attacks:
-        character_info['attack_list'] = {}
-        character_info['attack_list']['name'] = a.name
+        character_info['attack_list'][count] = {}
+        character_info['attack_list'][count]['name'] = a.name
         
+	character_info['attack_list'][count]['perks'] = {}
+	num = 0
         for p in a.perks:
-            character_info['attack_list']['perks'] = {}
-            character_info['attack_list']['perks']['perk_id'] = p.perk_id
-            character_info['attack_list']['perks']['multiplier'] = p.multiplier
-            character_info['attack_list']['perks']['note'] = p.note
-            
+            character_info['attack_list'][count]['perks'][num] = {}
+            character_info['attack_list'][count]['perks'][num]['perk_id'] = p.perk_id
+            character_info['attack_list'][count]['perks'][num]['perk_name'] = p.name
+            character_info['attack_list'][count]['perks'][num]['multiplier'] = p.multiplier
+            character_info['attack_list'][count]['perks'][num]['note'] = p.note
+            num += 1
+
+	character_info['attack_list'][count]['perks'] = {}
+	num = 0
         for f in a.flaws:
-            character_info['attack_list']['perks'] = {}
-            character_info['attack_list']['perks']['perk_id'] = f.flaw_id
-            character_info['attack_list']['perks']['multiplier'] = f.multiplier
-            character_info['attack_list']['perks']['note'] = f.note
-        
-        character_info['attack_list']['roll'] = a.roll
-        character_info['attack_list']['dx'] = a.dx
-        character_info['attack_list']['end'] = a.end
-        character_info['attack_list']['note'] = a.note
+            character_info['attack_list'][count]['perks'][num] = {}
+            character_info['attack_list'][count]['perks'][num]['perk_id'] = f.flaw_id
+            character_info['attack_list'][count]['perks'][num]['perk_name'] = f.name
+            character_info['attack_list'][count]['perks'][num]['multiplier'] = f.multiplier
+            character_info['attack_list'][count]['perks'][num]['note'] = f.note
+            num += 1
+
+        character_info['attack_list'][count]['roll'] = a.roll
+        character_info['attack_list'][count]['dx'] = a.dx
+        character_info['attack_list'][count]['end'] = a.end
+        character_info['attack_list'][count]['note'] = a.note
+	count += 1
     
     character_info['defense'] = character.defense
     character_info['health'] = character.health

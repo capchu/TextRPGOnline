@@ -3,26 +3,14 @@
     <div class="row">
         <div class="span12">
             <h1>Game Room</h1>
-            <div>
-                {% if 'username' in session %}
-                    <div>
-                        <form class="form" id="create-form" method="post" action="/create_game">
-                            Add Character:&nbsp;&nbsp;<input type="text" name="char_name" placeholder="character name">
-                            <input type="text" name="user_name" placeholder="user who owns it">                         
-                            &nbsp;&nbsp;<input type="submit" value="add">
-                        </form>
-                    </div>
-                {% else %}
-                    
-                {% endif %}
-            </div>
+
             <script type="text/javascript">
                 var cur_game_id;
                 $(document).ready(function() {
                     cur_game_id = window.location.search.substring(1).split('=')[1];          
                 });
                 $(document).ready(function() {
-                        $.getJSON( '/game_room_json', { game_id: cur_game_id }, function( data ) {
+                        $.getJSON( '/game_room_json', { game_id: cur_game_id, user_id: "{{ session['username'] }}" }, function( data ) {
                             var table_obj = $('#table');
                             $.each(data, function(index, field) {
                                 $('#title').text('Characters')
@@ -31,26 +19,56 @@
                                 var char_owner = $('<td>', {html: field.owner_id})
                                 var char_name = $('<tr>', {html: field.char_name});
                                 
+                                if (field.can_edit == 'Y') {
+                                    var edit_char = "/edit_character?char_id=" + field.char_id
+                                    var edit_character_link = $('<td>', {html: "<a href='"+edit_char+"'>edit</a>"});
+                                }else{
+                                    var edit_character_link = $('<td>', {html: ""});
+                                }
+                                
+                                if (field.can_remove == 'Y') {
+                                    var remove_char = "/remove_character?char_id=" + field.char_id
+                                    var remove_character_link = $('<td>', {html: "<a href='"+remove_char+"'>remove</a>"});
+                                }else{
+                                    var remove_character_link = $('<td>', {html: ""});
+                                }
+                                
                                 var view_char= "/view_character?char_id=" + field.char_id
                                 var view_character_link = $('<td>', {html: "<a href='"+view_char+"'>view</a>"});
-                                
-                                var remove_char = "/remove_character?char_id=" + field.char_id
-                                var remove_character_link = $('<td>', {html: "<a href='"+remove_char+"'>remove</a>"});
-                                
-                                var edit_char = "/edit_character?char_id=" + field.char_id
-                                var edit_character_link = $('<td>', {html: "<a href='"+edit_char+"'>edit</a>"});
-                                
+
                                 table_row.append(char_name);
                                 table_row.append(char_owner);
                                 table_row.append(view_character_link);
                                 table_row.append(remove_character_link);
                                 table_row.append(edit_character_link);
                                 table_obj.append(table_row);
+                                
+                                if ('{{ session['can_add'] }}' == 'Y') {
+                                    console.log("setting visible");
+                                    var e = document.getElementById("add")
+                                    e.style.display = 'block';
+                                }else{
+                                    console.log("setting invisible");
+                                    var e = document.getElementById("add")
+                                    e.style.display = 'none';
+                                }
                             });
+                            
                             //console.log(JSON.stringify(data));
                         });
+                        
                 });
             </script>
+            
+            <div id="add">
+                    <div>
+                        <form class="form" id="create-form" method="post" action="/character_search">
+                            Add Character:&nbsp;&nbsp;<input type="text" name="char_name" placeholder="character name">
+                            <input type="text" name="user_name" placeholder="user who owns it">                         
+                            &nbsp;&nbsp;<input type="submit" value="add">
+                        </form>
+                    </div>
+            </div>
             
             <div id="characters">
                 <style>
