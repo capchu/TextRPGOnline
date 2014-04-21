@@ -92,23 +92,47 @@ class DataAccess():
     def getGameCharacters(self, game_id):
         chars = []
         for gc in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
-            chars.append(self.getCharacter(gc.character_id))
+            char = self.getCharacter(gc.character_id)
+            if char != None:
+                chars.append(char)
+            else:
+                print 'character no longer exists' 
         return chars
 
     def addCharacterToGame(self, game_id, character_id):
         if self.getCharacter(character_id) != None:
-            gameChar = GameCharacter(game_id = game_id, character_id = character_id)
-            session.add(gameChar)
-            session.commit()
+            gameChar = session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
+                                  filter(GameCharacter.character_id == character_id).first()
+            if gameChar == None:
+                gameChar = GameCharacter(game_id = game_id, character_id = character_id)
+                session.add(gameChar)
+                session.commit()
+            else:
+                print 'already in game'
         else:
-            print 'does not exist'
+            print 'added character does not exist'
 
-    def deleteGame(game_id):
+    def removeCharacterFromGame(self, game_id, character_id):
+        if self.getCharacter(character_id) != None:
+            gameChar = session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
+                                  filter(GameCharacter.character_id == character_id).first()
+            if gameChar == None:
+                gameChar = GameCharacter(game_id = game_id, character_id = character_id)
+                session.add(gameChar)
+                session.commit()
+            else:
+                print 'already in game'
+        else:
+            print 'added character does not exist'
+
+    def deleteGame(self, game_id):
         for gameChar in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
             session.delete(gameChar)
 
-        game = session.query(Game).filter(Game.id == game_id)
-        session.delete(game)
+        game = session.query(Game).filter(Game.id == game_id).first()
+        if game != None:
+            session.delete(game)
+            
         session.commit()
 
     # Print them to console for testing

@@ -230,10 +230,12 @@ for char in DA.getCharacters('ova.app.test@gmail.com'):
     printClientCharacter(cchar)
 
 print 'Game Stuff'
-DA.addGame('ova.app.test@gmail.com', 'newGame')
-DA.addCharacterToGame(1, 3)
-DA.addCharacterToGame(1, 2)
-DA.addCharacterToGame(1, 1)
+#DA.addGame('ova.app.test@gmail.com', 'workingGame')
+DA.addCharacterToGame(6, 3)
+DA.addCharacterToGame(6, 2)
+DA.addCharacterToGame(6, 1)
+
+DA.deleteGame(1)
 
 for game in DA.getGames():
     print str(game.id) + ":" + game.name + " " + game.owner_id
