@@ -4,8 +4,7 @@
         <h1>Characters page</h1>
         <script type="text/javascript">
             $(document).ready(function() {
-                $("#button1").click(function() {
-                    $.getJSON( '/character_list_json', { name: "ova.app.test@gmail.com" }, function( data ) {
+                    $.getJSON( '/character_list_json', { name: "{{ session['username'] }}" }, function( data ) {
                         var table_obj = $('#table');
                         $.each(data, function(index, field) {
                             $('#title').text('Characters for ' + field.user_id)
@@ -40,51 +39,8 @@
                         });
                         //console.log(JSON.stringify(data));
                     });
-                });
             });
         </script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $("#button2").click(function() {
-                    $.getJSON( '/specific_character_json', { id: "1" }, function( data ) {
-                        var table_obj = $('#table2');
-                        console.log(JSON.stringify(data));
-                        $('#ctitle').text('Characters for ' + data.user_id)
-
-                        var table_row = $('<tr>', {id: data.user_id});
-                        var table_c_name = $('<td>', {html: data.name});
-                        var table_c_combatnotes = $('<td>', {html: data.combat_notes});
-                        var table_c_defense = $('<td>', {html: data.defense});
-                        var table_c_health= $('<td>', {html: data.health});
-                        var table_c_endurance = $('<td>', {html: data.endurance});
-                        var table_c_tv = $('<td>', {html: data.tv});
-                        var table_c_background = $('<td>', {html: data.background});
-                        var table_c_appearance = $('<td>', {html: data.appearance});
-                        var table_c_personality = $('<td>', {html: data.personality});
-                        var table_c_other_notes = $('<td>', {html: data.other_notes});
-                        var table_c_portrait_url = $('<td>', {html: data.portrait_url});
-                        var table_c_icon_url = $('<td>', {html: data.icon_url});
-                        
-                        table_row.append(table_c_name);
-                        table_row.append(table_c_combatnotes);
-                        table_row.append(table_c_defense);
-                        table_row.append(table_c_health);
-                        table_row.append(table_c_endurance);
-                        table_row.append(table_c_tv);
-                        table_row.append(table_c_background);
-                        table_row.append(table_c_appearance);
-                        table_row.append(table_c_personality);
-                        table_row.append(table_c_other_notes);
-                        table_row.append(table_c_portrait_url);
-                        table_row.append(table_c_icon_url);
-                        table_obj.append(table_row);
-                    });
-                });
-            });
-        </script>
-        <div>
-             <button id="button1" type="button">Click to load ova.app.test@gmail.com Characters</button>
-        </div>
         
         <br>
         
@@ -122,40 +78,5 @@
         
         <br>
             
-        <div>
-             <button id="button2" type="button">Click to load 1st Character</button>
-        </div>
-        
-        <div id="character">
-            <style>
-                table, th, td {
-                    
-                }
-                th, td {
-                    padding:5px;
-                }
-            </style>
-            <table id="table2" border="3" style="width:600px">
-                <tr>
-                    <th colspan="12">
-                        <h3 id="ctitle"></h3>
-                    </th>
-                </tr>
-                <tr>
-                    <th>Name</th>
-                    <th>Combat Notes</th>
-                    <th>Defense</th>
-                    <th>Health</th>
-                    <th>Endurance</th>
-                    <th>TV</th>
-                    <th>Background</th>
-                    <th>Appearance</th>
-                    <th>Personality</th>
-                    <th>Other Notes</th>
-                    <th>Portrait URL</th>
-                    <th>Icon URL</th>
-                </tr>
-            </table>
-        </div>
     </div>
 {% endblock %}

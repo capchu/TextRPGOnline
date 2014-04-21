@@ -53,14 +53,20 @@ def games():
 
 @app.route('/characters')
 def characters():
+    if 'username' not in session:
+	return render_template('index.html')
     return render_template('characters.html')
 
 @app.route('/character_create')
 def character_create():
+    if 'username' not in session:
+	return render_template('index.html')
     return render_template('character_create.html')
 
 @app.route('/character_edit')
 def character_edit():
+    if 'username' not in session:
+	return render_template('index.html')
     DA = DataAccess()
     abilities = DA.getAbilities().all()
     weaknesses = DA.getWeaknesses().all()
@@ -90,7 +96,6 @@ def login():
 	    email = request.form['Email']
 	    log_code = request.form['Code']
 
-	    print login_code
 	    if email not in login_code:
 		email2 = "Invalid E-mail and Code combination"
 		return render_template('login.html', email1=email1, email2=email2)
@@ -105,7 +110,6 @@ def login():
 	    email = request.form['Email']
 	    if email.find('@') == -1:
 		email1 = "%s is not a valid E-mail address" % email
-		print email1
 		return render_template('login.html', email1=email1, email2=email2)
 
 	    login_code[email] = get_code()
