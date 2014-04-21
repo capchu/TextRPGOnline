@@ -90,7 +90,7 @@ def character_submit():
     if request.method == 'POST':
         print request.data
         #print jsonify(request.data)
-        print request.json('user_id')
+        #print request.json('user_id')
     
     return render_template('characters.html')
 
@@ -104,6 +104,16 @@ def character_edit():
     perks = DA.getPerks().all()
     flaws = DA.getFlaws().all()
     return render_template('character_edit.html', abilities=abilities, weaknesses=weaknesses,
+                           perks=perks, flaws=flaws)
+
+@app.route('/view_character')
+def view_character():
+    DA = DataAccess()
+    abilities = DA.getAbilities().all()
+    weaknesses = DA.getWeaknesses().all()
+    perks = DA.getPerks().all()
+    flaws = DA.getFlaws().all()
+    return render_template('view_character.html', abilities=abilities, weaknesses=weaknesses,
                            perks=perks, flaws=flaws)
 
 @app.route('/about')
