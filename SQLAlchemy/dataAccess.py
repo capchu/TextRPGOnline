@@ -10,6 +10,8 @@ from databaseCreation import CharacterWeakness
 from databaseCreation import CharacterAbility
 from databaseCreation import CharacterAttack
 from databaseCreation import Character
+from databaseCreation import Game
+from databaseCreation import GameCharacter
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -78,17 +80,28 @@ class DataAccess():
 
     def getPerkDetails(self, perk_id):
         return session.query(Perk).filter(Perk.id==perk_id).first()
-        
+
+    def addGame(self, owner_id, name):
+        game = Game(owner_id=owner_id, name=name)
+        session.add(game)
+        session.commit()
+    
     def getGames(self):
         return session.query(Game)
 
     def getGameCharacters(self, game_id):
-        return session.query(GameCharacter).filter(GameCharacter.game_id == game_id)
+        chars = []
+        for gc in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
+            chars.append(self.getCharacter(gc.character_id))
+        return chars
 
-    def addCharacterToGame(game_id, character_id):
-        gameChar = GameCharacter(game_id = game_id, character_id = character_id)
-        session.add(gameChar)
-        session.commit()
+    def addCharacterToGame(self, game_id, character_id):
+        if self.getCharacter(character_id) != None:
+            gameChar = GameCharacter(game_id = game_id, character_id = character_id)
+            session.add(gameChar)
+            session.commit()
+        else:
+            print 'does not exist'
 
     def deleteGame(game_id):
         for gameChar in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):

@@ -225,17 +225,24 @@ DA = DataAccess()
 #addDummyClientCharacter3()
 #addDummyClientCharacter4()
 
-
 for char in DA.getCharacters('ova.app.test@gmail.com'):
     cchar = CDA.getClientCharacter(char.id)
     printClientCharacter(cchar)
 
-updateDummyClientCharacter4(4)
-CDA.deleteClientCharacter(1)
+print 'Game Stuff'
+DA.addGame('ova.app.test@gmail.com', 'newGame')
+DA.addCharacterToGame(1, 3)
+DA.addCharacterToGame(1, 2)
+DA.addCharacterToGame(1, 1)
 
-for char in DA.getCharacters('ova.app.test@gmail.com'):
-    cchar = CDA.getClientCharacter(char.id)
-    printClientCharacter(cchar)
+for game in DA.getGames():
+    print str(game.id) + ":" + game.name + " " + game.owner_id
+    for char in DA.getGameCharacters(game.id):
+        print char.name
+ 
+#updateDummyClientCharacter4(4)
+#CDA.deleteClientCharacter(1)
+
 
 
     
