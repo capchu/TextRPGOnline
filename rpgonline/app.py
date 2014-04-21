@@ -66,6 +66,17 @@ def create_game():
     else:
         return render_template('games.html')
 
+@app.route('/character_search', methods=['GET', 'POST'])
+def get_searched_characters():
+    DA = DataAccess()
+    chars = []
+    if request.method == 'POST':
+        name = request.form['char_name']
+        owner_name = request.form['owner_name']
+        chars = searchGameCharacters(name, owner_name)
+    
+    return render_template('game_room.html')
+
 @app.route('/game_room')
 def game_room():
     return render_template('game_room.html')
@@ -232,6 +243,17 @@ def get_add_rights_json():
 	rightsList[0]['can_add'] = 'N'
 
     return jsonify(rightsList)
+
+@app.route('/character_search_json', methods=['GET', 'POST'])
+def get_searched_characters_json():
+    DA = DataAccess()
+    chars = []
+    if request.method == 'POST':
+        name = request.form['char_name']
+        owner_name = request.form['owner_name']
+        chars = searchGameCharacters(name, owner_name)
+    
+    return render_template('game_room.html')
 
 @app.route('/add_character_json')
 def add_character_json():
