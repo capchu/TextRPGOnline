@@ -141,6 +141,25 @@ class CharacterWeakness(Base):
         return "<CharacterAbility(weakness_id='%s', character_id='%s', weakness_value='%s', weakness_note='%s')>" % (
                                 self.weakness_id, self.character_id, self.weakness_value, self.weakness_note)
 
+class Game(Base):
+    __tablename__ = 'games'
+    id = Column(Integer, Sequence('game_id_seq'), primary_key=True)
+    owner_id = Column(String(50))
+    name = Column(String(50))
+    
+    def __repr__(self):
+        return "<Game(owner_id='%s', name='%s')>" % (
+                                self.owner_id, self.name)
+
+class GameCharacter(Base):
+    __tablename__ = 'game_characters'
+    game_id = Column(Integer, ForeignKey("games.id"), nullable=False)
+    character_id = Column(Integer, ForeignKey("characters.id"), nullable=False)
+    
+    def __repr__(self):
+        return "<GameCharacters(game_id='%s', character_id='%s')>" % (
+                                self.game_id, self.character_id)
+
 
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)

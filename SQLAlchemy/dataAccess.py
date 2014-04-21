@@ -79,6 +79,24 @@ class DataAccess():
     def getPerkDetails(self, perk_id):
         return session.query(Perk).filter(Perk.id==perk_id).first()
         
+    def getGames(self):
+        return session.query(Game)
+
+    def getGameCharacters(self, game_id):
+        return session.query(GameCharacter).filter(GameCharacter.game_id = game_id)
+
+    def addCharacterToGame(game_id, character_id):
+        gameChar = GameCharacter(game_id = game_id, character_id = character_id)
+        session.add(gameChar)
+        session.commit()
+
+    def deleteGame(game_id):
+        for gameChar in session.query(GameCharacter).filter(GameCharacter.game_id = game_id):
+            session.delete(gameChar)
+
+        game = session.query(Game).filter(Game.id = game_id)
+        session.delete(game)
+        session.commit()
 
     # Print them to console for testing
     def printAbilities(self):
