@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+{% block body %}
+    <script type="text/javascript" src="/static/js/character_create.js"></script> 
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var charName = window.location.search.substring(1).split('=')[1];
+                $.getJSON( '/specific_character_json', { name: "{{ session['username'] }}",  id: charName}, function( data ) {
+		    if(data['name']) $("#name_text").text(data['name']);
+
+		    if(data['ability_list'])
+		    {
+			for(var i=0; i < Object.keys(data['ability_list']).length; i++ )
+			{
+			    var ability = [data['ability_list'][i]['ability_id'],
+					   data['ability_list'][i]['ability_name'],
+					   data['ability_list'][i]['ability_value'],
+					   data['ability_list'][i]['ability_note']];
+			    ability_list.push(ability);
+			    update_ability_table();
+			}
+		    }
+
+		    if(data['weakness_list'])
+		    {
+			for(var i=0; i < Object.keys(data['weakness_list']).length; i++ )
+			{
+			    var weaknesses = [data['weakness_list'][i]['weakness_id'],
+					      data['weakness_list'][i]['weakness_name'],
+					      data['weakness_list'][i]['weakness_value'],
+					      data['weakness_list'][i]['weakness_note']];
+			    weaknesses_list.push(weaknesses);
+			    update_weakness_table();
+			}
+		    }	
+
+		    if(data['attack_list'])
+		    {
+			for(var i=0; i < Object.keys(data['attack_list']).length; i++ )
+			{
+			
+			    for(var z=0; z < Object.keys(data['attack_list'][i]['perks']).length; z++ )
+			    {
+				var perk = [data['attack_list'][i]['perks'][z]['perk_id'],
+						data['attack_list'][i]['perks'][z]['perk_name'],
+						data['attack_list'][i]['perks'][z]['multiplier'],
+						data['attack_list'][i]['perks'][z]['note']
+						];
+				perks_list.push(perk);
+				update_perk_table();
+			    }
+
+			    for(var z=0; z < Object.keys(data['attack_list'][i]['flaws']).length; z++ )
+			    {
+				var flaw = [data['attack_list'][i]['flaws'][z]['flaw_id'],
+						data['attack_list'][i]['flaws'][z]['flaw_name'],
+						data['attack_list'][i]['flaws'][z]['multiplier'],
+						data['attack_list'][i]['flaws'][z]['note']
+						];
+				flaws_list.push(flaw);
+				update_flaw_table();
+			    }
+
+			    var pl = perks_list.slice();
+    			    var fl = flaws_list.slice();
+    
+			    var attack = [data['attack_list'][i]['name'],
+						pl, fl,
+						data['attack_list'][i]['roll'],
+						data['attack_list'][i]['dx'],
+						data['attack_list'][i]['end'],
+						data['attack_list'][i]['note']
+					    	];
+    
+    			    attack_list.push(attack);
+    
+    			    update_attack_table();
+    			    flaws_list.length = 0;
+    			    perks_list.length = 0;
+    			    update_flaw_table();
+    			    update_perk_table();
+			}
+		    }
+
+		    if(data['health']) $("#statshealth_text").text(data['health']);
+		    if(data['endurance']) $("#statsedurance_text").text(data['endurance']);    
+		    if(data['defense']) $("#statsdefense_text").text(data['defense']);
+		    if(data['tv']) $("#statstv_text").text(data['tv']);
+
+		    if(data['combat_notes']) $("#combatnotes_text").text(data['combat_notes']);
+		    if(data['background']) $("#background_text").text(data['background']);
+		    if(data['appearance']) $("#appearance_text").text(data['appearance']);
+		    if(data['personality']) $("#personality_text").text(data['personality']);
+		    if(data['other_notes']) $("#othernotes_text").text(data['other_notes']);
+                });
+                
+            });
+        </script>
+
+
+    <style>
+       .module {
+            background:  #003366;
+       }
+    </style>
+    <div class="row">
+        <div class="span12" style="text-align: center;"><h3>Character Creation</h3><p id="username">{{ session['username'] }}</p></div>
+    </div>
+    <div class="row">
+        <div style="text-align: center;">
+            <div class="row">
+                <div class="module span6">
+                    <h3>Character Name</h3>
+                    <p id="name_text"></p>
+                    <br><br>
+                </div>
+                <div class="module span6">
+                    <h3>Character Portrait</h3>
+                    <img src="/static/img/no_char_img.png" alt="logo" width="200" height="200" style="border: 3px black solid">
+                    <br><br>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="module span6">
+                    <h3>Abilities</h3>
+                    <table id="abilities_table" border="1" width="400" align="center">
+                        <col width="150">
+                        <col width="50">
+                        <col width="200">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br>
+                </div>
+                <div class="module span6">
+                    <h3>Weaknesses</h3>
+                    <table id="weaknesses_table" border="1" width="400" align="center">
+                        <col width="150">
+                        <col width="50">
+                        <col width="200">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="module span12">
+                    <h3>Combat Stats</h3>
+                    <div class="row">
+                        <div class="span4 offset1" style="text-align: left;">
+                            <div>
+                                Health: <p id="statshealth_text" ></p>
+                            </div>
+                            <br>
+                            <div>
+                                Defense: <p id="statsdefense_text" ></p>
+                            </div>
+                        </div>
+                        <div class="span4 offset1" style="text-align: left;">
+                            <div>
+                                Endurance: <p id="statsedurance_text" ></p>
+                            </div>
+                            <br>
+                            <div>
+                                TV: <p id="statstv_text" ></p>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="span12">
+                            <table id="combatstats_table" border="1" width="910">
+                                <col width="100">
+                                <col width="305">
+                                <col width="305">
+                                <col width="50">
+                                <col width="50">
+                                <col width="50">
+                                <col width="50">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Perks</th>
+                                        <th>Flaws</th>
+                                        <th>Roll</th>
+                                        <th>DX</th>
+                                        <th>Cost</th>
+                                        <th>Note</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="module span12">
+                    <h3>Combat Notes</h3>
+                    <div class="input-xlarge span8" id="combatnotes_text" rows="5" style="resize:None"></div>
+                    <br><br>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="module span6">
+                    <h3>Appearance</h3>
+                    <div class="input-xlarge span4" id="appearance_text" rows="10" style="resize:None"></div>
+                    <br><br>
+                </div>
+                <div class="module span6">
+                    <h3>Personality</h3>
+                    <div class="input-xlarge span4" id="personality_text" rows="10" style="resize:None"></div>
+                    <br><br>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="module span6">
+                    <h3>Background</h3>
+                    <div class="input-xlarge span4" id="background_text" rows="10" style="resize:None"></div>
+                    <br><br>
+                </div>
+                <div class="module span6">
+                    <h3>Other Notes</h3>
+                    <div class="input-xlarge span4" id="othernotes_text" rows="10" style="resize:None"></div>
+                    <br><br>
+                </div>
+            </div>
+             <br>
+        </div>
+    </div>
+{% endblock %}
+
+
