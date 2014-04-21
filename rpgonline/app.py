@@ -54,19 +54,19 @@ def games():
 @app.route('/characters')
 def characters():
     if 'username' not in session:
-	return render_template('index.html')
+        return render_template('index.html')
     return render_template('characters.html')
 
 @app.route('/character_create')
 def character_create():
-    if 'username' not in session:
-	return render_template('index.html')
+    #if 'username' not in session:
+    #    return render_template('index.html')
     return render_template('character_create.html')
 
 @app.route('/character_edit')
 def character_edit():
     if 'username' not in session:
-	return render_template('index.html')
+        return render_template('index.html')
     DA = DataAccess()
     abilities = DA.getAbilities().all()
     weaknesses = DA.getWeaknesses().all()
@@ -86,41 +86,41 @@ def world():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
-	session.pop('username', None)
-	return render_template('index.html')
+        session.pop('username', None)
+        return render_template('index.html')
 
     email1 = None
     email2 = None
     if request.method == 'POST':
-	if 'Code' in request.form:
-	    email = request.form['Email']
-	    log_code = request.form['Code']
-
-	    if email not in login_code:
-		email2 = "Invalid E-mail and Code combination"
-		return render_template('login.html', email1=email1, email2=email2)
-	    if login_code[email] != log_code:
-		email2 = "Invalid E-mail and Code combination"
-		return render_template('login.html', email1=email1, email2=email2)
-
-	    session['username'] = email
-	    del login_code[email]
-	    return render_template('index.html')
-	else:
-	    email = request.form['Email']
-	    if email.find('@') == -1:
-		email1 = "%s is not a valid E-mail address" % email
-		return render_template('login.html', email1=email1, email2=email2)
-
-	    login_code[email] = get_code()
-
-	    msg = Message("Login Code for RPG Online", 
-				recipients=[email])
-	    msg.body = "login code: %s" % login_code[email]
-	    email1 = "Sending login code to %s" % email
-	    mail.send(msg)
-
-	    return render_template('login.html', email1=email1, email2=email2)
+        if 'Code' in request.form:
+            email = request.form['Email']
+            log_code = request.form['Code']
+    
+            if email not in login_code:
+                email2 = "Invalid E-mail and Code combination"
+                return render_template('login.html', email1=email1, email2=email2)
+            if login_code[email] != log_code:
+                email2 = "Invalid E-mail and Code combination"
+                return render_template('login.html', email1=email1, email2=email2)
+    
+            session['username'] = email
+            del login_code[email]
+            return render_template('index.html')
+        else:
+            email = request.form['Email']
+            if email.find('@') == -1:
+                email1 = "%s is not a valid E-mail address" % email
+                return render_template('login.html', email1=email1, email2=email2)
+    
+            login_code[email] = get_code()
+    
+            msg = Message("Login Code for RPG Online", 
+                    recipients=[email])
+            msg.body = "login code: %s" % login_code[email]
+            email1 = "Sending login code to %s" % email
+            mail.send(msg)
+    
+            return render_template('login.html', email1=email1, email2=email2)
 
     return render_template('login.html', email1=email1, email2=email2)
 
