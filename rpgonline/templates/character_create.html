@@ -22,53 +22,81 @@
                         <input id="portraiturl_text" type="text" class="span3" placeholder="Image URL…">
                         <button id="portraiturl_btn" type="submit" class="btn">Load</button>
                         <br><br>
+                        <img src="/static/img/no_char_img.png" alt="logo" width="200" height="200">
+                        <br><br>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="module span6">
                         <h3>Abilities</h3>
-                        <table id="abilities_table" border="1" width="500">
+                        <table id="abilities_table" border="1" width="400" align="center">
                             <tr>
-                                <th>Value</th>
                                 <th>Name</th>
+                                <th>Value</th>
                                 <th>Note</th>
                             </tr>
                         </table>
                         <br>
-                        <select id="abilities_select">  
-                            <option>1</option>  
-                            <option>2</option>  
-                            <option>3</option>  
-                            <option>4</option>  
-                            <option>5</option>  
-                        </select>
-                        <input id="abilitiesvalue_text" type="text" placeholder="Value...">
-                        <input id="abilitiesnote_text" type="text" placeholder="Note..."><br><br>
-                        <button id="abilities_btn" type="submit" class="btn">Add</button>
-                        <br><br>
+                        <div class="span3 offset1">
+                            Name:
+                            <select id="abilitiesname_select" class="span2 pull-right">  
+                                <option>1</option>  
+                                <option>2</option>  
+                                <option>3</option>  
+                                <option>4</option>  
+                                <option>5</option>  
+                            </select>
+                            <br><br>
+                            Value:
+                            <select id="abilitiesvalue_select" class="span2 pull-right">  
+                                <option>1</option>  
+                                <option>2</option>  
+                                <option>3</option>  
+                                <option>4</option>  
+                                <option>5</option>  
+                            </select>
+                            <br><br>
+                            Note:
+                            <input id="abilitiesnote_text" type="text" placeholder="Note..." class="span2 pull-right"><br><br>
+                            <button id="abilities_btn" type="submit" class="btn pull-right">Add</button>
+                            <br><br>
+                        </div>
                     </div>
                     <div class="module span6">
                         <h3>Weaknesses</h3>
-                        <table id="weaknesses_table" border="1" width="500">
+                        <table id="weaknesses_table" border="1" width="400" align="center">
                             <tr>
-                                <th>Value</th>
                                 <th>Name</th>
+                                <th>Value</th>
                                 <th>Note</th>
                             </tr>
                         </table>
                         <br>
-                        <select id="weaknesses_select">  
-                            <option>1</option>  
-                            <option>2</option>  
-                            <option>3</option>  
-                            <option>4</option>  
-                            <option>5</option>  
-                        </select>
-                        <input id="weaknessesvalue_text" type="text" placeholder="Value...">
-                        <input id="weaknessesnote_text" type="text" placeholder="Note..."><br><br>
-                        <button id="weaknesses_btn" type="submit" class="btn">Add</button>
-                        <br><br>
+                        <div class="span3 offset1">
+                            Name:
+                            <select id="weaknessesname_select" class="span2 pull-right">  
+                                <option>1</option>  
+                                <option>2</option>  
+                                <option>3</option>  
+                                <option>4</option>  
+                                <option>5</option>  
+                            </select>
+                            <br><br>
+                            Value:
+                            <select id="weaknessesvalue_select" class="span2 pull-right">  
+                                <option>-1</option>  
+                                <option>-2</option>  
+                                <option>-3</option>  
+                                <option>-4</option>  
+                                <option>-5</option>  
+                            </select>
+                            <br><br>
+                            Note:
+                            <input id="weaknessesnote_text" type="text" placeholder="Note..." class="span2 pull-right"><br><br>
+                            <button id="weaknesses_btn" type="submit" class="btn pull-right">Add</button>
+                            <br><br>
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -98,7 +126,7 @@
                         </div>
                         <div class="row">
                             <div class="span12">
-                                <table id="abilities_table" border="1" width="910">
+                                <table id="combatstats_table" border="1" width="910">
                                     <tr>
                                         <th>Name</th>
                                         <th>Perks</th>
@@ -178,7 +206,7 @@
                                         <div class="span4" style="text-align: center">
                                             <h5>Add Perk</h5>
                                             Name:
-                                            <select id="perk_select" class="span2 pull-right">  
+                                            <select id="perkname_select" class="span2 pull-right">  
                                                 <option>1</option>  
                                                 <option>2</option>  
                                                 <option>3</option>  
@@ -188,7 +216,14 @@
                                         </div>
                                         <div class="span4"><br></div>
                                         <div class="span4" style="text-align: center">
-                                            Multiplier: <input id="perkmultiplier_text" type="number" class="span2 pull-right" placeholder="-5">
+                                            Multiplier:
+                                            <select id="perkmultiplier_select" class="span2 pull-right">  
+                                                <option>1</option>  
+                                                <option>2</option>  
+                                                <option>3</option>  
+                                                <option>4</option>  
+                                                <option>5</option>  
+                                            </select>
                                         </div>
                                         <div class="span4"><br></div>
                                         <div class="span4" style="text-align: center">
@@ -203,7 +238,7 @@
                                 </div>
                                 <div class="span4">
                                     <h5>Perks</h5>
-                                    <table id="perkselect_table" border="1" width="910">
+                                    <table id="perkselect_table" border="1" width="350">
                                         <tr>
                                             <th>Perk Name</th>
                                             <th>Multiplier</th>
@@ -218,7 +253,7 @@
                                         <div class="span4" style="text-align: center">
                                             <h5>Add Flaw</h5>
                                             Name:
-                                            <select id="flaw_select" class="span2 pull-right">  
+                                            <select id="flawname_select" class="span2 pull-right">  
                                                 <option>1</option>  
                                                 <option>2</option>  
                                                 <option>3</option>  
@@ -228,7 +263,14 @@
                                         </div>
                                         <div class="span4"><br></div>
                                         <div class="span4" style="text-align: center">
-                                            Multiplier: <input id="flawmultiplier_text" type="number" class="span2 pull-right" placeholder="-5">
+                                            Multiplier:
+                                            <select id="flawmultiplier_select" class="span2 pull-right">  
+                                                <option>-1</option>  
+                                                <option>-2</option>  
+                                                <option>-3</option>  
+                                                <option>-4</option>  
+                                                <option>-5</option>  
+                                            </select>
                                         </div>
                                         <div class="span4"><br></div>
                                         <div class="span4" style="text-align: center">
@@ -243,7 +285,7 @@
                                 </div>
                                 <div class="span4">
                                     <h5>Flaws</h5>
-                                    <table id="flawselect_table" border="1" width="910">
+                                    <table id="flawselect_table" border="1" width="350">
                                         <tr>
                                             <th>Flaw Name</th>
                                             <th>Multiplier</th>
