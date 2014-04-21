@@ -65,7 +65,7 @@ def create_game():
             print 'here2'
             game = DA.addGame(owner_id, name)
             print 'returning'
-            return render_template('game_room.html')
+            return render_template('games.html')
         else:
             return render_template('games.html')
     else:
@@ -176,6 +176,10 @@ def get_games_json():
 def get_game_room_json():
     DA= DataAccess()
     characters = DA.getGameCharacters(request.args.get('game_id', 0, type=str))
+    game_owner = DA.getGameOwner(request.args.get('game_id', 0, type=str))
+    user = request.args.get('user_id', 0, type=str)
+    print game_owner
+    print user
     charList = {}
 
     for char in characters:
@@ -183,6 +187,20 @@ def get_game_room_json():
         charList[char.id]['owner_id'] = char.user_id
         charList[char.id]['char_name'] = char.name
         charList[char.id]['char_id'] = char.id
+        if user == char.user_id:
+            charList[char.id]['can_edit'] = 'Y'
+        else:
+            charList[char.id]['can_edit'] = 'N'
+        if user == game_owner:
+            print 'user is owner'
+            charList[char.id]['can_remove'] = 'Y'
+            session['can_add'] = 'Y'
+            charList[char.id]['can_add'] = 'Y'
+        else:
+            print 'user not owner'
+            charList[char.id]['can_remove'] = 'N'
+            session['can_add'] = None
+            charList[char.id]['can_add'] = 'N'
 
     return jsonify(charList)
 
