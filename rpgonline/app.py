@@ -51,20 +51,29 @@ def home():
 def games():
     return render_template('games.html')
 
-@app.route('/create_game')
+@app.route('/create_game', methods=['GET', 'POST'])
 def create_game():
     DA = DataAccess()
-    
+
     if request.method == 'POST':
-	if 'username' in session:
-	    owner_id = request.form['owner_id']
-	    name = request.form['code']
-
+        if 'owner_id' in request.form:
+            print 'in create game correct'
+            owner_id = request.form['owner_id']
+            print 'here1'
+            print request.form
+            name = request.form['game_name']
+            print 'here2'
             game = DA.addGame(owner_id, name)
+            print 'returning'
+            return render_template('game_room.html')
+        else:
+            return render_template('games.html')
+    else:
+        return render_template('games.html')
 
-	    return render_template('game_room.html')
-	else:
-	    return render_template('games.html')
+@app.route('/game_room')
+def game_room():
+    return render_template('game_room.html')
 
 @app.route('/characters')
 def characters():
@@ -152,6 +161,19 @@ def get_code():
 ##
 @app.route('/games_json')
 def get_games_json():
+    DA= DataAccess()
+    games = DA.getGames()
+    gameList = {}
+
+    for game in games:
+        gameList[game.id] = {}
+        gameList[game.id]['owner_id'] = game.owner_id
+        gameList[game.id]['name'] = game.name
+
+    return jsonify(gameList)
+
+@app.route('/game_room_json')
+def get_game_room_json():
     DA= DataAccess()
     games = DA.getGames()
     gameList = {}

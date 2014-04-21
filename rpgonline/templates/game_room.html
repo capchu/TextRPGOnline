@@ -2,15 +2,15 @@
 {% block body %}
     <div class="row">
         <div class="span12">
-            <h1>Games List Page</h1>
+            <h1>Game Room  {{ session['game_id'] }}</h1>
             <div>
                 {% if 'username' in session %}
                     <div>
-                        <form id=create>
-                            New Game Name:&nbsp;&nbsp;<input id="game_name" type="text" class="" placeholder="game name">
-                            <input id="owner_id" type="hidden" class="" value="{{ session['username'] }}">
-                            &nbsp;&nbsp;<a id="create_game_button" type="submit" form="create" class="btn" href="/create_game">Create</a>
-                        </form>  
+                        <form class="form" id="create-form" method="post" action="/create_game">
+                            Add Character:&nbsp;&nbsp;<input type="text" name="char_name" placeholder="character name">
+                            <input type="text" name="user_name" placeholder="user who owns it">                         
+                            &nbsp;&nbsp;<input type="submit" value="add">
+                        </form>
                     </div>
                 {% else %}
                     
@@ -18,20 +18,28 @@
             </div>
             <script type="text/javascript">
                 $(document).ready(function() {
-                        $.getJSON( '/games_json', {}, function( data ) {
+                        $.getJSON( '/game_room_json', { game_id: "{{ session['game_id'] }}" }, function( data ) {
                             var table_obj = $('#table');
                             $.each(data, function(index, field) {
                                 $('#title').text('Games')
                                 
                                 var table_row = $('<tr>', {id: index});
-                                var table_game_name = $('<td>', {html: field.name});
-                                var table_user_id = $('<td>', {html: field.owner_id});
-                                var game_ref = "/game/" + index
-                                var game_link = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"});
+                                var char_owner = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"})
+                                var char_name = $('<tr>', {id: name});
                                 
-                                table_row.append(table_game_name);
-                                table_row.append(table_user_id);
-                                table_row.append(game_link);
+                                var view_char= "/game/" + index
+                                var view_character_link = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"});
+                                
+                                var remove_char = "/game/" + index
+                                var remove_character_link = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"});
+                                
+                                var edit_char = "/game/" + index
+                                var edit_character_link = $('<td>', {html: "<a href='"+game_ref+"'>join</a>"});
+                                
+                                table_row.append(char_owner);
+                                table_row.append(view_character_link);
+                                table_row.append(remove_character_link);
+                                table_row.append(edit_character_link);
                                 table_obj.append(table_row);
                             });
                             //console.log(JSON.stringify(data));
