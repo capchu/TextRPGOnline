@@ -84,11 +84,14 @@ def character_create():
 
 @app.route('/character_submit', methods=['GET', 'POST'])
 def character_submit():
-    if not request.json:
-        abort(400)
     if 'username' not in session:
         return render_template('index.html')
-    print request.json('user_id')
+    
+    if request.method == 'POST':
+        print request.data
+        #print jsonify(request.data)
+        print request.json('user_id')
+    
     return render_template('characters.html')
 
 @app.route('/character_edit')
