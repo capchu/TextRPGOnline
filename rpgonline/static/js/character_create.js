@@ -413,7 +413,7 @@ function add__new_character() {
 
     $.ajax({
         type: "POST",
-        contentType: "application/json; charset=utf-8",
+        contentType: "application/json",
         url: "/character_submit",
         data: JSON.parse(JSON.stringify(character_obj)),
         sucess: function(data, status) {
