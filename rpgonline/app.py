@@ -195,38 +195,57 @@ def specific_character_json():
     character_info['name'] = character.name
     character_info['combat_notes'] = character.combat_notes
     
+    character_info['ability_list'] = {}
+    count = 0
     for a in character.abilities:
-        character_info['ability_list'] = {}
-        character_info['ability_list']['ability_id'] = a.ability_id
-        character_info['ability_list']['ability_value'] = a.value
-        character_info['ability_list']['ability_note'] = a.note
-        
-    for w in character.weaknesses:
-        character_info['weakness_list'] = {}
-        character_info['weakness_list']['weakness_id'] = w.weakness_id
-        character_info['weakness_list']['weakness_value'] = w.value
-        character_info['weakness_list']['weakness_note'] = w.note
+        character_info['ability_list'][count] = {}
+        character_info['ability_list'][count]['ability_id'] = a.ability_id
+	character_info['ability_list'][count]['ability_name'] = a.name
+        character_info['ability_list'][count]['ability_value'] = a.value
+        character_info['ability_list'][count]['ability_note'] = a.note
+	count += 1
 
+    character_info['weakness_list'] = {}
+    count = 0        
+    for w in character.weaknesses:
+        character_info['weakness_list'][count] = {}
+        character_info['weakness_list'][count]['weakness_id'] = w.weakness_id
+	character_info['weakness_list'][count]['weakness_name'] = w.name
+        character_info['weakness_list'][count]['weakness_value'] = w.value
+        character_info['weakness_list'][count]['weakness_note'] = w.note
+	count += 1
+
+    character_info['attack_list'] = {}
+    count = 0
     for a in character.attacks:
-        character_info['attack_list'] = {}
-        character_info['attack_list']['name'] = a.name
+        character_info['attack_list'][count] = {}
+        character_info['attack_list'][count]['name'] = a.name
         
+	character_info['attack_list'][count]['perks'] = {}
+	num = 0
         for p in a.perks:
-            character_info['attack_list']['perks'] = {}
-            character_info['attack_list']['perks']['perk_id'] = p.perk_id
-            character_info['attack_list']['perks']['multiplier'] = p.multiplier
-            character_info['attack_list']['perks']['note'] = p.note
-            
+            character_info['attack_list'][count]['perks'][num] = {}
+            character_info['attack_list'][count]['perks'][num]['perk_id'] = p.perk_id
+            character_info['attack_list'][count]['perks'][num]['perk_name'] = p.name
+            character_info['attack_list'][count]['perks'][num]['multiplier'] = p.multiplier
+            character_info['attack_list'][count]['perks'][num]['note'] = p.note
+            num += 1
+
+	character_info['attack_list'][count]['perks'] = {}
+	num = 0
         for f in a.flaws:
-            character_info['attack_list']['perks'] = {}
-            character_info['attack_list']['perks']['perk_id'] = f.flaw_id
-            character_info['attack_list']['perks']['multiplier'] = f.multiplier
-            character_info['attack_list']['perks']['note'] = f.note
-        
-        character_info['attack_list']['roll'] = a.roll
-        character_info['attack_list']['dx'] = a.dx
-        character_info['attack_list']['end'] = a.end
-        character_info['attack_list']['note'] = a.note
+            character_info['attack_list'][count]['perks'][num] = {}
+            character_info['attack_list'][count]['perks'][num]['perk_id'] = f.flaw_id
+            character_info['attack_list'][count]['perks'][num]['perk_name'] = f.name
+            character_info['attack_list'][count]['perks'][num]['multiplier'] = f.multiplier
+            character_info['attack_list'][count]['perks'][num]['note'] = f.note
+            num += 1
+
+        character_info['attack_list'][count]['roll'] = a.roll
+        character_info['attack_list'][count]['dx'] = a.dx
+        character_info['attack_list'][count]['end'] = a.end
+        character_info['attack_list'][count]['note'] = a.note
+	count += 1
     
     character_info['defense'] = character.defense
     character_info['health'] = character.health
