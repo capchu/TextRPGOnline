@@ -1,45 +1,55 @@
 {% extends "base.html" %}
 {% block body %}
+    <style>
+       .module {
+            background:  #003366;
+       }
+    </style>
     <div class="row">
         <div class="span12" style="text-align: center;"><h3>Character Creation</h3></div>
     </div>
-    <div class="row" style="border: 2px blue solid">
+    <div class="row">
         <form class="form-horizontal" style="text-align: center">
             <fieldset>
                 <div class="row">
-                    <div class="span6" style="border: 2px white solid;">
+                    <div class="module span6">
                         <h3>Character Name</h3>
                         <input id="name_text" type="text" class="span3" placeholder="Enter Name...">
                         <h3>Background</h3>
                         <textarea class="input-xlarge span4" id="background_text" rows="15" style="resize:None"></textarea>
                         <br><br>
-                        <!--<button type="submit" class="btn btn-primary pull-right span2">Save changes</button>  
-                        <button class="btn pull-right">Cancel</button>  -->
                     </div>
-                    <div class="span6" style="border: 2px white solid;">
+                    <div class="module span6">
                         <h3>Character Portrait</h3>
                         <input id="portraiturl_text" type="text" class="span3" placeholder="Image URL…">
                         <button id="portraiturl_btn" type="submit" class="btn">Load</button>
+                        <br><br>
                     </div>
                 </div>
+                <br>
                 <div class="row">
-                    <div class="span6" style="border: 2px white solid;">
+                    <div class="module span6">
                         <h3>Appearance</h3>
                         <textarea class="input-xlarge span4" id="appearance_text" rows="10" style="resize:None"></textarea>
+                        <br><br>
                     </div>
-                    <div class="span6" style="border: 2px white solid;">
+                    <div class="module span6">
                         <h3>Personality</h3>
                         <textarea class="input-xlarge span4" id="personality_text" rows="10" style="resize:None"></textarea>
+                        <br><br>
                     </div>
                 </div>
+                <br>
                 <div class="row">
-                    <div class="span12">
+                    <div class="module span12">
                         <h3>Other Notes</h3>
                         <textarea class="input-xlarge span10" id="othernotes_text" rows="5" style="resize:None"></textarea>
+                        <br><br>
                     </div>
                 </div>
+                <br>
                 <div class="row">
-                    <div class="span6">
+                    <div class="module span6">
                         <h3>Abilities</h3>
                         <table id="abilities_table" border="1" width="500">
                             <tr>
@@ -60,7 +70,7 @@
                         <input id="abilitiesnote_text" type="text" placeholder="Note..."><br><br>
                         <button id="abilities_btn" type="submit" class="btn">Add</button>
                     </div>
-                    <div class="span6">
+                    <div class="module span6">
                         <h3>Weaknesses</h3>
                         <table id="weaknesses_table" border="1" width="500">
                             <tr>
@@ -82,11 +92,12 @@
                         <button id="weaknesses_btn" type="submit" class="btn">Add</button>
                     </div>
                 </div>
+                <br>
                 <div class="row">
-                    <div class="span10">
+                    <div class="module span12">
                         <h3>Combat Stats</h3>
                     </div>
-                    <div class="span10">
+                    <div class="span12">
                         <table id="abilities_table" border="1" width="800">
                             <tr>
                                 <th>Value</th>
@@ -179,10 +190,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="span12">
-                    <div class="span8">
+                <br>
+                <div class="row">
+                    <div class="module span12">
                         <h3>Combat Notes</h3>
                         <textarea class="input-xlarge span8" id="combatnotes_text" rows="5" style="resize:None"></textarea>
+                        <br><br>
                     </div>
                 </div>
             </fieldset>
