@@ -1,15 +1,191 @@
 {% extends "base.html" %}
 {% block body %}
     <div class="row">
-        <div class="span12">
-            <h1>Character Creation</h1>
-        </div>
-        <div class="span6">
-            <h3>Background</h3>
-        </div>            
-        <div class="span6">
-            <h3>Personality</h3> 
-            Hi
-        </div>
+        <div class="span12" style="text-align: center;"><h3>Character Creation</h3></div>
+    </div>
+    <div class="row" style="border: 2px blue solid">
+        <form class="form-horizontal" style="text-align: center">
+            <fieldset>
+                <div class="row">
+                    <div class="span6" style="border: 2px white solid;">
+                        <h3>Character Name</h3>
+                        <input id="name_text" type="text" class="span3" placeholder="Enter Name...">
+                        <h3>Background</h3>
+                        <textarea class="input-xlarge span4" id="background_text" rows="15" style="resize:None"></textarea>
+                        <br><br>
+                        <!--<button type="submit" class="btn btn-primary pull-right span2">Save changes</button>  
+                        <button class="btn pull-right">Cancel</button>  -->
+                    </div>
+                    <div class="span6" style="border: 2px white solid;">
+                        <h3>Character Portrait</h3>
+                        <input id="portraiturl_text" type="text" class="span3" placeholder="Image URL…">
+                        <button id="portraiturl_btn" type="submit" class="btn">Load</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6" style="border: 2px white solid;">
+                        <h3>Appearance</h3>
+                        <textarea class="input-xlarge span4" id="appearance_text" rows="10" style="resize:None"></textarea>
+                    </div>
+                    <div class="span6" style="border: 2px white solid;">
+                        <h3>Personality</h3>
+                        <textarea class="input-xlarge span4" id="personality_text" rows="10" style="resize:None"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span12">
+                        <h3>Other Notes</h3>
+                        <textarea class="input-xlarge span10" id="othernotes_text" rows="5" style="resize:None"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <h3>Abilities</h3>
+                        <table id="abilities_table" border="1" width="500">
+                            <tr>
+                                <th>Value</th>
+                                <th>Name</th>
+                                <th>Note</th>
+                            </tr>
+                        </table>
+                        <br>
+                        <select id="abilities_select">  
+                            <option>1</option>  
+                            <option>2</option>  
+                            <option>3</option>  
+                            <option>4</option>  
+                            <option>5</option>  
+                        </select>
+                        <input id="abilitiesvalue_text" type="text" placeholder="Value...">
+                        <input id="abilitiesnote_text" type="text" placeholder="Note..."><br><br>
+                        <button id="abilities_btn" type="submit" class="btn">Add</button>
+                    </div>
+                    <div class="span6">
+                        <h3>Weaknesses</h3>
+                        <table id="weaknesses_table" border="1" width="500">
+                            <tr>
+                                <th>Value</th>
+                                <th>Name</th>
+                                <th>Note</th>
+                            </tr>
+                        </table>
+                        <br>
+                        <select id="weaknesses_select">  
+                            <option>1</option>  
+                            <option>2</option>  
+                            <option>3</option>  
+                            <option>4</option>  
+                            <option>5</option>  
+                        </select>
+                        <input id="weaknessesvalue_text" type="text" placeholder="Value...">
+                        <input id="weaknessesnote_text" type="text" placeholder="Note..."><br><br>
+                        <button id="weaknesses_btn" type="submit" class="btn">Add</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span10">
+                        <h3>Combat Stats</h3>
+                    </div>
+                    <div class="span10">
+                        <table id="abilities_table" border="1" width="800">
+                            <tr>
+                                <th>Value</th>
+                                <th>Name</th>
+                                <th>Note</th>
+                            </tr>
+                        </table>
+                        <br>
+                    </div>
+                    <div class="span8" style="text-align: left;">
+                        <div>
+                            Health: <input id="statshealth_text" type="number" class="span3 pull-left" placeholder="2000">
+                        </div>
+                        <br>
+                        <div>
+                            Defense: <input id="statsdefense_text" type="number" class="span3  pull-left" placeholder="350">
+                        </div>
+                        <br>
+                        <div>
+                            Endurance: <input id="statsedurance_text" type="number" class="span3  pull-left" placeholder="50">
+                        </div>
+                        <br>
+                        <div>
+                            TV: <input id="statstv_text" type="number" class="span3  pull-left" placeholder="25">
+                        </div>
+                        <br>
+                    </div>
+                    <div class="span8" style="border: 3px white solid;">
+                        <h5>Add Attack</h5>
+                        <div>
+                            Name: <input id="attackname_text" type="text" class="span3  pull-right" placeholder="Punch">
+                        </div>
+                        <br>
+                        <div>
+                            Roll: <input id="attackroll_text" type="text" class="span3  pull-right" placeholder="">
+                        </div>
+                        <br>
+                        <div>
+                            DX: <input id="attackdx_text" type="text" class="span3  pull-right" placeholder="">
+                        </div>
+                        <br>
+                        <div>
+                            End: <input id="attackend_text" type="text" class="span3  pull-right" placeholder="">
+                        </div>
+                        <br>
+                        <div>
+                            Note: <input id="attacknote_text" type="text" class="span3  pull-right" placeholder="">
+                        </div>
+                        <br>
+                        <div class="span4">
+                            <h5>Add Perk</h5>
+                            <select id="perk_select" class="span3 pull-right">  
+                                <option>1</option>  
+                                <option>2</option>  
+                                <option>3</option>  
+                                <option>4</option>  
+                                <option>5</option>  
+                            </select>
+                            <br><br>
+                            <div class="span4" style="text-align: center">
+                                Multiplier: <input id="perkmultiplier_text" type="number" class="span3 pull-right" placeholder="3">
+                            </div>
+                            <br><br>
+                            <div class="span4" style="text-align: center">
+                                Note: <input id="perknote_text" type="text" class="span3 pull-right" placeholder="Note...">
+                            </div>
+                            <br><br>
+                            <button id="perkadd_btn" type="submit" class="btn pull-right">Add</button>
+                        </div>
+                        <br>
+                        <div>
+                            <h5>Add Flaw</h5>
+                            <select id="flaw_select" class="span3 pull-right">  
+                                <option>1</option>  
+                                <option>2</option>  
+                                <option>3</option>  
+                                <option>4</option>  
+                                <option>5</option>  
+                            </select>
+                            <br><br>
+                            <div class="span4" style="text-align: center">
+                                Multiplier: <input id="flawmultiplier_text" type="number" class="span3 pull-right" placeholder="-5">
+                            </div>
+                            <br><br>
+                            <div class="span4" style="text-align: center">
+                                Note: <input id="flawnote_text" type="text" class="span3 pull-right" placeholder="Note...">
+                            </div>
+                            <br><br>
+                            <button id="flawadd_btn" type="submit" class="btn pull-right">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="span12">
+                    <div class="span8">
+                        <h3>Combat Notes</h3>
+                        <textarea class="input-xlarge span8" id="combatnotes_text" rows="5" style="resize:None"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
     </div>
 {% endblock %}
