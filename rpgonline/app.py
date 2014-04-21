@@ -54,19 +54,19 @@ def games():
 @app.route('/characters')
 def characters():
     if 'username' not in session:
-        return render_template('index.html')
+        return render_template('login.html')
     return render_template('characters.html')
 
 @app.route('/character_create')
 def character_create():
     #if 'username' not in session:
-    #    return render_template('index.html')
+    #    return render_template('login.html')
     return render_template('character_create.html')
 
 @app.route('/character_edit')
 def character_edit():
     if 'username' not in session:
-        return render_template('index.html')
+        return render_template('login.html')
     DA = DataAccess()
     abilities = DA.getAbilities().all()
     weaknesses = DA.getWeaknesses().all()
