@@ -66,11 +66,9 @@
                             <li {% if menu == "index" %}class="active"{% endif %}><a href="/">Home</a></li>
                             <li {% if menu == "games" %}class="active"{% endif %}><a href="/games">Games</a></li>
                             <li {% if menu == "characters" %}class="active"{% endif %}><a href="/character_create">Character Creation</a></li>
-                            {% if 'username' in session %}
                             <li {% if menu == "characters" %}class="active"{% endif %}><a href="/characters">Characters</a></li>
                             <li {% if menu == "characters" %}class="active"{% endif %}><a href="/character_edit">Character Edit (testing)</a></li>
                             <!-- <li {% if menu == "characters" %}class="active"{% endif %}><a href="/character_create">Character Creation</a></li> -->
-                            {% endif %}
                             <li {% if menu == "about" %}class="active"{% endif %}><a href="/about">About</a></li>
                             {% if menu == "ancestors" or menu == "profile" %}
                             <li><a id="menu-reload" href="#">Reload</a></li>
