@@ -185,13 +185,6 @@ def get_game_room_json():
     print game_owner
     print user
     charList = {}
-    
-    if user == game_owner:
-        print 'user is owner'
-        session['can_add'] = 'Y'
-    else:
-        print 'user not owner'
-        session['can_add'] = 'N'
 
     for char in characters:
         charList[char.id] = {}
