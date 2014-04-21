@@ -1,6 +1,5 @@
 #using sqlalchemy version 0.9.4
 #http://docs.sqlalchemy.org/en/rel_0_9/orm/tutorial.html
-import os
 from databaseCreation import Ability
 from databaseCreation import Weakness
 from databaseCreation import Flaw
@@ -22,9 +21,7 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-here = 'sqlite:///' + os.path.dirname(__file__)
-database = os.path.join(here, 'ova.db')
-engine = create_engine(database, echo=False)
+engine = create_engine('sqlite:///ova.db', echo=False)
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -82,6 +79,24 @@ class DataAccess():
     def getPerkDetails(self, perk_id):
         return session.query(Perk).filter(Perk.id==perk_id).first()
         
+    def getGames(self):
+        return session.query(Game)
+
+    def getGameCharacters(self, game_id):
+        return session.query(GameCharacter).filter(GameCharacter.game_id == game_id)
+
+    def addCharacterToGame(game_id, character_id):
+        gameChar = GameCharacter(game_id = game_id, character_id = character_id)
+        session.add(gameChar)
+        session.commit()
+
+    def deleteGame(game_id):
+        for gameChar in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
+            session.delete(gameChar)
+
+        game = session.query(Game).filter(Game.id == game_id)
+        session.delete(game)
+        session.commit()
 
     # Print them to console for testing
     def printAbilities(self):
@@ -114,7 +129,7 @@ class DataAccess():
         print attacks[0].name
 
     def addDummyCharacter(self):
-        character = Character(user_id='Sid', name='Codex', combat_notes='', defense='2', health='40', endurance='60', tv='22', background='codex is a member of the knights of good', appearance='red hair', personality='strong willed', other_notes='she is a priestess')
+        character = Character(user_id='ova.app.test@gmail.com', name='Codex', combat_notes='', defense='2', health='40', endurance='60', tv='22', background='codex is a member of the knights of good', appearance='red hair', personality='strong willed', other_notes='she is a priestess')
         session.add(character)
         session.commit()
         attack1 = CharacterAttack(character_id=character.id, name='holy cross', roll='5', dx='6', end='0', note='does aoe damage')

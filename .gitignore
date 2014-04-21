@@ -3,3 +3,5 @@ SQLAlchemy/dataAccess.pyc
 rpgonline/clientCharacter.pyc
 rpgonline/dataAccess.pyc
 rpgonline/databaseCreation.pyc
+SQLAlchemy/databaseCreation.pyc
+SQLAlchemy/clientCharacter.pyc

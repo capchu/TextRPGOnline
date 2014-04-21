@@ -1,6 +1,5 @@
 #using sqlalchemy version 0.9.4
 #http://docs.sqlalchemy.org/en/rel_0_9/orm/tutorial.html
-import os
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -12,9 +11,7 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-here = 'sqlite:///' + os.path.dirname(__file__)
-database = os.path.join(here, 'ova.db')
-engine = create_engine(database, echo=False)
+engine = create_engine('sqlite:///ova.db', echo=False)
 Base = declarative_base()
 
 class Ability(Base):
@@ -143,6 +140,26 @@ class CharacterWeakness(Base):
     def __repr__(self):
         return "<CharacterAbility(weakness_id='%s', character_id='%s', weakness_value='%s', weakness_note='%s')>" % (
                                 self.weakness_id, self.character_id, self.weakness_value, self.weakness_note)
+
+class Game(Base):
+    __tablename__ = 'games'
+    id = Column(Integer, Sequence('game_id_seq'), primary_key=True)
+    owner_id = Column(String(50))
+    name = Column(String(50))
+    
+    def __repr__(self):
+        return "<Game(owner_id='%s', name='%s')>" % (
+                                self.owner_id, self.name)
+
+class GameCharacter(Base):
+    __tablename__ = 'game_characters'
+    id = Column(Integer, Sequence('game_char_id_seq'), primary_key=True)
+    game_id = Column(Integer, ForeignKey("games.id"), nullable=False)
+    character_id = Column(Integer, ForeignKey("characters.id"), nullable=False)
+    
+    def __repr__(self):
+        return "<GameCharacters(game_id='%s', character_id='%s')>" % (
+                                self.game_id, self.character_id)
 
 
 Base.metadata.create_all(engine)

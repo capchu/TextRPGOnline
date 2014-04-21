@@ -153,6 +153,7 @@ class Game(Base):
 
 class GameCharacter(Base):
     __tablename__ = 'game_characters'
+    id = Column(Integer, Sequence('game_char_id_seq'), primary_key=True)
     game_id = Column(Integer, ForeignKey("games.id"), nullable=False)
     character_id = Column(Integer, ForeignKey("characters.id"), nullable=False)
     
