@@ -51,6 +51,21 @@ def home():
 def games():
     return render_template('games.html')
 
+@app.route('/create_game')
+def create_game():
+    DA = DataAccess()
+    
+    if request.method == 'POST':
+	if 'username' in session:
+	    owner_id = request.form['owner_id']
+	    name = request.form['code']
+
+            game = DA.addGame(owner_id, name)
+
+	    return render_template('game_room.html')
+	else:
+	    return render_template('games.html')
+
 @app.route('/characters')
 def characters():
     if 'username' not in session:
@@ -59,8 +74,8 @@ def characters():
 
 @app.route('/character_create')
 def character_create():
-    #if 'username' not in session:
-	#return render_template('index.html')
+    if 'username' not in session:
+	return render_template('index.html')
     return render_template('character_create.html')
 
 @app.route('/character_edit')
@@ -236,60 +251,6 @@ def specific_character_json():
 
     print character_info
     return jsonify(character_info)
-
-@app.route('/all_abilities_json')
-def all_abilities_json():
-    DA = DataAccess()
-    abilities = DA.getAbilities().all()
-    
-    abilities_info = {}
-    for a in abilities:
-        abilities_info[a.id] = {}
-        abilities_info[a.id]['id'] = a.id
-        abilities_info[a.id]['name'] = a.name
-        #abilities_info['abilities'].setdefault(a.id, {})['id'] = a.id
-        #abilities_info['abilities'].setdefault(a.id, {})['name'] = a.name
-
-    return jsonify(abilities_info)
-
-@app.route('/all_weaknesses_json')
-def all_weaknesses_json():
-    DA = DataAccess()
-    weaknesses = DA.getWeaknesses().all()
-    
-    weaknesses_info = {}
-    for a in weaknesses:
-        weaknesses_info[a.id] = {}
-        weaknesses_info[a.id]['id'] = a.id
-        weaknesses_info[a.id]['name'] = a.name
-
-    return jsonify(weaknesses_info)
-
-@app.route('/all_perks_json')
-def all_perks_json():
-    DA = DataAccess()
-    perks = DA.getPerks().all()
-    
-    perk_info = {}
-    for a in perks:
-        perk_info[a.id] = {}
-        perk_info[a.id]['id'] = a.id
-        perk_info[a.id]['name'] = a.name
-
-    return jsonify(perk_info)
-
-@app.route('/all_flaws_json')
-def all_flaws_json():
-    DA = DataAccess()
-    flaws = DA.getFlaws().all()
-    
-    flaw_info = {}
-    for a in flaws:
-        flaw_info[a.id] = {}
-        flaw_info[a.id]['id'] = a.id
-        flaw_info[a.id]['name'] = a.name
-
-    return jsonify(flaw_info)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
