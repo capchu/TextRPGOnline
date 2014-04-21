@@ -1,23 +1,9 @@
-var user_id = "";
-var name = "";
-var combat_notes = "";
-var ability_list = new Array();
-var weaknesses_list = new Array();
-var attack_list = new Array();
+var ability_list = [];
+var weaknesses_list = [];
+var attack_list = [];
 
-var perks_list = new Array();
-var flaws_list = new Array();
-
-var defense = "";
-var health = "";
-var endurance = "";
-var tv = "";
-var background = "";
-var appearance = "";
-var personality = "";
-var other_notes = "";
-var portrait_url = "";
-var icon_url = "";
+var perks_list = [];
+var flaws_list = [];
 
 $(document).ready(function() {
     $.getJSON( '/all_abilities_json', { name: "{{ session['username'] }}" }, function( data ) {
@@ -54,6 +40,7 @@ $(document).ready(function() {
     $("#perkadd_btn").on("click", add_to_perk_table);
     $("#flawadd_btn").on("click", add_to_flaw_table);
     $("#attackadd_btn").on("click", add_to_attack_table);
+    $("#submit_btn").on("click", add__new_character);
 });
 
 function add_to_ability_table() {
@@ -314,5 +301,70 @@ function update_attack_table() {
 }
 
 function add__new_character() {
+    var character_obj = {
+        name: "",
+        combat_notes: "",
+        ability_list: [],
+        weakness_list: [],
+        defense: "",
+        health: "",
+        endurance: "",
+        tv: "",
+        background: "",
+        appearance: "",
+        personality: "",
+        other_notes: "",
+        portrait_url: "",
+        icon_url: ""
+    };
     
+    for (var i=0;i<ability_list.length;i++) {
+        var ability_obj = {
+            id: "",
+            name: "",
+            value: "",
+            note: "",
+        }
+        ability_obj.id = ability_list[i][0];
+        ability_obj.name = ability_list[i][1];
+        ability_obj.value = ability_list[i][2];
+        ability_obj.note = ability_list[i][3];
+        character_obj['ability_list'].push(ability_obj);
+    }
+    
+    for (var i=0;i<weaknesses_list.length;i++) {
+        var weakness_obj = {
+            id: "",
+            name: "",
+            value: "",
+            note: "",
+        }
+        weakness_obj.id = weaknesses_list[i][0];
+        weakness_obj.name = weaknesses_list[i][1];
+        weakness_obj.value = weaknesses_list[i][2];
+        weakness_obj.note = weaknesses_list[i][3];
+        character_obj['weakness_list'].push(weakness_obj);
+    }
+    
+    for (var i=0;i<attack_list.length;i++) {
+        var attack_obj = {
+            
+        }
+    }
+    
+    character_obj['name'] = $('#name_text').val();
+    character_obj['combat_notes'] = $('#combatnotes_text').val();
+    character_obj['defense'] = $('#statsdefense_text').val();
+    character_obj['health'] = $('#statshealth_text').val();
+    character_obj['endurance'] = $('#statsedurance_text').val();
+    character_obj['tv'] = $('#statstv_text').val();
+    character_obj['background'] = $('#background_text').val();
+    character_obj['appearance'] = $('#appearance_text').val();
+    character_obj['personality'] = $('#personality_text').val();
+    character_obj['other_notes'] = $('#othernotes_text').val();
+    character_obj['portrait_url'] = $('#portraiturl_text').val();
+    character_obj['icon_url'] = $('#portraiturl_text').val();
+
+    var test = JSON.stringify(character_obj);
+    console.log(test);
 }

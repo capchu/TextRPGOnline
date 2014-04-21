@@ -1,44 +1,14 @@
 {% extends "base.html" %}
 {% block body %}
-    <div class="row">
-        <div class="span12">
-            <h1>Edit Character</h1>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="span2 offset1">
-                   <h3>Abilities</h3>
-                   <ul class="abilities">
-                       {% for ability in abilities %}
-                           <li>{{ ability.name }}</li>
-                       {% endfor %}
-                   </ul>
-                </div>
-                <div class="span2">
-                    <h3>Flaws</h3>
-                    <ul class="flaws">
-                        {% for flaw in flaws %}
-                            <li>{{ flaw.name }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="span2">
-                    <h3>Perks</h3>
-                    <ul class=perks>
-                        {% for perk in perks %}
-                            <li>{{ perk.name }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="span2">
-                    <h3>Weaknesses</h3>
-                    <ul class=weaknesses>
-                        {% for weakness in weaknesses %}
-                            <li>{{ weakness.name }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script type="text/javascript" src="/static/js/character_create.js"></script> 
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var charName = window.location.search.substring(1).split('=')[1];
+                $.getJSON( '/specific_character_json', { name: "{{ session['username'] }}",  id: charName}, function( data ) {
+                });
+                
+            });
+        </script>
 {% endblock %}
+
+
