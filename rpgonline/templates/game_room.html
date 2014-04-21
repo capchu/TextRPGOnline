@@ -42,15 +42,25 @@
                                 table_row.append(remove_character_link);
                                 table_row.append(edit_character_link);
                                 table_obj.append(table_row);
+                                
+                                if ('{{ session['can_add'] }}' == 'Y') {
+                                    console.log("setting visible");
+                                    var e = document.getElementById("add")
+                                    e.style.display = 'block';
+                                }else{
+                                    console.log("setting invisible");
+                                    var e = document.getElementById("add")
+                                    e.style.display = 'none';
+                                }
                             });
+                            
                             //console.log(JSON.stringify(data));
                         });
+                        
                 });
             </script>
             
-            <div>
-                {% if session['can_add'] == 'Y'%}
-                    {{ session['can_add'] }}
+            <div id="add">
                     <div>
                         <form class="form" id="create-form" method="post" action="/character_search">
                             Add Character:&nbsp;&nbsp;<input type="text" name="char_name" placeholder="character name">
@@ -58,9 +68,6 @@
                             &nbsp;&nbsp;<input type="submit" value="add">
                         </form>
                     </div>
-                {% else %}
-                    {{ session['can_add'] }}
-                {% endif %}
             </div>
             
             <div id="characters">
