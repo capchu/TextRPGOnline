@@ -103,6 +103,16 @@ def character_edit():
     return render_template('character_edit.html', abilities=abilities, weaknesses=weaknesses,
                            perks=perks, flaws=flaws)
 
+@app.route('/view_character')
+def view_character():
+    DA = DataAccess()
+    abilities = DA.getAbilities().all()
+    weaknesses = DA.getWeaknesses().all()
+    perks = DA.getPerks().all()
+    flaws = DA.getFlaws().all()
+    return render_template('view_character.html', abilities=abilities, weaknesses=weaknesses,
+                           perks=perks, flaws=flaws)
+
 @app.route('/about')
 def about():
     return render_template('about.html')
