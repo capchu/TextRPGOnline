@@ -175,7 +175,7 @@ def character_list_json():
         character_list[char_obj.id]['other_notes'] = char_obj.other_notes
         character_list[char_obj.id]['portrait_url'] = char_obj.portrait_url
         character_list[char_obj.id]['icon_url'] = char_obj.icon_url
-        
+       
     #print character_list
     return jsonify(character_list)
 
@@ -233,7 +233,7 @@ def specific_character_json():
     character_info['other_notes'] = character.other_notes
     character_info['portrait_url'] = character.portrait_url
     character_info['icon_url'] = character.icon_url
-    
+
     print character_info
     return jsonify(character_info)
 
