@@ -33,7 +33,6 @@ $(document).ready(function() {
         $.each(data, function(index, field) {
             $('#weaknessesname_select').append($("<option></option>").attr('value', field.id).text(field.name));
         });
-        //console.log(JSON.stringify(data));
     });
     
     $.getJSON( '/all_perks_json', { name: "{{ session['username'] }}" }, function( data ) {
@@ -41,7 +40,6 @@ $(document).ready(function() {
         $.each(data, function(index, field) {
             $('#perkname_select').append($("<option></option>").attr('value', field.id).text(field.name));
         });
-        //console.log(JSON.stringify(data));
     });
 
     $.getJSON( '/all_flaws_json', { name: "{{ session['username'] }}" }, function( data ) {
@@ -49,7 +47,6 @@ $(document).ready(function() {
         $.each(data, function(index, field) {
             $('#flawname_select').append($("<option></option>").attr('value', field.id).text(field.name));
         });
-        //console.log(JSON.stringify(data));
     });
 
     $("#abilities_btn").on("click", add_to_ability_table);
@@ -70,15 +67,6 @@ function add_to_ability_table() {
     ability_list.push(ability);
     
     update_ability_table();
-    
-    //for (var i=0;i<ability.length;i++) {
-    //    console.log(ability[i])
-    //}
-    
-    //console.log(s_ability_id);
-    //console.log(s_ability_name);
-    //console.log(s_ability_value);
-    //console.log(s_ability_note);
 }
 
 function update_ability_table() {
@@ -240,20 +228,23 @@ function update_flaw_table() {
     }
 }
 
-function add_to_attack_table(ol, fl) {
+function add_to_attack_table() {
     var s_attack_name = $('#attackname_text').val();
     var s_attack_roll = $('#attackroll_text').val();
     var s_attack_dx = $('#attackdx_text').val();
     var s_attack_cost = $('#attackcost_text').val();
     var s_attack_note = $('#attacknote_text').val();
     
-    var attack = [s_attack_name, perks_list, flaws_list, s_attack_roll, s_attack_dx, s_attack_cost, s_attack_note];
+    var pl = perks_list.slice();
+    var fl = flaws_list.slice();
+    
+    var attack = [s_attack_name, pl, fl, s_attack_roll, s_attack_dx, s_attack_cost, s_attack_note];
     
     attack_list.push(attack);
     
     update_attack_table();
-    flaws_list.length = new Array();
-    perks_list.length = new Array();
+    flaws_list.length = 0;
+    perks_list.length = 0;
     update_flaw_table();
     update_perk_table();
 }
@@ -289,8 +280,10 @@ function update_attack_table() {
         console.log(i);
         var temp_perks = "";
         for (var p=0;p<attack_list[i][1].length;p++) {
-            console.log(attack_list[i][1][p][1]);
-            temp_perks += attack_list[i][1][p][1] + " ";
+            temp_perks += attack_list[i][1][p][1] + " " + attack_list[i][1][p][2];
+            if (p+1<attack_list[i][1].length) {
+                temp_perks += ", "
+            }
         }
         
         var temp_flaws = "";
