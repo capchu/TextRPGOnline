@@ -209,6 +209,24 @@ def get_game_room_json():
 
     return jsonify(charList)
 
+@app.route('/add_rights_json')
+def get_add_rights_json():
+    DA= DataAccess()
+    game_owner = DA.getGameOwner(request.args.get('game_id', 0, type=str))
+    user = request.args.get('user_id', 0, type=str)
+    print game_owner
+    print user
+    rightsList = {}
+    rightsList[0] = {}
+    if user == game_owner:
+        print 'user is owner'
+	rightsList[0]['can_add'] = 'Y'
+    else:
+        print 'user not owner'
+	rightsList[0]['can_add'] = 'N'
+
+    return jsonify(rightsList)
+
 @app.route('/add_character_json')
 def add_character_json():
     CDA = ClientDataAccess()
