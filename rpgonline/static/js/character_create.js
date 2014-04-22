@@ -43,6 +43,51 @@ $(document).ready(function() {
     $("#submit_btn").on("click", add__new_character);
 });
 
+$(document).on('click','#delete_weaknesses', function()
+{
+    var row = $(this).parent().siblings()[0];
+    var row_name = $(row).text();
+    var temp_list = [];
+    for(var i=0;i < weaknesses_list.length; i++)
+    {
+	if(row_name.localeCompare(weaknesses_list[i][1]) != 0)
+	    temp_list.push(weaknesses_list[i])
+    }
+    weaknesses_list = temp_list;
+
+    update_weakness_table();
+});
+
+$(document).on('click','#delete_ability', function()
+{
+    var row = $(this).parent().siblings()[0];
+    var row_name = $(row).text();
+    var temp_list = [];
+    for(var i=0;i < ability_list.length; i++)
+    {
+	if(row_name.localeCompare(ability_list[i][1]) != 0)
+	    temp_list.push(ability_list[i])
+    }
+    ability_list = temp_list;
+
+    update_ability_table();
+});
+
+$(document).on('click','#delete_attack', function()
+{
+    var row = $(this).parent().siblings()[0];
+    var row_name = $(row).text();
+    var temp_list = [];
+    for(var i=0;i < attack_list.length; i++)
+    {
+	if(row_name.localeCompare(attack_list[i][0]) != 0)
+	    temp_list.push(attack_list[i])
+    }
+    attack_list = temp_list;
+
+    update_attack_table();
+});
+
 function add_to_ability_table() {
     var s_ability_id = $('#abilitiesname_select').children(':selected').attr('value');
     var s_ability_name = $('#abilitiesname_select').children(':selected').text();
@@ -65,10 +110,12 @@ function update_ability_table() {
     var table_c_name = $('<th>', {html: 'Name'});
     var table_c_value = $('<th>', {html: 'Value'});
     var table_c_note = $('<th>', {html: 'Note'});
+    var table_c_delete = $('<th></th>');
     
     table_row.append(table_c_name);
     table_row.append(table_c_value);
     table_row.append(table_c_note);
+    table_row.append(table_c_delete);
     
     table_obj.append(table_row);
     
@@ -77,10 +124,12 @@ function update_ability_table() {
         var table_c_name = $('<td>', {html: ability_list[i][1]});
         var table_c_value = $('<td>', {html: ability_list[i][2]});
         var table_c_note = $('<td>', {html: ability_list[i][3]});
+	var table_c_delete = $('<td><button id="delete_ability">X</button></td>');
         
         table_row.append(table_c_name);
         table_row.append(table_c_value);
         table_row.append(table_c_note);
+	table_row.append(table_c_delete);
         
         table_obj.append(table_row);
     }
@@ -108,10 +157,12 @@ function update_weakness_table() {
     var table_c_name = $('<th>', {html: 'Name'});
     var table_c_value = $('<th>', {html: 'Value'});
     var table_c_note = $('<th>', {html: 'Note'});
+    var table_c_delete = $('<th></th>');
     
     table_row.append(table_c_name);
     table_row.append(table_c_value);
     table_row.append(table_c_note);
+    table_row.append(table_c_delete);
     
     table_obj.append(table_row);
     
@@ -120,10 +171,12 @@ function update_weakness_table() {
         var table_c_name = $('<td>', {html: weaknesses_list[i][1]});
         var table_c_value = $('<td>', {html: weaknesses_list[i][2]});
         var table_c_note = $('<td>', {html: weaknesses_list[i][3]});
+	var table_c_delete = $('<td><button id="delete_weaknesses">X</button></td>');
         
         table_row.append(table_c_name);
         table_row.append(table_c_value);
         table_row.append(table_c_note);
+	table_row.append(table_c_delete);
         
         table_obj.append(table_row);
     }
@@ -250,6 +303,7 @@ function update_attack_table() {
     var table_c_dx = $('<th>', {html: 'DX'});
     var table_c_cost = $('<th>', {html: 'Cost'});
     var table_c_note = $('<th>', {html: 'Note'});
+    var table_c_delete = $('<th></th>');
     
     table_row.append(table_c_name);
     table_row.append(table_c_perks);
@@ -258,6 +312,7 @@ function update_attack_table() {
     table_row.append(table_c_dx);
     table_row.append(table_c_cost);
     table_row.append(table_c_note);
+    table_row.append(table_c_delete);
     
     table_obj.append(table_row);
     
@@ -287,6 +342,7 @@ function update_attack_table() {
         var table_c_dx = $('<td>', {html: attack_list[i][4]});
         var table_c_cost = $('<td>', {html: attack_list[i][5]});
         var table_c_note = $('<td>', {html: attack_list[i][6]});
+	var table_c_delete = $('<td><button id="delete_attack">X</button></td>');
         
         table_row.append(table_c_name);
         table_row.append(table_c_perks);
@@ -295,6 +351,7 @@ function update_attack_table() {
         table_row.append(table_c_dx);
         table_row.append(table_c_cost);
         table_row.append(table_c_note);
+	table_row.append(table_c_delete);
         
         table_obj.append(table_row);
     }
