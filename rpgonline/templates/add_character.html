@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="row">
+        <div class="span12">
+            <script type="text/javascript">
+                var cur_game_id;
+                var char_id;
+                $(document).ready(function() {
+                    args = window.location.search.substring(1).split('?')[1];
+                    arg1 = args.split('&')[0];
+                    arg1 = arg1.split('=')[1];
+                    arg2 = args.split('&')[1];
+                    arg2 = arg2.split('=')[1];
+                    alert(arg1 + " " + agr2);
+                    
+                });
+            </script>
+            
+        </div>
+    </div>
+{% endblock %}

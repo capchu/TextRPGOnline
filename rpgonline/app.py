@@ -82,6 +82,16 @@ def get_searched_characters():
     
     return render_template('game_room.html')
 
+@app.route('/add_character_to_game', methods=['GET', 'POST'])
+def add_character_to_game():
+    DA = DataAccess()
+    if request.method == 'POST':
+        char_id = request.form['char_id']
+        game_id = request.form['game_id']
+        DA.addCharacterToGame(game_id, char_id)
+    
+    return render_template('game_room.html')
+
 @app.route('/game_room')
 def game_room():
     return render_template('game_room.html')
