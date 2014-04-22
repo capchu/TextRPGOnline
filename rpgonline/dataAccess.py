@@ -106,7 +106,7 @@ class DataAccess():
     
     def searchGameCharacters(self, name, user):
         chars = []
-        for char in session.query(Character).filter(Character.name == game_id).filter(Character.user_id == user):
+        for char in session.query(Character).filter(Character.name == name).filter(Character.user_id == user):
             if char != None:
                 chars.append(char)
             else:

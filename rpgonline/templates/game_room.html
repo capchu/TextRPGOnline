@@ -71,16 +71,91 @@
                         });
                         
                 });
+                function searchCharacter() {
+                    var charName = document.getElementById("cname").value;
+                    var ownerName = document.getElementById("oname").value;
+                    
+                    $.getJSON( '/character_search_json', { char_name: charName, owner_name : ownerName }, function( data ) {
+                        var table_obj = $('#table2');
+                        $.each(data, function(index, field) {
+                            $('#title').text('Characters found:')
+                                
+                            var table_row = $('<tr>', {id: field.user_id});
+                            var table_c_name = $('<td>', {html: field.name});
+                            var table_c_combatnotes = $('<td>', {html: field.combat_notes});
+                            var table_c_defense = $('<td>', {html: field.defense});
+                            var table_c_health= $('<td>', {html: field.health});
+                            var table_c_endurance = $('<td>', {html: field.endurance});
+                            var table_c_tv = $('<td>', {html: field.tv});
+                            var table_c_background = $('<td>', {html: field.background});
+                            var table_c_appearance = $('<td>', {html: field.appearance});
+                            var table_c_personality = $('<td>', {html: field.personality});
+                            var table_c_other_notes = $('<td>', {html: field.other_notes});
+                            var table_c_portrait_url = $('<td>', {html: field.portrait_url});
+                            var table_c_icon_url = $('<td>', {html: field.icon_url});
+                            var table_c_edit_link = $('<td><a href="/character_edit?name=' + field.char_id + '">edit</a>');
+                                
+                            table_row.append(table_c_name);
+                            table_row.append(table_c_combatnotes);
+                            table_row.append(table_c_defense);
+                            table_row.append(table_c_health);
+                            table_row.append(table_c_endurance);
+                            table_row.append(table_c_tv);
+                            table_row.append(table_c_background);
+                            table_row.append(table_c_appearance);
+                            table_row.append(table_c_personality);
+                            table_row.append(table_c_other_notes);
+                            table_row.append(table_c_portrait_url);
+                            table_row.append(table_c_icon_url);
+                            table_row.append(table_c_edit_link)
+                            table_obj.append(table_row);
+                        });
+                        //console.log(JSON.stringify(data));
+                    });
+                }
             </script>
             
             <div id="add">
                     <div>
-                        <form class="form" id="create-form" method="post" action="/character_search">
-                            Find Character:&nbsp;&nbsp;<input type="text" name="char_name" placeholder="character name">
-                            <input type="text" name="owner_name" placeholder="user who owns it">                         
+                        <form class="form" id="create-form" method="post" action="javascript:searchCharacter()">
+                            Find Character:&nbsp;&nbsp;<input id="cname" type="text" name="char_name" placeholder="character name">
+                            <input id="oname" type="text" name="owner_name" placeholder="user who owns it">                         
                             &nbsp;&nbsp;<input type="submit" value="search">
                         </form>
                     </div>
+            </div>
+            <br>
+            <div id="characters_found">
+                <style>
+                    table, th, td {
+                        
+                    }
+                    th, td {
+                        padding:5px;
+                    }
+                </style>
+                <table id="table2" border="3" style="width:600px">
+                    <tr>
+                        <th colspan="13">
+                            <h3 id="title"></h3>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Combat Notes</th>
+                        <th>Defense</th>
+                        <th>Health</th>
+                        <th>Endurance</th>
+                        <th>TV</th>
+                        <th>Background</th>
+                        <th>Appearance</th>
+                        <th>Personality</th>
+                        <th>Other Notes</th>
+                        <th>Portrait URL</th>
+                        <th>Icon URL</th>
+                        <th>Edit</th>
+                    </tr>
+                </table>
             </div>
             
             <div id="characters">
