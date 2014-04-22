@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="row">
+        <div class="span12">
+            <script type="text/javascript">
+                var cur_game_id;
+                var char_id;
+                $(document).ready(function() {
+                    var args = window.location.search.substring(1).split('?')[0];
+                    var arg1 = args.split('&')[0];
+                    arg1 = arg1.split('=')[1];
+                    var arg2 = args.split('&')[1];
+                    arg2 = arg2.split('=')[1];
+                    
+                    cur_game_id = arg2;
+                    char_id = arg1;
+                    
+                    //var charE = document.getElementById("cid");
+                    var gameE = document.getElementById("gid");
+                    //
+                    //charE.value = char_id;
+                    gameE.value = cur_game_id;
+                    //
+                    var form = document.getElementById("add-form");
+                    form.action = "/game_room?game_id=" + cur_game_id;
+                    //form.submit();
+                });
+                
+                
+                $(document).ready(function() {
+                        $.getJSON( '/remove_character_from_game_json', { game_id: cur_game_id, char_id: char_id }, function( data ) {
+                            $.each(data, function(index, field) {                
+                                var message = field.message;
+                                var m = document.getElementById("message")
+                                m.innerHTML = message;
+                            });
+                        });   
+                });
+            </script>
+            
+            <div style="text-align: center;">
+                <br>
+                <br>
+                <br>
+                <h4 id="message"></h4>
+                <form class="form" id="add-form" action="">
+                    <input id="gid" type="hidden" name="game_id">
+                    <input type="submit" value="Back To Game">
+                </form>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}

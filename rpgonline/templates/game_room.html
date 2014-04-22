@@ -59,10 +59,17 @@
                                     console.log("setting visible");
                                     var e = document.getElementById("add")
                                     e.style.display = 'block';
+                                    
+                                    var de = document.getElementById("delete_div")
+                                    de.style.display = 'block';
+                                    
                                 }else{
                                     console.log("setting invisible");
                                     var e = document.getElementById("add")
                                     e.style.display = 'none';
+                                    
+                                    var de = document.getElementById("delete_div")
+                                    de.style.display = 'none';
                                 }
                                 var e = document.getElementById("characters_found")
                                 e.style.display = 'none';
@@ -106,6 +113,14 @@
                         //console.log(JSON.stringify(data));
                     });
                 }
+                $(document).ready(function() {
+                    
+                    var gameE = document.getElementById("gid-delete");
+                    gameE.value = cur_game_id;
+                    
+                    var form = document.getElementById("delete-form");
+                    form.action = "/game_room?game_id=" + cur_game_id;
+                });
             </script>
             
             <div id="add">
@@ -169,7 +184,12 @@
                     </tr>
                 </table>
             </div>
-            
+            <div id=delete_div>
+                <form class="form" id="delete-form" action="">
+                    <input id="gid-delete" type="hidden" name="game_id">
+                    <input type="submit" value="Delete Game">
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}
