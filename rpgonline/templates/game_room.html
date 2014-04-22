@@ -20,7 +20,7 @@
                                 var char_name = $('<tr>', {html: field.char_name});
                                 
                                 if (field.can_edit == 'Y') {
-                                    var edit_char = "/edit_character?char_id=" + field.char_id
+                                    var edit_char = "/character_edit?char_id=" + field.char_id
                                     var edit_character_link = $('<td>', {html: "<a href='"+edit_char+"'>edit</a>"});
                                 }else{
                                     var edit_character_link = $('<td>', {html: ""});

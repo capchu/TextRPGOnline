@@ -3,12 +3,17 @@ import random
 import os
 import string
 import sqlite3
-from flask import Flask, jsonify, request, session, g, redirect, url_for, abort, \
+from flask import Flask, jsonify, json, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from flask.ext.mail import Mail, Message
 from dataAccess import DataAccess
 from databaseCreation import Character
 from clientCharacter import ClientCharacter
+from clientCharacter import ClientAbility
+from clientCharacter import ClientWeakness
+from clientCharacter import ClientPerk
+from clientCharacter import ClientFlaw
+from clientCharacter import ClientAttack
 from clientCharacter import ClientDataAccess
 
 # create our little application :)
@@ -89,8 +94,8 @@ def characters():
 
 @app.route('/character_create')
 def character_create():
-    if 'username' not in session:
-        return render_template('index.html')
+    #if 'username' not in session:
+     #   return render_template('index.html')
     return render_template('character_create.html')
 
 @app.route('/character_submit', methods=['GET', 'POST'])
@@ -99,10 +104,61 @@ def character_submit():
         return render_template('index.html')
     
     if request.method == 'POST':
-        print request.data
-        #print jsonify(request.data)
-        #print request.json('user_id')
-    
+        CDA = ClientDataAccess()
+        character =  json.loads(request.data)
+        abilities_list = []
+        weakness_list = []
+        attacks_list = []
+        for a in character['ability_list']:
+            abilities_list.append(ClientAbility(a['id'],
+                                                a['name'],
+                                                a['value'],
+                                                a['note']))
+        for w in character['weakness_list']:
+            weakness_list.append(ClientWeakness(w['id'],
+                                                w['name'],
+                                                w['value'],
+                                                w['note']))
+        for a in character['attack_list']:
+            perks = []
+            flaws = []
+            
+            for p in a['perks']:
+                perks.append(ClientPerk(p['perk_id'],
+                                        p['name'],
+                                        p['multiplier'],
+                                        p['note']))
+            for f in a['flaws']:
+                flaws.append(ClientFlaw(f['flaw_id'],
+                                        f['name'],
+                                        f['multiplier'],
+                                        f['note']))
+            
+            attacks_list.append(ClientAttack(a['name'],
+                                             perks,
+                                             flaws,
+                                             a['roll'],
+                                             a['dx'],
+                                             a['end'],
+                                             a['note']))
+        
+        new_character = ClientCharacter(character['user_id'],
+                                        character['name'],
+                                        character['combat_notes'],
+                                        abilities_list,
+                                        weakness_list,
+                                        attacks_list,
+                                        character['defense'],
+                                        character['health'],
+                                        character['endurance'],
+                                        character['tv'],
+                                        character['background'],
+                                        character['appearance'],
+                                        character['personality'],
+                                        character['other_notes'],
+                                        character['portrait_url'],
+                                        character['icon_url'],)
+        CDA.addClientCharacter(new_character)
     return render_template('characters.html')
 
 @app.route('/character_edit')
@@ -172,7 +228,7 @@ def login():
 	    email1 = "Sending login code to %s" % email
 	    mail.send(msg)
 
-	    return render_template('login.html', email1=email1, email2=email2)
+	    return render_template('login.html', email1=email1, email2=email2, result=email)
 
     return render_template('login.html', email1=email1, email2=email2)
 
@@ -324,9 +380,6 @@ def specific_character_json():
     character_info['name'] = character.name
     character_info['combat_notes'] = character.combat_notes
 
-    if character_info['user_id'] != username:
-	return render_template('characters.html')
-    
     character_info['ability_list'] = {}
     count = 0
     for a in character.abilities:
