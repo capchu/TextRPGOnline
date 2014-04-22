@@ -103,6 +103,15 @@ class DataAccess():
             else:
                 print 'character no longer exists' 
         return chars
+    
+    def searchGameCharacters(self, name, user):
+        chars = []
+        for char in session.query(Character).filter(Character.name == name).filter(Character.user_id == user):
+            if char != None:
+                chars.append(char)
+            else:
+                print 'no char' 
+        return chars
 
     def addCharacterToGame(self, game_id, character_id):
         if self.getCharacter(character_id) != None:

@@ -71,6 +71,17 @@ def create_game():
     else:
         return render_template('games.html')
 
+@app.route('/character_search', methods=['GET', 'POST'])
+def get_searched_characters():
+    DA = DataAccess()
+    chars = []
+    if request.method == 'POST':
+        name = request.form['char_name']
+        owner_name = request.form['owner_name']
+        chars = searchGameCharacters(name, owner_name)
+    
+    return render_template('game_room.html')
+
 @app.route('/game_room')
 def game_room():
     return render_template('game_room.html')
@@ -290,6 +301,41 @@ def get_add_rights_json():
 	rightsList[0]['can_add'] = 'N'
 
     return jsonify(rightsList)
+
+@app.route('/character_search_json', methods=['GET', 'POST'])
+def get_searched_characters_json():
+    DA = DataAccess()
+    characters_object = []
+
+    name = request.args.get('char_name', 0, type=str)
+    owner_name = request.args.get('owner_name', 0, type=str)
+    
+    print name
+    print owner_name
+    
+    characters_object = DA.searchGameCharacters(name, owner_name)
+    
+    character_list = {}
+    
+    for char_obj in characters_object:
+        character_list[char_obj.id] = {}
+        character_list[char_obj.id]['char_id'] = char_obj.id
+        character_list[char_obj.id]['user_id'] = char_obj.user_id
+        character_list[char_obj.id]['name'] = char_obj.name
+        character_list[char_obj.id]['combat_notes'] = char_obj.combat_notes
+        character_list[char_obj.id]['defense'] = char_obj.defense
+        character_list[char_obj.id]['health'] = char_obj.health
+        character_list[char_obj.id]['endurance'] = char_obj.endurance
+        character_list[char_obj.id]['tv'] = char_obj.tv
+        character_list[char_obj.id]['background'] = char_obj.background
+        character_list[char_obj.id]['appearance'] = char_obj.appearance
+        character_list[char_obj.id]['personality'] = char_obj.personality
+        character_list[char_obj.id]['other_notes'] = char_obj.other_notes
+        character_list[char_obj.id]['portrait_url'] = char_obj.portrait_url
+        character_list[char_obj.id]['icon_url'] = char_obj.icon_url
+       
+    #print character_list
+    return jsonify(character_list)
 
 @app.route('/add_character_json')
 def add_character_json():
