@@ -78,19 +78,50 @@ def characters():
 
 @app.route('/character_create')
 def character_create():
-    if 'username' not in session:
-        return render_template('index.html')
+    #if 'username' not in session:
+     #   return render_template('index.html')
     return render_template('character_create.html')
 
 @app.route('/character_submit', methods=['GET', 'POST'])
 def character_submit():
-    if 'username' not in session:
-        return render_template('index.html')
+    #if 'username' not in session:
+    #    return render_template('index.html')
     
     if request.method == 'POST':
+        CDA = ClientDataAccess()
         character =  json.loads(request.data)
-        print character['user_id']
-    
+        abilities_list = []
+        weakness_list = []
+        for a in character['ability_list']:
+            abilities_list.append(ClientAbility(a['id'],
+                                                a['name'],
+                                                a['value'],
+                                                a['note']))
+        for w in character['weakness_list']:
+            weakness_list.append(ClientWeakness(w['id'],
+                                                w['name'],
+                                                w['value'],
+                                                w['note']))
+        for a in character['attack_list']:
+            code
+        
+        new_character = ClientCharacter(character['user_id'],
+                                        character['name'],
+                                        character['combat_notes'],
+                                        ability_list,
+                                        weakness_list,
+                                        attack_list,
+                                        character['defense'],
+                                        character['health'],
+                                        character['endurance'],
+                                        character['tv'],
+                                        character['background'],
+                                        character['appearance'],
+                                        character['personality'],
+                                        character['other_notes'],
+                                        character['portrait_url'],
+                                        character['icon_url'],)
+        CDA.addClientCharacter(new_character)
     return render_template('characters.html')
 
 @app.route('/character_edit')
