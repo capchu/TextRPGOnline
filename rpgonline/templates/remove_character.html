@@ -28,7 +28,7 @@
                 
                 
                 $(document).ready(function() {
-                        $.getJSON( '/add_character_to_game_json', { game_id: cur_game_id, char_id: char_id }, function( data ) {
+                        $.getJSON( '/remove_character_from_game_json', { game_id: cur_game_id, char_id: char_id }, function( data ) {
                             $.each(data, function(index, field) {                
                                 var message = field.message;
                                 var m = document.getElementById("message")
@@ -43,7 +43,7 @@
                 <br>
                 <br>
                 <h4 id="message"></h4>
-                <form class="form" id="add-form" action="/add_character_to_game">
+                <form class="form" id="add-form" action="">
                     <input id="gid" type="hidden" name="game_id">
                     <input type="submit" value="Back To Game">
                 </form>

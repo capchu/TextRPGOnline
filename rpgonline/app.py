@@ -86,17 +86,7 @@ def get_searched_characters():
 def go_to_add_character():
     return render_template('add_character.html')
 
-@app.route('/add_character_to_game', methods=['GET', 'POST'])
-def add_character_to_game():
-    DA = DataAccess()
-    if request.method == 'POST':
-	print 'in post'
-        char_id = request.form['char_id']
-        game_id = request.form['game_id']
-        DA.addCharacterToGame(game_id, char_id)
-    else:
-	print 'not in post'
-    return render_template('game_room.html')
+
 
 @app.route('/game_room')
 def game_room():
@@ -317,6 +307,30 @@ def get_add_rights_json():
 	rightsList[0]['can_add'] = 'N'
 
     return jsonify(rightsList)
+
+@app.route('/add_character_to_game_json', methods=['GET', 'POST'])
+def add_character_to_game_json():
+    DA = DataAccess()
+    messageList = {}
+    messageList[0] = {}
+    char_id = request.args.get('char_id', 0, type=str)
+    game_id = request.args.get('game_id', 0, type=str)
+    ret = DA.addCharacterToGame(game_id, char_id)
+    messageList[0]['message'] = ret
+    
+    return jsonify(messageList)
+
+@app.route('/remove_character_from_game_json', methods=['GET', 'POST'])
+def remove_character_from_game_json():
+    DA = DataAccess()
+    messageList = {}
+    messageList[0] = {}
+    char_id = request.args.get('char_id', 0, type=str)
+    game_id = request.args.get('game_id', 0, type=str)
+    ret = DA.removeCharacterFromGame(game_id, char_id)
+    messageList[0]['message'] = ret
+    
+    return jsonify(messageList)
 
 @app.route('/character_search_json', methods=['GET', 'POST'])
 def get_searched_characters_json():

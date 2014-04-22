@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="row">
+        <div class="span12">
+            <script type="text/javascript">
+                var cur_game_id;
+                var char_id;
+                $(document).ready(function() {
+                    var args = window.location.search.substring(1).split('?')[0];
+                    var arg1 = args.split('&')[0];
+                    arg1 = arg1.split('=')[1];
+                    var arg2 = args.split('&')[1];
+                    arg2 = arg2.split('=')[1];
+                    alert(arg1 + " " + arg2);
+                    
+                    cur_game_id = arg2;
+                    char_id = arg1;
+                    
+                    var charE = document.getElementById("cid");
+                    var gameE = document.getElementById("gid");
+                    
+                    charE.value = char_id;
+                    gameE.value = cur_game_id;
+                    
+                    var form = document.getElementById("add-form");
+                    form.submit();
+                });
+            </script>
+            
+            <div>
+                <form class="form" id="add-form" method="post" action="/add_character_to_game">
+                    <input id="cid" type="hidden" name="char_id">
+                    <input id="gid" type="hidden" name="game_id"> 
+                </form>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}

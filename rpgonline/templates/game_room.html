@@ -53,7 +53,7 @@
                         $.getJSON( '/add_rights_json', { game_id: cur_game_id, user_id: "{{ session['username'] }}" }, function( data ) {
                             var table_obj = $('#table');
                             $.each(data, function(index, field) {
-                                $('#title').text('Characters')
+                                $('#title').text('Characters in Game')
                                 
                                 if (field.can_add == 'Y') {
                                     console.log("setting visible");
@@ -64,6 +64,8 @@
                                     var e = document.getElementById("add")
                                     e.style.display = 'none';
                                 }
+                                var e = document.getElementById("characters_found")
+                                e.style.display = 'none';
                                 
                             });
                             
@@ -78,7 +80,7 @@
                     $.getJSON( '/character_search_json', { char_name: charName, owner_name : ownerName }, function( data ) {
                         var table_obj = $('#table2');
                         $.each(data, function(index, field) {
-                            $('#title').text('Characters found:')
+                            $('#title2').text('Search Results:')
                                 
                             var table_row = $('<tr>', {id: field.user_id});
                             var table_c_name = $('<td>', {html: field.name});
@@ -99,6 +101,8 @@
                             table_row.append(table_c_edit_link)
                             table_obj.append(table_row);
                         });
+                        var e = document.getElementById("characters_found")
+                        e.style.display = 'block';
                         //console.log(JSON.stringify(data));
                     });
                 }
@@ -123,10 +127,10 @@
                         padding:5px;
                     }
                 </style>
-                <table id="table2" border="3" style="width:600px">
+                <table id="table2" border="0" style="width:600px">
                     <tr>
                         <th colspan="13">
-                            <h3 id="title"></h3>
+                            <h3 id="title2"></h3>
                         </th>
                     </tr>
                     <tr>

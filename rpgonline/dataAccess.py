@@ -125,17 +125,27 @@ class DataAccess():
                 self.session.add(gameChar)
                 self.session.commit()
                 print 'added game char'
+                return 'Character Added'
             else:
                 print 'already in game'
+                return 'Character Already in Game'
         else:
             print 'added character does not exist'
+            return 'Character Does Not Exist'
 
     def removeCharacterFromGame(self, game_id, character_id):
-        gameChar = self.session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
-                                  filter(GameCharacter.character_id == character_id).first()
-        if gameChar != None:
-            self.session.delete(gameChar)
-            self.session.commit()
+        if self.getCharacter(character_id) != None:
+            gameChar = self.session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
+                                      filter(GameCharacter.character_id == character_id).first()
+            if gameChar != None:
+                self.session.delete(gameChar)
+                self.session.commit()
+                return 'Character Removed'
+            else:
+                return 'Character Was Not In Game'
+        else:
+            return 'Character Does Not Exist'
+            
 
     def deleteGame(self, game_id):
         for gameChar in self.session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
