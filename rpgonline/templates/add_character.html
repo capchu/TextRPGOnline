@@ -13,8 +13,22 @@
                     arg2 = arg2.split('=')[1];
                     alert(arg1 + " " + agr2);
                     
+                    cur_game_id = arg2;
+                    char_id = agr1;
+                    
+                    var charE = document.getElementById("cid");
+                    var gameE = document.getElementById("gid");
+                    
+                    charE.value;
                 });
             </script>
+            
+            <div>
+                <form class="form" id="add-form" method="post" action="">
+                    <input id="cid" type="hidden" name="char_id">
+                    <input id="gid" type="hidden" name="game_id"> 
+                </form>
+            </div>
             
         </div>
     </div>

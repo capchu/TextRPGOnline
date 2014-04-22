@@ -82,14 +82,20 @@ def get_searched_characters():
     
     return render_template('game_room.html')
 
+@app.route('/add_character', methods=['GET', 'POST'])
+def go_to_add_character():
+    return render_template('add_character.html')
+
 @app.route('/add_character_to_game', methods=['GET', 'POST'])
 def add_character_to_game():
     DA = DataAccess()
     if request.method == 'POST':
+	print 'in post'
         char_id = request.form['char_id']
         game_id = request.form['game_id']
         DA.addCharacterToGame(game_id, char_id)
-    
+    else:
+	print 'not in post'
     return render_template('game_room.html')
 
 @app.route('/game_room')

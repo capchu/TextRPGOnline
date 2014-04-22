@@ -121,6 +121,7 @@ class DataAccess():
                 gameChar = GameCharacter(game_id = game_id, character_id = character_id)
                 session.add(gameChar)
                 session.commit()
+                print 'added game char'
             else:
                 print 'already in game'
         else:
