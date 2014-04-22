@@ -86,9 +86,7 @@ def get_searched_characters():
 def go_to_add_character():
     return render_template('add_character.html')
 
-@app.route('/remove_character', methods=['GET', 'POST'])
-def go_to_remove_character():
-    return render_template('remove_character.html')
+
 
 @app.route('/game_room')
 def game_room():
@@ -105,6 +103,71 @@ def character_create():
     #if 'username' not in session:
      #   return render_template('index.html')
     return render_template('character_create.html')
+
+@app.route('/submit_edit', methods=['GET', 'POST'])
+def submit_edit():
+    if 'username' not in session:
+        return render_template('index.html')
+    
+    if request.method == 'POST':
+        CDA = ClientDataAccess()
+        character =  json.loads(request.data)
+        abilities_list = []
+        weakness_list = []
+        attacks_list = []
+        for a in character['ability_list']:
+            abilities_list.append(ClientAbility(a['id'],
+                                                a['name'],
+                                                a['value'],
+                                                a['note']))
+        for w in character['weakness_list']:
+            weakness_list.append(ClientWeakness(w['id'],
+                                                w['name'],
+                                                w['value'],
+                                                w['note']))
+        for a in character['attack_list']:
+            perks = []
+            flaws = []
+            
+            for p in a['perks']:
+                perks.append(ClientPerk(p['perk_id'],
+                                        p['name'],
+                                        p['multiplier'],
+                                        p['note']))
+            for f in a['flaws']:
+                flaws.append(ClientFlaw(f['flaw_id'],
+                                        f['name'],
+                                        f['multiplier'],
+                                        f['note']))
+            
+            attacks_list.append(ClientAttack(a['name'],
+                                             perks,
+                                             flaws,
+                                             a['roll'],
+                                             a['dx'],
+                                             a['end'],
+                                             a['note']))
+        
+        new_character = ClientCharacter(character['user_id'],
+                                        character['name'],
+                                        character['combat_notes'],
+                                        abilities_list,
+                                        weakness_list,
+                                        attacks_list,
+                                        character['defense'],
+                                        character['health'],
+                                        character['endurance'],
+                                        character['tv'],
+                                        character['background'],
+                                        character['appearance'],
+                                        character['personality'],
+                                        character['other_notes'],
+                                        character['portrait_url'],
+                                        character['icon_url'],)
+        CDA.updateClientCharacter(new_character,character['char_id'])
+        return render_template('characters.html')
+    else:
+        abort(400)
 
 @app.route('/character_submit', methods=['GET', 'POST'])
 def character_submit():
@@ -171,7 +234,7 @@ def character_submit():
     else:
         abort(400)
 
-@app.route('/character_edit')
+@app.route('/character_edit', methods=['GET', 'POST'])
 def character_edit():
     if 'username' not in session:
 	return render_template('index.html')
