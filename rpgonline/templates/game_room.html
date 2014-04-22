@@ -27,8 +27,8 @@
                                 }
                                 
                                 if (field.can_remove == 'Y') {
-                                    var remove_link = "/remove_character?char_id="+field.char_id+"&game_id="+cur_game_id
-                                    var remove_character_link = $('<td>', {html: "<a href='"+remove_link+"'>remove</a>"});
+                                    var remove_char = "/remove_character?char_id=" + field.char_id
+                                    var remove_character_link = $('<td>', {html: "<a href='"+remove_char+"'>remove</a>"});
                                 }else{
                                     var remove_character_link = $('<td>', {html: ""});
                                 }

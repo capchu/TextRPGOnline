@@ -86,9 +86,7 @@ def get_searched_characters():
 def go_to_add_character():
     return render_template('add_character.html')
 
-@app.route('/remove_character', methods=['GET', 'POST'])
-def go_to_remove_character():
-    return render_template('remove_character.html')
+
 
 @app.route('/game_room')
 def game_room():
