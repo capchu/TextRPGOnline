@@ -9,6 +9,11 @@ from flask.ext.mail import Mail, Message
 from dataAccess import DataAccess
 from databaseCreation import Character
 from clientCharacter import ClientCharacter
+from clientCharacter import ClientAbility
+from clientCharacter import ClientWeakness
+from clientCharacter import ClientPerk
+from clientCharacter import ClientFlaw
+from clientCharacter import ClientAttack
 from clientCharacter import ClientDataAccess
 
 # create our little application :)
@@ -84,14 +89,15 @@ def character_create():
 
 @app.route('/character_submit', methods=['GET', 'POST'])
 def character_submit():
-    #if 'username' not in session:
-    #    return render_template('index.html')
+    if 'username' not in session:
+        return render_template('index.html')
     
     if request.method == 'POST':
         CDA = ClientDataAccess()
         character =  json.loads(request.data)
         abilities_list = []
         weakness_list = []
+        attacks_list = []
         for a in character['ability_list']:
             abilities_list.append(ClientAbility(a['id'],
                                                 a['name'],
@@ -103,14 +109,34 @@ def character_submit():
                                                 w['value'],
                                                 w['note']))
         for a in character['attack_list']:
-            code
+            perks = []
+            flaws = []
+            
+            for p in a['perks']:
+                perks.append(ClientPerk(p['perk_id'],
+                                        p['name'],
+                                        p['multiplier'],
+                                        p['note']))
+            for f in a['flaws']:
+                flaws.append(ClientFlaw(f['flaw_id'],
+                                        f['name'],
+                                        f['multiplier'],
+                                        f['note']))
+            
+            attacks_list.append(ClientAttack(a['name'],
+                                             perks,
+                                             flaws,
+                                             a['roll'],
+                                             a['dx'],
+                                             a['end'],
+                                             a['note']))
         
         new_character = ClientCharacter(character['user_id'],
                                         character['name'],
                                         character['combat_notes'],
-                                        ability_list,
+                                        abilities_list,
                                         weakness_list,
-                                        attack_list,
+                                        attacks_list,
                                         character['defense'],
                                         character['health'],
                                         character['endurance'],
