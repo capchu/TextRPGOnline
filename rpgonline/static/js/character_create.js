@@ -408,17 +408,14 @@ function add__new_character() {
     character_obj["other_notes"] = $('#othernotes_text').val();
     character_obj["portrait_url"] = $('#portraiturl_text').val();
     character_obj["icon_url"] = $('#portraiturl_text').val();
-    console.log(JSON.stringify(character_obj, null, 2));
-    //var json = JSON.parse(character_obj);
 
     $.ajax({
         type: "POST",
         contentType: "application/json",
         url: "/character_submit",
         data: JSON.stringify(character_obj),
-        sucess: function(data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
-            },
+        success: function(data, status) {},
         dataType: "json"
     });
+    window.location.replace('/characters');
 }

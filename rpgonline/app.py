@@ -148,7 +148,9 @@ def character_submit():
                                         character['portrait_url'],
                                         character['icon_url'],)
         CDA.addClientCharacter(new_character)
-    return render_template('characters.html')
+        return render_template('characters.html')
+    else:
+        abort(400)
 
 @app.route('/character_edit')
 def character_edit():
