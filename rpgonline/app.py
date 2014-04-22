@@ -191,7 +191,7 @@ def login():
 	    email1 = "Sending login code to %s" % email
 	    mail.send(msg)
 
-	    return render_template('login.html', email1=email1, email2=email2)
+	    return render_template('login.html', email1=email1, email2=email2, result=email)
 
     return render_template('login.html', email1=email1, email2=email2)
 
@@ -308,9 +308,6 @@ def specific_character_json():
     character_info['name'] = character.name
     character_info['combat_notes'] = character.combat_notes
 
-    if character_info['user_id'] != username:
-	return render_template('characters.html')
-    
     character_info['ability_list'] = {}
     count = 0
     for a in character.abilities:
