@@ -24,79 +24,81 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-database = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'ova.db')
-engine = create_engine(database, echo=False)
-Session = sessionmaker(bind=engine)
-session = Session()
-
 class DataAccess():
+    database = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'ova.db')
+    engine = create_engine(database, echo=False)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    
     def __init__(self):
+        #Session = sessionmaker(bind=engine)
+        #session = Session()
         self.name = 'doStuff'
         #self.addBaseData()
 
     def getSession(self):
-        return session
+        return self.session
     # Returns a list of objects (can be found in databaseCreation) of the type resquested
     def getAbilities(self):
-        return session.query(Ability).order_by(Ability.name)
+        return self.session.query(Ability).order_by(Ability.name)
             
     def getWeaknesses(self):
-        return session.query(Weakness).order_by(Weakness.name)
+        return self.session.query(Weakness).order_by(Weakness.name)
             
     def getFlaws(self):
-        return session.query(Flaw).order_by(Flaw.name)
+        return self.session.query(Flaw).order_by(Flaw.name)
             
     def getPerks(self):
-        return session.query(Perk).order_by(Perk.name)
+        return self.session.query(Perk).order_by(Perk.name)
 
     def getCharacters(self, username):
-        return session.query(Character).filter(Character.user_id==username)
+        return self.session.query(Character).filter(Character.user_id==username)
 
     def getCharacter(self, char_id):
-        return session.query(Character).filter(Character.id==char_id).first()
+        return self.session.query(Character).filter(Character.id==char_id).first()
 
     def getCharAbilities(self, char_id):
-        return session.query(CharacterAbility).filter(CharacterAbility.character_id==char_id)
+        return self.session.query(CharacterAbility).filter(CharacterAbility.character_id==char_id)
 
     def getAbilityDetails(self, ability_id):
-        return session.query(Ability).filter(Ability.id==ability_id).first()
+        return self.session.query(Ability).filter(Ability.id==ability_id).first()
 
     def getCharWeaknesses(self, char_id):
-        return session.query(CharacterWeakness).filter(CharacterWeakness.character_id==char_id)
+        return self.session.query(CharacterWeakness).filter(CharacterWeakness.character_id==char_id)
 
     def getWeaknessDetails(self, weakness_id):
-        return session.query(Weakness).filter(Weakness.id==weakness_id).first()
+        return self.session.query(Weakness).filter(Weakness.id==weakness_id).first()
 
     def getCharAttacks(self, char_id):
-        return session.query(CharacterAttack).filter(CharacterAttack.character_id==char_id)
+        return self.session.query(CharacterAttack).filter(CharacterAttack.character_id==char_id)
 
     def getAttackFlaws(self, attack_id):
-        return session.query(AttackFlaw).filter(AttackFlaw.attack_id==attack_id)
+        return self.session.query(AttackFlaw).filter(AttackFlaw.attack_id==attack_id)
 
     def getFlawDetails(self, flaw_id):
-        return session.query(Flaw).filter(Flaw.id==flaw_id).first()
+        return self.session.query(Flaw).filter(Flaw.id==flaw_id).first()
 
     def getAttackPerks(self, attack_id):
-        return session.query(AttackPerk).filter(AttackPerk.attack_id==attack_id)
+        return self.session.query(AttackPerk).filter(AttackPerk.attack_id==attack_id)
 
     def getPerkDetails(self, perk_id):
-        return session.query(Perk).filter(Perk.id==perk_id).first()
+        return self.session.query(Perk).filter(Perk.id==perk_id).first()
 
     def addGame(self, owner_id, name):
         game = Game(owner_id=owner_id, name=name)
-        session.add(game)
-        session.commit()
+        self.session.add(game)
+        self.session.commit()
         return game
     
     def getGames(self):
-        return session.query(Game)
+        return self.session.query(Game)
 
     def getGameOwner(self, game_id):
-        return session.query(Game).filter(Game.id == game_id).first().owner_id
+        return self.session.query(Game).filter(Game.id == game_id).first().owner_id
 
     def getGameCharacters(self, game_id):
         chars = []
-        for gc in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
+        for gc in self.session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
             char = self.getCharacter(gc.character_id)
             if char != None:
                 chars.append(char)
@@ -106,7 +108,7 @@ class DataAccess():
     
     def searchGameCharacters(self, name, user):
         chars = []
-        for char in session.query(Character).filter(Character.name == name).filter(Character.user_id == user):
+        for char in self.session.query(Character).filter(Character.name == name).filter(Character.user_id == user):
             if char != None:
                 chars.append(char)
             else:
@@ -115,93 +117,93 @@ class DataAccess():
 
     def addCharacterToGame(self, game_id, character_id):
         if self.getCharacter(character_id) != None:
-            gameChar = session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
+            gameChar = self.session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
                                   filter(GameCharacter.character_id == character_id).first()
             if gameChar == None:
                 gameChar = GameCharacter(game_id = game_id, character_id = character_id)
-                session.add(gameChar)
-                session.commit()
+                self.session.add(gameChar)
+                self.session.commit()
             else:
                 print 'already in game'
         else:
             print 'added character does not exist'
 
     def removeCharacterFromGame(self, game_id, character_id):
-        gameChar = session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
+        gameChar = self.session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
                                   filter(GameCharacter.character_id == character_id).first()
         if gameChar != None:
-            session.delete(gameChar)
-            session.commit()
+            self.session.delete(gameChar)
+            self.session.commit()
 
     def deleteGame(self, game_id):
-        for gameChar in session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
-            session.delete(gameChar)
+        for gameChar in self.session.query(GameCharacter).filter(GameCharacter.game_id == game_id):
+            self.session.delete(gameChar)
 
-        game = session.query(Game).filter(Game.id == game_id).first()
+        game = self.session.query(Game).filter(Game.id == game_id).first()
         if game != None:
-            session.delete(game)
+            self.session.delete(game)
             
-        session.commit()
+        self.session.commit()
 
     # Print them to console for testing
     def printAbilities(self):
         print 'Abilities'
-        for ab in session.query(Ability).order_by(Ability.name):
+        for ab in self.session.query(Ability).order_by(Ability.name):
             print ab.__repr__()
             
     def printWeaknesses(self):
         print 'Weaknesses'
-        for wk in session.query(Weakness).order_by(Weakness.name):
+        for wk in self.session.query(Weakness).order_by(Weakness.name):
             print wk.__repr__()
             
     def printFlaws(self):
         print 'Flaws'
-        for fl in session.query(Flaw).order_by(Flaw.name):
+        for fl in self.session.query(Flaw).order_by(Flaw.name):
             print fl.__repr__()
             
     def printPerks(self):
         print 'Perks'
-        for pk in session.query(Perk).order_by(Perk.name):
+        for pk in self.session.query(Perk).order_by(Perk.name):
             print pk.__repr__()
 
     def printDummyCharacter(self):
-        num = session.query(Character).filter(Character.user_id=='Sid').count()
+        num = self.session.query(Character).filter(Character.user_id=='Sid').count()
         print "number of characters: " + str(num)
-        char = session.query(Character).filter(Character.user_id=='Sid')[0]
+        char = self.session.query(Character).filter(Character.user_id=='Sid')[0]
         print char.name
         print char.health
-        attacks = session.query(CharacterAttack).filter(CharacterAttack.character_id==char.id)
+        attacks = self.session.query(CharacterAttack).filter(CharacterAttack.character_id==char.id)
         print attacks[0].name
 
     def addDummyCharacter(self):
         character = Character(user_id='ova.app.test@gmail.com', name='Codex', combat_notes='', defense='2', health='40', endurance='60', tv='22', background='codex is a member of the knights of good', appearance='red hair', personality='strong willed', other_notes='she is a priestess')
-        session.add(character)
-        session.commit()
+        self.session.add(character)
+        self.session.commit()
         attack1 = CharacterAttack(character_id=character.id, name='holy cross', roll='5', dx='6', end='0', note='does aoe damage')
-        session.add(attack1)
-        session.commit()
-        perk1 = session.query(Perk).filter(Perk.name=='Ranged')[0]
-        flaw1 = session.query(Flaw).filter(Flaw.name=='No Damage')[0]
+        self.session.add(attack1)
+        self.session.commit()
+        perk1 = self.session.query(Perk).filter(Perk.name=='Ranged')[0]
+        flaw1 = self.session.query(Flaw).filter(Flaw.name=='No Damage')[0]
         af1 = AttackFlaw(flaw_id=flaw1.id, attack_id=attack1.id, multiplier='1', note='')
-        session.add(af1)
-        session.commit()
+        self.session.add(af1)
+        self.session.commit()
         ap1 = AttackPerk(perk_id=perk1.id, attack_id=attack1.id, multiplier='1', note='')
-        session.add(ap1)
-        session.commit()
-        ability1 = session.query(Ability).filter(Ability.name=='Agile')[0]
-        weakness1 = session.query(Weakness).filter(Weakness.name=='Ageism')[0]
+        self.session.add(ap1)
+        self.session.commit()
+        ability1 = self.session.query(Ability).filter(Ability.name=='Agile')[0]
+        weakness1 = self.session.query(Weakness).filter(Weakness.name=='Ageism')[0]
         ca1 = CharacterAbility(ability_id=ability1.id,
                                character_id=character.id,
                                ability_value='+3',
                                ability_note='')
-        session.add(ca1)
-        session.commit()
+        self.session.add(ca1)
+        self.session.commit()
         cw1 = CharacterWeakness(weakness_id=weakness1.id,
                                character_id=character.id,
                                weakness_value='-3',
                                weakness_note='')
-        session.add(cw1)
-        session.commit()
+        self.session.add(cw1)
+        self.session.commit()
 
     def addDummy(self):
         test_ability = Ability(name='test', description='this is a test ability')
@@ -209,11 +211,11 @@ class DataAccess():
         test_flaw = Flaw(name='test', description='this is a test flaw', cost=-15, multiples='Y')
         test_perk = Perk(name='test', description='this is a test perk', cost=15, multiples='N')
 
-        session.add(test_ability)
-        session.add(test_weakness)
-        session.add(test_flaw)
-        session.add(test_perk)
-        session.commit()
+        self.session.add(test_ability)
+        self.session.add(test_weakness)
+        self.session.add(test_flaw)
+        self.session.add(test_perk)
+        self.session.commit()
 
     #ONLY RUN THIS ONCE AFTER CREATING A NEW DB (otherwise we will get multiples of every row)
     def addBaseData(self):
@@ -243,7 +245,7 @@ class DataAccess():
         for stmnt in sqlText.split(splitOn):
             connection.execute(stmnt)
             
-        session.commit()
+        self.session.commit()
         
         
         
