@@ -12,11 +12,15 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-database = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'ova.db')
-engine = create_engine(database, echo=False)
 Base = declarative_base()
 
 class Ability(Base):
+    #database = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'ova.db')
+    #engine = create_engine(database, echo=False)
+    #Base.metadata.create_all(engine)
+    #Session = sessionmaker(bind=engine)
+    #session = Session()
+    
     __tablename__ = 'abilities'
     id = Column(Integer, Sequence('ability_id_seq'), primary_key=True)
     name = Column(String(50))
@@ -162,11 +166,6 @@ class GameCharacter(Base):
     def __repr__(self):
         return "<GameCharacters(game_id='%s', character_id='%s')>" % (
                                 self.game_id, self.character_id)
-
-
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
 
 
     
