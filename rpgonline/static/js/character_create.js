@@ -41,6 +41,7 @@ $(document).ready(function() {
     $("#flawadd_btn").on("click", add_to_flaw_table);
     $("#attackadd_btn").on("click", add_to_attack_table);   
     $("#submit_btn").on("click", add__new_character);
+    $("#edit_btn").on("click", edit_character);
 });
 
 $(document).on('click','#delete_weaknesses', function()
@@ -355,6 +356,130 @@ function update_attack_table() {
         
         table_obj.append(table_row);
     }
+}
+
+function edit_character() {
+    var character_obj = {
+	char_id: "",
+        user_id: "",
+        name: "",
+        combat_notes: "",
+        ability_list: [],
+        weakness_list: [],
+        attack_list: [],
+        defense: "",
+        health: "",
+        endurance: "",
+        tv: "",
+        background: "",
+        appearance: "",
+        personality: "",
+        other_notes: "",
+        portrait_url: "",
+        icon_url: ""
+    };
+    
+    for (var i=0;i<ability_list.length;i++) {
+        var ability_obj = {
+            id: "",
+            name: "",
+            value: "",
+            note: "",
+        };
+        ability_obj.id = ability_list[i][0];
+        ability_obj.name = ability_list[i][1];
+        ability_obj.value = ability_list[i][2];
+        ability_obj.note = ability_list[i][3];
+        character_obj['ability_list'].push(ability_obj);
+    }
+    
+    for (var i=0;i<weaknesses_list.length;i++) {
+        var weakness_obj = {
+            id: "",
+            name: "",
+            value: "",
+            note: "",
+        };
+        weakness_obj.id = weaknesses_list[i][0];
+        weakness_obj.name = weaknesses_list[i][1];
+        weakness_obj.value = weaknesses_list[i][2];
+        weakness_obj.note = weaknesses_list[i][3];
+        character_obj['weakness_list'].push(weakness_obj);
+    }
+    
+    for (var i=0;i<attack_list.length;i++) {
+        var attack_obj = {
+            name: "",
+            perks: [],
+            flaws: [],
+            roll: "",
+            dx: "",
+            end: "",
+            note: "",
+        };
+        
+        for (var p=0;p<attack_list[i][1].length;p++) {
+            var perk_obj = {
+                perk_id: "",
+                name: "",
+                multiplier: "",
+                note: ""
+            }
+            perk_obj.perk_id = attack_list[i][1][p][0];
+            perk_obj.name = attack_list[i][1][p][1];
+            perk_obj.multiplier = attack_list[i][1][p][2];
+            perk_obj.note = attack_list[i][1][p][3];
+            attack_obj['perks'].push(perk_obj);
+        }
+        
+        for (var f=0;f<attack_list[i][2].length;f++) {
+            var flaw_obj = {
+                flaw_id: "",
+                name: "",
+                multiplier: "",
+                note: ""
+            }
+            flaw_obj.flaw_id = attack_list[i][2][f][0];
+            flaw_obj.name = attack_list[i][2][f][1];
+            flaw_obj.multiplier = attack_list[i][2][f][2];
+            flaw_obj.note = attack_list[i][2][f][3];
+            attack_obj['flaws'].push(flaw_obj);
+        }
+        
+        attack_obj['name'] = attack_list[i][0];
+        attack_obj['roll'] = attack_list[i][3];
+        attack_obj['dx'] = attack_list[i][4];
+        attack_obj['end'] = attack_list[i][5];
+        attack_obj['note'] = attack_list[i][6];
+        character_obj['attack_list'].push(attack_obj);
+    }
+ 
+    var charId = window.location.search.substring(1).split('=')[1];
+
+    character_obj["char_id"] = charId
+    character_obj["user_id"] = $('#username').text();
+    character_obj["name"] = $('#name_text').val();
+    character_obj["combat_notes"] = $('#combatnotes_text').val();
+    character_obj["defense"] = $('#statsdefense_text').val();
+    character_obj["health"] = $('#statshealth_text').val();
+    character_obj["endurance"] = $('#statsedurance_text').val();
+    character_obj["tv"] = $('#statstv_text').val();
+    character_obj["background"] = $('#background_text').val();
+    character_obj["appearance"] = $('#appearance_text').val();
+    character_obj["personality"] = $('#personality_text').val();
+    character_obj["other_notes"] = $('#othernotes_text').val();
+    character_obj["portrait_url"] = $('#portraiturl_text').val();
+    character_obj["icon_url"] = $('#portraiturl_text').val();
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/submit_edit",
+        data: JSON.stringify(character_obj),
+        success: function(data, status) {},
+        dataType: "json"
+    });
+    window.location.replace('/characters');
 }
 
 function add__new_character() {
