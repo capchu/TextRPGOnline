@@ -25,7 +25,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
 class DataAccess():
-    database = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'ova.db')
+    database = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'ova.db?check_same_thread=False')
     engine = create_engine(database, echo=False)
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -121,8 +121,10 @@ class DataAccess():
                                   filter(GameCharacter.character_id == character_id).first()
             if gameChar == None:
                 gameChar = GameCharacter(game_id = game_id, character_id = character_id)
+
                 self.session.add(gameChar)
                 self.session.commit()
+                print 'added game char'
             else:
                 print 'already in game'
         else:
