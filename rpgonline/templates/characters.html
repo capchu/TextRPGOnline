@@ -24,6 +24,7 @@
                                 var table_c_portrait_url = $('<td>', {html: field.portrait_url});
                                 var table_c_icon_url = $('<td>', {html: field.icon_url});
                                 var table_c_edit_link = $('<td><a href="/character_edit?name=' + field.char_id + '">edit</a>');
+				var table_c_delete_char = $('<td><a href="/character_delete?id=' + field.char_id + '">delete</a>');
                                 
                                 table_row.append(table_c_name);
                                 table_row.append(table_c_combatnotes);
@@ -37,7 +38,8 @@
                                 table_row.append(table_c_other_notes);
                                 table_row.append(table_c_portrait_url);
                                 table_row.append(table_c_icon_url);
-                                table_row.append(table_c_edit_link)
+                                table_row.append(table_c_edit_link);
+				table_row.append(table_c_delete_char);
                                 table_obj.append(table_row);
                             });
                             //console.log(JSON.stringify(data));
@@ -58,7 +60,7 @@
                 </style>
                 <table id="table" border="3" style="width:600px">
                     <tr>
-                        <th colspan="13">
+                        <th colspan="14">
                             <h3 id="title"></h3>
                         </th>
                     </tr>

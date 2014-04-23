@@ -100,6 +100,16 @@ def characters():
         return render_template('login.html')
     return render_template('characters.html')
 
+@app.route('/character_delete', methods=['GET', 'POST'])
+def character_delete():
+    if 'username' not in session:
+        return render_template('login.html')
+    print "Testing"
+    CDA = ClientDataAccess()
+    CDA.deleteClientCharacter(request.args.get('id', 0, type=int))
+    print request.args.get('id', 0, type=int)
+    return render_template('characters.html')
+
 @app.route('/character_create')
 def character_create():
     if 'username' not in session:
