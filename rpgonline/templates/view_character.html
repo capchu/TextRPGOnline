@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
-    <script type="text/javascript" src="/static/js/character_create.js"></script> 
+    <script type="text/javascript" src="/static/js/character_view.js"></script> 
         <script type="text/javascript">
             $(document).ready(function() {
                 var charName = window.location.search.substring(1).split('=')[1];
@@ -103,7 +103,7 @@
        }
     </style>
     <div class="row">
-        <div class="span12" style="text-align: center;"><h3>Character Creation</h3><p id="username">{{ session['username'] }}</p></div>
+        <div class="span12" style="text-align: center;"><h3>Character View</h3><p id="username"></p></div>
     </div>
     <div class="row">
         <div style="text-align: center;">
