@@ -5,7 +5,7 @@ import os
 import string
 import sqlite3
 from flask import Flask, jsonify, json, request, session, g, redirect, url_for, abort, \
-     render_template, flash
+    render_template, flash
 from flask.ext.mail import Mail, Message
 from dataAccess import DataAccess
 from databaseCreation import Character
@@ -178,6 +178,7 @@ def submit_edit():
                                         character['portrait_url'],
                                         character['icon_url'],)
         CDA.updateClientCharacter(new_character,character['char_id'])
+
         return render_template('characters.html')
     else:
         abort(400)
@@ -186,7 +187,7 @@ def submit_edit():
 def character_submit():
     if 'username' not in session:
         return render_template('index.html')
-    
+
     if request.method == 'POST':
         CDA = ClientDataAccess()
         character =  json.loads(request.form['json_str'])
@@ -206,7 +207,7 @@ def character_submit():
         for a in character['attack_list']:
             perks = []
             flaws = []
-            
+	    
             for p in a['perks']:
                 perks.append(ClientPerk(p['perk_id'],
                                         p['name'],
@@ -628,7 +629,7 @@ def all_flaws_json():
     for a in flaws:
         flaw_info[a.id] = {}
         flaw_info[a.id]['id'] = a.id
-        flaw_info[a.id]['name'] = a.name
+	flaw_info[a.id]['name'] = a.name
 
     return jsonify(flaw_info)
 
