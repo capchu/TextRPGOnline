@@ -158,24 +158,21 @@
                         <div class="span9 offset1" style="background: #336699;">
                             <div class="span9"><h4>Add Attack</h4><hr width="660"></div>
                             <div class="span4">
-                                <div>
+                                <div class="span4">
                                     Name: <input id="attackname_text" type="text" class="span3  pull-right" placeholder="Punch">
                                 </div>
-                                <div class="span4"><br></div>
-                                <div>
-                                    Roll: <input id="attackroll_text" type="text" class="span3  pull-right" placeholder="">
+                                <div class="span4">
+                                    Roll:<input id="attackroll_text" type="text" class="span3  pull-right" placeholder="">
                                 </div>
-                                <div class="span4"><br></div>
-                                <div>
+                                <div class="span4">
                                     DX: <input id="attackdx_text" type="text" class="span3 pull-right" placeholder="">
                                 </div>
                             </div>
                             <div class="span4">
-                                <div>
+                                <div class="span4">
                                     Cost: <input id="attackcost_text" type="text" class="span3  pull-right" placeholder="">
                                 </div>
-                                <div class="span4"><br></div>
-                                <div>
+                                <div class="span4">
                                     Note: <input id="attacknote_text" type="text" class="span3  pull-right" placeholder="">
                                 </div>
                             </div>
@@ -184,29 +181,34 @@
                                 <div class="row">
                                     <div class="span4" style="text-align: center">
                                         <h5>Add Perk</h5>
-                                        Name:
-                                        <select id="perkname_select" class="span2 pull-right">  
-                                            <option>None</option> 
-                                        </select>
+                                        <div class="span3" style="text-align: left">
+                                            Name:
+                                            <select id="perkname_select" class="span2 pull-right">  
+                                                <option>None</option> 
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
-                                    <div class="span4" style="text-align: center">
-                                        Multiplier:
-                                        <select id="perkmultiplier_select" class="span2 pull-right">  
-                                            <option>+1</option>  
-                                            <option>+2</option>  
-                                            <option>+3</option>  
-                                            <option>+4</option>  
-                                            <option>+5</option>  
-                                        </select>
+                                    <div class="span4" style="text-align: left">
+                                        <div class="span3">
+                                            Multiplier:
+                                            <select id="perkmultiplier_select" class="span2 pull-right">  
+                                                <option>+1</option>  
+                                                <option>+2</option>  
+                                                <option>+3</option>  
+                                                <option>+4</option>  
+                                                <option>+5</option>  
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
-                                    <div class="span4" style="text-align: center">
-                                        Note: <input id="perknote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                    <div class="span4" style="text-align: left">
+                                        <div class="span3">
+                                            Note: <input id="perknote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
                                     <div class="span4">
-                                        <button id="perkadd_btn" type="submit" class="btn pull-right">Add Perk</button>
+                                        <div class="span3">
+                                            <button id="perkadd_btn" type="submit" class="btn pull-right">Add Perk</button>
+                                        </div>
                                     </div>
                                     <br>
                                 </div>
@@ -233,29 +235,34 @@
                                 <div class="row">
                                     <div class="span4" style="text-align: center">
                                         <h5>Add Flaw</h5>
-                                        Name:
-                                        <select id="flawname_select" class="span2 pull-right">  
-                                            <option>None</option>
-                                        </select>
+                                        <div class="span3" style="text-align: left">
+                                            Name:
+                                            <select id="flawname_select" class="span2 pull-right">  
+                                                <option>None</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
-                                    <div class="span4" style="text-align: center">
-                                        Multiplier:
-                                        <select id="flawmultiplier_select" class="span2 pull-right">  
-                                            <option>-1</option>  
-                                            <option>-2</option>  
-                                            <option>-3</option>  
-                                            <option>-4</option>  
-                                            <option>-5</option>  
-                                        </select>
+                                    <div class="span4" style="text-align: left">
+                                        <div class="span3">
+                                            Multiplier:
+                                            <select id="flawmultiplier_select" class="span2 pull-right">  
+                                                <option>-1</option>  
+                                                <option>-2</option>  
+                                                <option>-3</option>  
+                                                <option>-4</option>  
+                                                <option>-5</option>  
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
-                                    <div class="span4" style="text-align: center">
-                                        Note: <input id="flawnote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                    <div class="span4" style="text-align: left">
+                                        <div class="span3">
+                                            Note: <input id="flawnote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
                                     <div class="span4">
-                                        <button id="flawadd_btn" type="submit" class="btn pull-right">Add Flaw</button>
+                                        <div class="span3">
+                                            <button id="flawadd_btn" type="submit" class="btn pull-right">Add Flaw</button>
+                                        </div>
                                     </div>
                                     <br>
                                 </div>

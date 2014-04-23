@@ -592,7 +592,9 @@ function add__new_character() {
     character_obj["other_notes"] = $('#othernotes_text').val();
     character_obj["portrait_url"] = $('#portraiturl_text').val();
     character_obj["icon_url"] = $('#portraiturl_text').val();
-
+    
+    console.log($('#portraiturl_text').val())
+    
     $.post(
         "/character_submit",
         {json_str: JSON.stringify(character_obj)},
