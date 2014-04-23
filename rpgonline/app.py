@@ -179,13 +179,13 @@ def submit_edit():
         CDA.updateClientCharacter(new_character,character['char_id'])
         return render_template('characters.html')
     else:
+	print 'abort'
         abort(400)
 
 @app.route('/character_submit', methods=['GET', 'POST'])
 def character_submit():
     if 'username' not in session:
         return render_template('index.html')
-    
     if request.method == 'POST':
         CDA = ClientDataAccess()
         character =  json.loads(request.form['json_str'])
@@ -224,7 +224,6 @@ def character_submit():
                                              a['dx'],
                                              a['end'],
                                              a['note']))
-        
         new_character = ClientCharacter(character['user_id'],
                                         character['name'],
                                         character['combat_notes'],
@@ -241,11 +240,10 @@ def character_submit():
                                         character['other_notes'],
                                         character['portrait_url'],
                                         character['icon_url'],)
-	print 'jere1'
         CDA.addClientCharacter(new_character)
-	print 'jere2'
         return render_template('characters.html')
     else:
+	print 'abort'
         abort(400)
 
 @app.route('/character_edit', methods=['GET', 'POST'])
