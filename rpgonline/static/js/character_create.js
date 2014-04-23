@@ -590,13 +590,12 @@ function add__new_character() {
     character_obj["other_notes"] = $('#othernotes_text').val();
     character_obj["portrait_url"] = $('#portraiturl_text').val();
     character_obj["icon_url"] = $('#portraiturl_text').val();
-    var j = JSON.stringify(character_obj);
+
     $.post(
         "/character_submit",
-        {json_str: j},
+        {json_str: JSON.stringify(character_obj)},
         function (value, exception) {
             if (value) {
-                //alert(value);
                 window.location = "/characters";
             } else {
                 alert(exception);
