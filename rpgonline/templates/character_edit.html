@@ -1,103 +1,103 @@
 {% extends "base.html" %}
 {% block body %}
     <script type="text/javascript" src="/static/js/character_create.js"></script> 
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var charName = window.location.search.substring(1).split('=')[1];
-                $.getJSON( '/specific_character_json', { name: "{{ session['username'] }}",  id: charName}, function( data ) {
-		    if(data['name']) $("#name_text").val(data['name']);
-		    if(data['portrait_url']) $("#portraiturl_text").val(data['portrait_url']);
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var charName = window.location.search.substring(1).split('=')[1];
+            $.getJSON( '/specific_character_json', { name: "{{ session['username'] }}",  id: charName}, function( data ) {
+        if(data['name']) $("#name_text").val(data['name']);
+        if(data['portrait_url']) $("#portraiturl_text").val(data['portrait_url']);
 
-		    if(data['ability_list'])
-		    {
-			for(var i=0; i < Object.keys(data['ability_list']).length; i++ )
-			{
-			    var ability = [data['ability_list'][i]['ability_id'],
-					   data['ability_list'][i]['ability_name'],
-					   data['ability_list'][i]['ability_value'],
-					   data['ability_list'][i]['ability_note']];
-			    ability_list.push(ability);
-			    update_ability_table();
-			}
-		    }
+        if(data['ability_list'])
+        {
+        for(var i=0; i < Object.keys(data['ability_list']).length; i++ )
+        {
+            var ability = [data['ability_list'][i]['ability_id'],
+                   data['ability_list'][i]['ability_name'],
+                   data['ability_list'][i]['ability_value'],
+                   data['ability_list'][i]['ability_note']];
+            ability_list.push(ability);
+            update_ability_table();
+        }
+        }
 
-		    if(data['weakness_list'])
-		    {
-			for(var i=0; i < Object.keys(data['weakness_list']).length; i++ )
-			{
-			    var weaknesses = [data['weakness_list'][i]['weakness_id'],
-					      data['weakness_list'][i]['weakness_name'],
-					      data['weakness_list'][i]['weakness_value'],
-					      data['weakness_list'][i]['weakness_note']];
-			    weaknesses_list.push(weaknesses);
-			    update_weakness_table();
-			}
-		    }	
+        if(data['weakness_list'])
+        {
+        for(var i=0; i < Object.keys(data['weakness_list']).length; i++ )
+        {
+            var weaknesses = [data['weakness_list'][i]['weakness_id'],
+                      data['weakness_list'][i]['weakness_name'],
+                      data['weakness_list'][i]['weakness_value'],
+                      data['weakness_list'][i]['weakness_note']];
+            weaknesses_list.push(weaknesses);
+            update_weakness_table();
+        }
+        }	
 
-		    if(data['attack_list'])
-		    {
-			for(var i=0; i < Object.keys(data['attack_list']).length; i++ )
-			{
-			
-			    for(var z=0; z < Object.keys(data['attack_list'][i]['perks']).length; z++ )
-			    {
-				var perk = [data['attack_list'][i]['perks'][z]['perk_id'],
-						data['attack_list'][i]['perks'][z]['perk_name'],
-						data['attack_list'][i]['perks'][z]['multiplier'],
-						data['attack_list'][i]['perks'][z]['note']
-						];
-				perks_list.push(perk);
-				update_perk_table();
-			    }
+        if(data['attack_list'])
+        {
+        for(var i=0; i < Object.keys(data['attack_list']).length; i++ )
+        {
+        
+            for(var z=0; z < Object.keys(data['attack_list'][i]['perks']).length; z++ )
+            {
+            var perk = [data['attack_list'][i]['perks'][z]['perk_id'],
+                    data['attack_list'][i]['perks'][z]['perk_name'],
+                    data['attack_list'][i]['perks'][z]['multiplier'],
+                    data['attack_list'][i]['perks'][z]['note']
+                    ];
+            perks_list.push(perk);
+            update_perk_table();
+            }
 
-			    for(var z=0; z < Object.keys(data['attack_list'][i]['flaws']).length; z++ )
-			    {
-				var flaw = [data['attack_list'][i]['flaws'][z]['flaw_id'],
-						data['attack_list'][i]['flaws'][z]['flaw_name'],
-						data['attack_list'][i]['flaws'][z]['multiplier'],
-						data['attack_list'][i]['flaws'][z]['note']
-						];
-				flaws_list.push(flaw);
-				update_flaw_table();
-			    }
+            for(var z=0; z < Object.keys(data['attack_list'][i]['flaws']).length; z++ )
+            {
+            var flaw = [data['attack_list'][i]['flaws'][z]['flaw_id'],
+                    data['attack_list'][i]['flaws'][z]['flaw_name'],
+                    data['attack_list'][i]['flaws'][z]['multiplier'],
+                    data['attack_list'][i]['flaws'][z]['note']
+                    ];
+            flaws_list.push(flaw);
+            update_flaw_table();
+            }
 
-			    var pl = perks_list.slice();
-    			    var fl = flaws_list.slice();
-    
-			    var attack = [data['attack_list'][i]['name'],
-						pl, fl,
-						data['attack_list'][i]['roll'],
-						data['attack_list'][i]['dx'],
-						data['attack_list'][i]['end'],
-						data['attack_list'][i]['note']
-					    	];
-    
-    			    attack_list.push(attack);
-    
-    			    update_attack_table();
-    			    flaws_list.length = 0;
-    			    perks_list.length = 0;
-    			    update_flaw_table();
-    			    update_perk_table();
-			}
-		    }
+            var pl = perks_list.slice();
+                var fl = flaws_list.slice();
 
-		    if(data['health']) $("#statshealth_text").val(data['health']);
-		    if(data['endurance']) $("#statsedurance_text").val(data['endurance']);    
-		    if(data['defense']) $("#statsdefense_text").val(data['defense']);
-		    if(data['tv']) $("#statstv_text").val(data['tv']);
+            var attack = [data['attack_list'][i]['name'],
+                    pl, fl,
+                    data['attack_list'][i]['roll'],
+                    data['attack_list'][i]['dx'],
+                    data['attack_list'][i]['end'],
+                    data['attack_list'][i]['note']
+                        ];
 
-		    if(data['combat_notes']) $("#combatnotes_text").val(data['combat_notes']);
-		    if(data['background']) $("#background_text").val(data['background']);
-		    if(data['appearance']) $("#appearance_text").val(data['appearance']);
-		    if(data['personality']) $("#personality_text").val(data['personality']);
-		    if(data['other_notes']) $("#othernotes_text").val(data['other_notes']);
-                });
-                
+                attack_list.push(attack);
+
+                update_attack_table();
+                flaws_list.length = 0;
+                perks_list.length = 0;
+                update_flaw_table();
+                update_perk_table();
+        }
+        }
+
+        if(data['health']) $("#statshealth_text").val(data['health']);
+        if(data['endurance']) $("#statsedurance_text").val(data['endurance']);    
+        if(data['defense']) $("#statsdefense_text").val(data['defense']);
+        if(data['tv']) $("#statstv_text").val(data['tv']);
+
+        if(data['combat_notes']) $("#combatnotes_text").val(data['combat_notes']);
+        if(data['background']) $("#background_text").val(data['background']);
+        if(data['appearance']) $("#appearance_text").val(data['appearance']);
+        if(data['personality']) $("#personality_text").val(data['personality']);
+        if(data['other_notes']) $("#othernotes_text").val(data['other_notes']);
             });
+            
+        });
 
 
-        </script>
+    </script>
 
 
     <style>
@@ -106,7 +106,7 @@
        }
     </style>
     <div class="row">
-        <div class="span12" style="text-align: center;"><h3>Character Creation</h3><p id="username">{{ session['username'] }}</p></div>
+        <div class="span12" style="text-align: center;"><h3>Edit Character</h3><p id="username">{{ session['username'] }}</p></div>
     </div>
     <div class="row">
         <div style="text-align: center;">
@@ -118,10 +118,10 @@
                 </div>
                 <div class="module span6">
                     <h3>Character Portrait</h3>
-                    <input id="portraiturl_text" type="text" class="span3" placeholder="Image URL…">
-                    <button id="portraiturl_btn" type="submit" class="btn">Load</button>
+                    <input id="portraiturl_text" type="text" class="span3" placeholder="Image (not implemented)">
+                    <!--<button id="portraiturl_btn" type="submit" class="btn">Load</button>
                     <br><br>
-                    <img src="/static/img/no_char_img.png" alt="logo" width="200" height="200" style="border: 3px black solid">
+                    <img src="/static/img/no_char_img.png" alt="logo" width="200" height="200" style="border: 3px black solid">-->
                     <br><br>
                 </div>
             </div>
@@ -257,24 +257,21 @@
                         <div class="span9 offset1" style="background: #336699;">
                             <div class="span9"><h4>Add Attack</h4><hr width="660"></div>
                             <div class="span4">
-                                <div>
+                                <div class="span4">
                                     Name: <input id="attackname_text" type="text" class="span3  pull-right" placeholder="Punch">
                                 </div>
-                                <div class="span4"><br></div>
-                                <div>
-                                    Roll: <input id="attackroll_text" type="text" class="span3  pull-right" placeholder="">
+                                <div class="span4">
+                                    Roll:<input id="attackroll_text" type="text" class="span3  pull-right" placeholder="">
                                 </div>
-                                <div class="span4"><br></div>
-                                <div>
+                                <div class="span4">
                                     DX: <input id="attackdx_text" type="text" class="span3 pull-right" placeholder="">
                                 </div>
                             </div>
                             <div class="span4">
-                                <div>
+                                <div class="span4">
                                     Cost: <input id="attackcost_text" type="text" class="span3  pull-right" placeholder="">
                                 </div>
-                                <div class="span4"><br></div>
-                                <div>
+                                <div class="span4">
                                     Note: <input id="attacknote_text" type="text" class="span3  pull-right" placeholder="">
                                 </div>
                             </div>
@@ -283,29 +280,34 @@
                                 <div class="row">
                                     <div class="span4" style="text-align: center">
                                         <h5>Add Perk</h5>
-                                        Name:
-                                        <select id="perkname_select" class="span2 pull-right">  
-                                            <option>None</option> 
-                                        </select>
+                                        <div class="span3" style="text-align: left">
+                                            Name:
+                                            <select id="perkname_select" class="span2 pull-right">  
+                                                <option>None</option> 
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
-                                    <div class="span4" style="text-align: center">
-                                        Multiplier:
-                                        <select id="perkmultiplier_select" class="span2 pull-right">  
-                                            <option>+1</option>  
-                                            <option>+2</option>  
-                                            <option>+3</option>  
-                                            <option>+4</option>  
-                                            <option>+5</option>  
-                                        </select>
+                                    <div class="span4" style="text-align: left">
+                                        <div class="span3">
+                                            Multiplier:
+                                            <select id="perkmultiplier_select" class="span2 pull-right">  
+                                                <option>+1</option>  
+                                                <option>+2</option>  
+                                                <option>+3</option>  
+                                                <option>+4</option>  
+                                                <option>+5</option>  
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
-                                    <div class="span4" style="text-align: center">
-                                        Note: <input id="perknote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                    <div class="span4" style="text-align: left">
+                                        <div class="span3">
+                                            Note: <input id="perknote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
                                     <div class="span4">
-                                        <button id="perkadd_btn" type="submit" class="btn pull-right">Add Perk</button>
+                                        <div class="span3">
+                                            <button id="perkadd_btn" type="submit" class="btn pull-right">Add Perk</button>
+                                        </div>
                                     </div>
                                     <br>
                                 </div>
@@ -332,29 +334,34 @@
                                 <div class="row">
                                     <div class="span4" style="text-align: center">
                                         <h5>Add Flaw</h5>
-                                        Name:
-                                        <select id="flawname_select" class="span2 pull-right">  
-                                            <option>None</option>
-                                        </select>
+                                        <div class="span3" style="text-align: left">
+                                            Name:
+                                            <select id="flawname_select" class="span2 pull-right">  
+                                                <option>None</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
-                                    <div class="span4" style="text-align: center">
-                                        Multiplier:
-                                        <select id="flawmultiplier_select" class="span2 pull-right">  
-                                            <option>-1</option>  
-                                            <option>-2</option>  
-                                            <option>-3</option>  
-                                            <option>-4</option>  
-                                            <option>-5</option>  
-                                        </select>
+                                    <div class="span4" style="text-align: left">
+                                        <div class="span3">
+                                            Multiplier:
+                                            <select id="flawmultiplier_select" class="span2 pull-right">  
+                                                <option>-1</option>  
+                                                <option>-2</option>  
+                                                <option>-3</option>  
+                                                <option>-4</option>  
+                                                <option>-5</option>  
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
-                                    <div class="span4" style="text-align: center">
-                                        Note: <input id="flawnote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                    <div class="span4" style="text-align: left">
+                                        <div class="span3">
+                                            Note: <input id="flawnote_text" type="text" class="span2 pull-right" placeholder="Note...">
+                                        </div>
                                     </div>
-                                    <div class="span4"><br></div>
                                     <div class="span4">
-                                        <button id="flawadd_btn" type="submit" class="btn pull-right">Add Flaw</button>
+                                        <div class="span3">
+                                            <button id="flawadd_btn" type="submit" class="btn pull-right">Add Flaw</button>
+                                        </div>
                                     </div>
                                     <br>
                                 </div>

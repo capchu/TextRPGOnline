@@ -80,7 +80,7 @@ def delete_game():
         if 'game_id' in request.form:
             game_id = request.form['game_id']
             DA.deleteGame(game_id)
-	    #print 'game deleted'
+            #print 'game deleted'
             return render_template('games.html')
         else:
             return render_template('games.html')
@@ -227,7 +227,7 @@ def character_submit():
         for a in character['attack_list']:
             perks = []
             flaws = []
-	    
+            
             for p in a['perks']:
                 perks.append(ClientPerk(p['perk_id'],
                                         p['name'],

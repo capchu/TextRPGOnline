@@ -13,6 +13,12 @@
                 background: url('/static/img/background.png');
                 font-family: 'PT Sans', 'sans-serif';
             }
+            
+            a:link {color: #fff; text-decoration: underline; }
+            a:active {color: #fff; text-decoration: underline; }
+            a:visited {color: #fff; text-decoration: underline; }
+            a:hover {color: #FF0000; text-decoration: none; }
+                
             /* Custom container */
             .container {
                 max-width: 960px;
@@ -51,7 +57,7 @@
   
     <body>
         <div class="header">
-            <a href="/"><img src="/static/img/logo.png" alt="logo"></a>
+            <a href="/"><img src="/static/img/logo.png" alt="logo" hspace=10 vspace=10></a>
         </div>
         <nav class="navbar navbar-inverse">
             <div class="navbar-inner">
@@ -74,9 +80,9 @@
                         <div class="pull-right">
                             {% if 'username' in session %}
                                 <span class="nav-welcome" style="color: #fff;">Welcome, {{ session['username'] }} </span>
-                                <a id="logout-button" class="btn btn-primary" href="/login">Logout</a><br>
+                                <a id="logout-button" class="btn btn-primary" href="/login" style="text-decoration: none;">Logout</a><br>
                             {% else %}
-                                <a id="login-button" class="btn btn-primary" href="/login">Login</a>
+                                <a id="login-button" class="btn btn-primary" href="/login" style="text-decoration: none;">Login</a>
                             {% endif %}
                         </div>
                     </div><!--/.nav-collapse -->
@@ -96,7 +102,7 @@
             <div id="footer" class="row-fluid">
                 <div class="span6">
                     <div id="legal">
-                        Created by Chris, Eric, and Chris. Yep, two Chris'.
+                        Created by Chris, Eric, and Chris.
                     </div>
                 </div>
                 <div class="span6" style="text-align: right">

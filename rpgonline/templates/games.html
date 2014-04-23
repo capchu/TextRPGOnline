@@ -2,7 +2,11 @@
 {% block body %}
     <div class="row">
         <div class="span12">
+            <br>
             <h1>Games List Page</h1>
+            <br>
+        </div>
+        <div class="span8 offset2">
             <div>
                 {% if 'username' in session %}
                     <div>
@@ -62,6 +66,7 @@
                 </table>
             </div>
             {{ session['game_id'] }}
+            <br><br><br>
         </div>
     </div>
 {% endblock %}

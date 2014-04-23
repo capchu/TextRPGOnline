@@ -1,27 +1,17 @@
 {% extends "base.html" %}
 {% block body %}
-    <style type="text/css">
-        .jumbotron {
-            text-align: center;
-            padding-top: 40px;
-            padding-bottom: 20px;
-        }
-        .jumbotron h1 {
-            font-size: 48px;
-            line-height: 1;
-        }
-        .jumbotron .btn {
-            font-size: 21px;
-            padding: 14px 24px;
-        }
-    </style>
-    <div class="jumbotron">
-        <h1>Welcome</h1>
-        <p class="lead">RPG Online gives you a platform to play your favorite paper based RPG game with your friends online. You can create and save characters, set up games, and play out your world. All your character information is saved and is always there when you are ready to play. Sign up for an account and upload your characters to start playing.</p>
-        {% if 'username' not in session %}
-        <p>
-            <a href="/login" class="btn btn-lg btn-success">Join Now</a>
-        </p>
-        {% endif %}
+    <div class="row">
+        <div class="span10 offset1" style="text-align: center">
+            <br><br><br>
+            <h1>Welcome</h1>
+            <br>
+            <p class="lead">RPG Online gives you a platform to play your favorite paper based RPG game with your friends online. You can create and save characters, set up games, and play out your world. All your character information is saved and is always there when you are ready to play. Sign up for an account and upload your characters to start playing.</p>
+            {% if 'username' not in session %}
+            <p>
+                <a href="/login" class="btn btn-lg btn-success" style="text-decoration: none;">Join Now</a>
+            </p>
+            {% endif %}
+            <br><br><br>
+        </div>
     </div>
 {% endblock %}

@@ -6,6 +6,7 @@ var perks_list = [];
 var flaws_list = [];
 
 $(document).ready(function() {
+
     $.getJSON( '/all_abilities_json', { name: "{{ session['username'] }}" }, function( data ) {
         $('#abilitiesname_select').find('option').remove();
         $.each(data, function(index, field) {
@@ -472,7 +473,7 @@ function edit_character() {
     character_obj["icon_url"] = $('#portraiturl_text').val();
 
     $.post(
-        "/character_submit",
+        "/submit_edit",
         {json_str: JSON.stringify(character_obj)},
         function (value, exception) {
             if (value) {
@@ -592,8 +593,6 @@ function add__new_character() {
     character_obj["other_notes"] = $('#othernotes_text').val();
     character_obj["portrait_url"] = $('#portraiturl_text').val();
     character_obj["icon_url"] = $('#portraiturl_text').val();
-    
-    console.log($('#portraiturl_text').val())
     
     $.post(
         "/character_submit",

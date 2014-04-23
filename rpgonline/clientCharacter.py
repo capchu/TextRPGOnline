@@ -92,14 +92,14 @@ class ClientDataAccess():
 
     def addClientCharacter(self, cchar):
         DA = DataAccess()
-        print 'in add client character'
         session = DA.getSession()
         character = Character(user_id=cchar.user_id, name=cchar.name,
                         combat_notes=cchar.combat_notes, defense=cchar.defense,
                         health=cchar.health, endurance=cchar.endurance,
                         tv=cchar.tv, background=cchar.background,
                         appearance=cchar.appearance, personality=cchar.personality,
-                        other_notes=cchar.other_notes)
+                        other_notes=cchar.other_notes, portrait_url=cchar.portrait_url,
+                        icon_url=cchar.icon_url)
         session.add(character)
         session.commit()
         cchar.id = character.id
@@ -133,7 +133,6 @@ class ClientDataAccess():
             session.add(cweakness)
             session.commit()
         session.commit()
-        print cchar.id
 
     def updateClientCharacter(self, cchar, char_id):
         DA = DataAccess()
