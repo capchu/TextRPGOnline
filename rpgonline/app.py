@@ -71,17 +71,37 @@ def create_game():
             return render_template('games.html')
     else:
         return render_template('games.html')
-
-@app.route('/character_search', methods=['GET', 'POST'])
-def get_searched_characters():
-    DA = DataAccess()
-    chars = []
-    if request.method == 'POST':
-        name = request.form['char_name']
-        owner_name = request.form['owner_name']
-        chars = searchGameCharacters(name, owner_name)
     
-    return render_template('game_room.html')
+@app.route('/delete_game', methods=['GET', 'POST'])
+def delete_game():
+    DA = DataAccess()
+
+    if request.method == 'POST':
+        if 'game_id' in request.form:
+            game_id = request.form['game_id']
+            DA.deleteGame(game_id)
+	    print 'game deleted'
+            return render_template('games.html')
+        else:
+            return render_template('games.html')
+    else:
+        return render_template('games.html')
+
+#@app.route('/character_search', methods=['GET', 'POST'])
+#def get_searched_characters():
+#    DA = DataAccess()
+#    chars = []
+#    if request.method == 'POST':
+#        name = request.form['char_name']
+#        owner_name = request.form['owner_name']
+#	print type(name)
+#	if name == None:
+#	    print 'noname'
+#	if owner_name == '':
+#	    print 'noname'
+#        chars = searchGameCharacters(name, owner_name)
+#    
+#    return render_template('game_room.html')
 
 @app.route('/add_character', methods=['GET', 'POST'])
 def go_to_add_character():
@@ -452,7 +472,20 @@ def get_searched_characters_json():
     print name
     print owner_name
     
-    characters_object = DA.searchGameCharacters(name, owner_name)
+    characters_object = []
+    
+    if name == '':
+	if owner_name != '':
+	    print 'just owner'
+	    characters_object = DA.searchGameCharactersUserOnly(owner_name)
+    if owner_name == '':
+	if name != '':
+	    print 'just name'
+	    characters_object = DA.searchGameCharactersNameOnly(name)
+    
+    if name != '' and owner_name != '':
+	print 'both'
+	characters_object = DA.searchGameCharacters(name, owner_name)
     
     character_list = {}
     

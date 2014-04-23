@@ -115,6 +115,24 @@ class DataAccess():
                 print 'no char' 
         return chars
 
+    def searchGameCharactersNameOnly(self, name):
+        chars = []
+        for char in self.session.query(Character).filter(Character.name == name):
+            if char != None:
+                chars.append(char)
+            else:
+                print 'no char' 
+        return chars
+    
+    def searchGameCharactersUserOnly(self, user):
+        chars = []
+        for char in self.session.query(Character).filter(Character.user_id == user):
+            if char != None:
+                chars.append(char)
+            else:
+                print 'no char' 
+        return chars
+
     def addCharacterToGame(self, game_id, character_id):
         if self.getCharacter(character_id) != None:
             gameChar = self.session.query(GameCharacter).filter(GameCharacter.game_id == game_id).\
