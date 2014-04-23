@@ -80,7 +80,7 @@ def delete_game():
         if 'game_id' in request.form:
             game_id = request.form['game_id']
             DA.deleteGame(game_id)
-	    print 'game deleted'
+	    #print 'game deleted'
             return render_template('games.html')
         else:
             return render_template('games.html')
@@ -94,11 +94,11 @@ def delete_game():
 #    if request.method == 'POST':
 #        name = request.form['char_name']
 #        owner_name = request.form['owner_name']
-#	print type(name)
+#	#print type(name)
 #	if name == None:
-#	    print 'noname'
+#	    #print 'noname'
 #	if owner_name == '':
-#	    print 'noname'
+#	    #print 'noname'
 #        chars = searchGameCharacters(name, owner_name)
 #    
 #    return render_template('game_room.html')
@@ -125,10 +125,10 @@ def characters():
 def character_delete():
     if 'username' not in session:
         return render_template('login_required.html', message='delete this character')
-
+    
     CDA = ClientDataAccess()
     CDA.deleteClientCharacter(request.args.get('id', 0, type=int))
-    print request.args.get('id', 0, type=int)
+    #print request.args.get('id', 0, type=int)
     return render_template('characters.html')
 
 @app.route('/character_create')
@@ -399,8 +399,8 @@ def get_game_room_json():
     characters = DA.getGameCharacters(request.args.get('game_id', 0, type=str))
     game_owner = DA.getGameOwner(request.args.get('game_id', 0, type=str))
     user = request.args.get('user_id', 0, type=str)
-    print game_owner
-    print user
+    #print game_owner
+    #print user
     charList = {}
 
     for char in characters:
@@ -424,15 +424,15 @@ def get_add_rights_json():
     DA= DataAccess()
     game_owner = DA.getGameOwner(request.args.get('game_id', 0, type=str))
     user = request.args.get('user_id', 0, type=str)
-    print game_owner
-    print user
+    #print game_owner
+    #print user
     rightsList = {}
     rightsList[0] = {}
     if user == game_owner:
-        print 'user is owner'
+        #print 'user is owner'
         rightsList[0]['can_add'] = 'Y'
     else:
-        print 'user not owner'
+        #print 'user not owner'
         rightsList[0]['can_add'] = 'N'
 
     return jsonify(rightsList)
@@ -469,22 +469,22 @@ def get_searched_characters_json():
     name = request.args.get('char_name', 0, type=str)
     owner_name = request.args.get('owner_name', 0, type=str)
     
-    print name
-    print owner_name
+    ##print name
+    #print owner_name
     
     characters_object = []
     
     if name == '':
 	if owner_name != '':
-	    print 'just owner'
+	    #print 'just owner'
 	    characters_object = DA.searchGameCharactersUserOnly(owner_name)
     if owner_name == '':
 	if name != '':
-	    print 'just name'
+	    #print 'just name'
 	    characters_object = DA.searchGameCharactersNameOnly(name)
     
     if name != '' and owner_name != '':
-	print 'both'
+	#print 'both'
 	characters_object = DA.searchGameCharacters(name, owner_name)
     
     character_list = {}
@@ -506,7 +506,7 @@ def get_searched_characters_json():
         character_list[char_obj.id]['portrait_url'] = char_obj.portrait_url
         character_list[char_obj.id]['icon_url'] = char_obj.icon_url
        
-    #print character_list
+    ##print character_list
     return jsonify(character_list)
     
 @app.route('/character_list_json')
@@ -609,7 +609,7 @@ def specific_character_json():
     character_info['portrait_url'] = character.portrait_url
     character_info['icon_url'] = character.icon_url
 
-    print character_info
+    #print character_info
     return jsonify(character_info)
 
 @app.route('/all_abilities_json')

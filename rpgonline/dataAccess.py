@@ -102,8 +102,7 @@ class DataAccess():
             char = self.getCharacter(gc.character_id)
             if char != None:
                 chars.append(char)
-            else:
-                print 'character no longer exists' 
+
         return chars
     
     def searchGameCharacters(self, name, user):
@@ -111,8 +110,7 @@ class DataAccess():
         for char in self.session.query(Character).filter(Character.name == name).filter(Character.user_id == user):
             if char != None:
                 chars.append(char)
-            else:
-                print 'no char' 
+
         return chars
 
     def searchGameCharactersNameOnly(self, name):
@@ -120,8 +118,7 @@ class DataAccess():
         for char in self.session.query(Character).filter(Character.name == name):
             if char != None:
                 chars.append(char)
-            else:
-                print 'no char' 
+
         return chars
     
     def searchGameCharactersUserOnly(self, user):
@@ -129,8 +126,7 @@ class DataAccess():
         for char in self.session.query(Character).filter(Character.user_id == user):
             if char != None:
                 chars.append(char)
-            else:
-                print 'no char' 
+
         return chars
 
     def addCharacterToGame(self, game_id, character_id):
@@ -142,13 +138,13 @@ class DataAccess():
 
                 self.session.add(gameChar)
                 self.session.commit()
-                print 'added game char'
+                #print 'added game char'
                 return 'Character Added'
             else:
-                print 'already in game'
+                #print 'already in game'
                 return 'Character Already in Game'
         else:
-            print 'added character does not exist'
+            #print 'added character does not exist'
             return 'Character Does Not Exist'
 
     def removeCharacterFromGame(self, game_id, character_id):
