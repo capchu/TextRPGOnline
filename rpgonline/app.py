@@ -1,5 +1,6 @@
 # all the imports
 import random
+import sys
 import os
 import string
 import sqlite3
@@ -286,10 +287,18 @@ def login():
     email2 = None
     if request.method == 'POST':
         if 'Code' in request.form:
-            print ('Check: %s') % (login_code)
             email = request.form['Email']
             log_code = request.form['Code']
-    
+            
+            f = open(os.path.abspath('static/users.tmp'), 'r')
+            users = f.readlines()
+            f.close()
+            for u in users:
+                if not u.strip():
+                    continue
+                pair = u.split(' ')
+                login_code[pair[0]] = pair[1].strip()
+                
             if email not in login_code:
                 email2 = "Invalid E-mail and Code combination"
                 return render_template('login.html', email1=email1, email2=email2)
@@ -299,15 +308,35 @@ def login():
     
             session['username'] = email
             del login_code[email]
+            
+            f = open(os.path.abspath('static/users.tmp'), 'w')
+            for l in login_code:
+                line = l + ' ' + login_code[l] + '\n'
+                f.write(line)
+
             return render_template('index.html')
         else:
             email = request.form['Email']
             if email.find('@') == -1:
                 email1 = "%s is not a valid E-mail address" % email
                 return render_template('login.html', email1=email1, email2=email2)
-    
+            
+            f = open(os.path.abspath('static/users.tmp'), 'r')
+            users = f.readlines()
+            f.close()
+            for u in users:
+                if not u.strip():
+                    continue
+                pair = u.split(' ')
+                login_code[pair[0]] = pair[1]
+                
             login_code[email] = get_code()
-            print ('Send: %s') % (login_code)
+            
+            f = open(os.path.abspath('static/users.tmp'), 'w')
+            for l in login_code:
+                line = l + ' ' + login_code[l] + '\n'
+                f.write(line)
+            
             msg = Message("Login Code for RPG Online", 
             recipients=[email])
             msg.body = "login code: %s" % login_code[email]
