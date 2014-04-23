@@ -1,5 +1,6 @@
 # all the imports
 import random
+import sys
 import os
 import string
 import sqlite3
@@ -123,7 +124,7 @@ def submit_edit():
     
     if request.method == 'POST':
         CDA = ClientDataAccess()
-        character =  json.loads(request.data)
+        character =  json.loads(request.form['json_str'])
         abilities_list = []
         weakness_list = []
         attacks_list = []
@@ -179,13 +180,13 @@ def submit_edit():
         CDA.updateClientCharacter(new_character,character['char_id'])
         return render_template('characters.html')
     else:
-	print 'abort'
         abort(400)
 
 @app.route('/character_submit', methods=['GET', 'POST'])
 def character_submit():
     if 'username' not in session:
         return render_template('index.html')
+    
     if request.method == 'POST':
         CDA = ClientDataAccess()
         character =  json.loads(request.form['json_str'])
@@ -224,6 +225,7 @@ def character_submit():
                                              a['dx'],
                                              a['end'],
                                              a['note']))
+        
         new_character = ClientCharacter(character['user_id'],
                                         character['name'],
                                         character['combat_notes'],
@@ -240,16 +242,16 @@ def character_submit():
                                         character['other_notes'],
                                         character['portrait_url'],
                                         character['icon_url'],)
+
         CDA.addClientCharacter(new_character)
         return render_template('characters.html')
     else:
-	print 'abort'
         abort(400)
 
 @app.route('/character_edit', methods=['GET', 'POST'])
 def character_edit():
     if 'username' not in session:
-	return render_template('index.html')
+        return render_template('index.html')
     DA = DataAccess()
     abilities = DA.getAbilities().all()
     weaknesses = DA.getWeaknesses().all()
@@ -286,10 +288,18 @@ def login():
     email2 = None
     if request.method == 'POST':
         if 'Code' in request.form:
-            print ('Check: %s') % (login_code)
             email = request.form['Email']
             log_code = request.form['Code']
-    
+            
+            f = open(os.path.abspath('static/users.tmp'), 'r')
+            users = f.readlines()
+            f.close()
+            for u in users:
+                if not u.strip():
+                    continue
+                pair = u.split(' ')
+                login_code[pair[0]] = pair[1].strip()
+                
             if email not in login_code:
                 email2 = "Invalid E-mail and Code combination"
                 return render_template('login.html', email1=email1, email2=email2)
@@ -299,15 +309,35 @@ def login():
     
             session['username'] = email
             del login_code[email]
+            
+            f = open(os.path.abspath('static/users.tmp'), 'w')
+            for l in login_code:
+                line = l + ' ' + login_code[l] + '\n'
+                f.write(line)
+
             return render_template('index.html')
         else:
             email = request.form['Email']
             if email.find('@') == -1:
                 email1 = "%s is not a valid E-mail address" % email
                 return render_template('login.html', email1=email1, email2=email2)
-    
+            
+            f = open(os.path.abspath('static/users.tmp'), 'r')
+            users = f.readlines()
+            f.close()
+            for u in users:
+                if not u.strip():
+                    continue
+                pair = u.split(' ')
+                login_code[pair[0]] = pair[1]
+                
             login_code[email] = get_code()
-            print ('Send: %s') % (login_code)
+            
+            f = open(os.path.abspath('static/users.tmp'), 'w')
+            for l in login_code:
+                line = l + ' ' + login_code[l] + '\n'
+                f.write(line)
+            
             msg = Message("Login Code for RPG Online", 
             recipients=[email])
             msg.body = "login code: %s" % login_code[email]
@@ -379,10 +409,10 @@ def get_add_rights_json():
     rightsList[0] = {}
     if user == game_owner:
         print 'user is owner'
-	rightsList[0]['can_add'] = 'Y'
+        rightsList[0]['can_add'] = 'Y'
     else:
         print 'user not owner'
-	rightsList[0]['can_add'] = 'N'
+        rightsList[0]['can_add'] = 'N'
 
     return jsonify(rightsList)
 
@@ -444,12 +474,6 @@ def get_searched_characters_json():
        
     #print character_list
     return jsonify(character_list)
-
-@app.route('/add_character_json')
-def add_character_json():
-    CDA = ClientDataAccess()
-    #new_character = ClientCharacter()
-    #CDA.addClientCharacter(new_character)
     
 @app.route('/character_list_json')
 def character_list_json():
@@ -474,14 +498,12 @@ def character_list_json():
         character_list[char_obj.id]['portrait_url'] = char_obj.portrait_url
         character_list[char_obj.id]['icon_url'] = char_obj.icon_url
        
-    #print character_list
     return jsonify(character_list)
 
 @app.route('/specific_character_json')
 def specific_character_json():
     username = request.args.get('name', 0, type=str)
     char_id = request.args.get('id', 0, type=int)
-    #DA = DataAccess()
     CDA = ClientDataAccess()
     character = CDA.getClientCharacter(char_id)
     character_info = {}
@@ -495,20 +517,20 @@ def specific_character_json():
     for a in character.abilities:
         character_info['ability_list'][count] = {}
         character_info['ability_list'][count]['ability_id'] = a.ability_id
-	character_info['ability_list'][count]['ability_name'] = a.name
+        character_info['ability_list'][count]['ability_name'] = a.name
         character_info['ability_list'][count]['ability_value'] = a.value
         character_info['ability_list'][count]['ability_note'] = a.note
-	count += 1
+        count += 1
 
     character_info['weakness_list'] = {}
     count = 0        
     for w in character.weaknesses:
         character_info['weakness_list'][count] = {}
         character_info['weakness_list'][count]['weakness_id'] = w.weakness_id
-	character_info['weakness_list'][count]['weakness_name'] = w.name
+        character_info['weakness_list'][count]['weakness_name'] = w.name
         character_info['weakness_list'][count]['weakness_value'] = w.value
         character_info['weakness_list'][count]['weakness_note'] = w.note
-	count += 1
+        count += 1
 
     character_info['attack_list'] = {}
     count = 0
@@ -516,8 +538,8 @@ def specific_character_json():
         character_info['attack_list'][count] = {}
         character_info['attack_list'][count]['name'] = a.name
         
-	character_info['attack_list'][count]['perks'] = {}
-	num = 0
+        character_info['attack_list'][count]['perks'] = {}
+        num = 0
         for p in a.perks:
             character_info['attack_list'][count]['perks'][num] = {}
             character_info['attack_list'][count]['perks'][num]['perk_id'] = p.perk_id
@@ -526,8 +548,8 @@ def specific_character_json():
             character_info['attack_list'][count]['perks'][num]['note'] = p.note
             num += 1
 
-	character_info['attack_list'][count]['flaws'] = {}
-	num = 0
+        character_info['attack_list'][count]['flaws'] = {}
+        num = 0
         for f in a.flaws:
             character_info['attack_list'][count]['flaws'][num] = {}
             character_info['attack_list'][count]['flaws'][num]['flaw_id'] = f.flaw_id
@@ -540,7 +562,7 @@ def specific_character_json():
         character_info['attack_list'][count]['dx'] = a.dx
         character_info['attack_list'][count]['end'] = a.end
         character_info['attack_list'][count]['note'] = a.note
-	count += 1
+        count += 1
     
     character_info['defense'] = character.defense
     character_info['health'] = character.health
