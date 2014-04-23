@@ -231,7 +231,9 @@ def character_submit():
                                         character['other_notes'],
                                         character['portrait_url'],
                                         character['icon_url'],)
+	print 'jere1'
         CDA.addClientCharacter(new_character)
+	print 'jere2'
         return render_template('characters.html')
     else:
         abort(400)
