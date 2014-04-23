@@ -98,14 +98,14 @@ def game_room():
 @app.route('/characters')
 def characters():
     if 'username' not in session:
-        return render_template('login.html')
+        return render_template('login_required.html', message='view your characters')
     return render_template('characters.html')
 
 @app.route('/character_delete', methods=['GET', 'POST'])
 def character_delete():
     if 'username' not in session:
-        return render_template('login.html')
-    print "Testing"
+        return render_template('login_required.html', message='delete this character')
+
     CDA = ClientDataAccess()
     CDA.deleteClientCharacter(request.args.get('id', 0, type=int))
     print request.args.get('id', 0, type=int)
@@ -114,13 +114,13 @@ def character_delete():
 @app.route('/character_create')
 def character_create():
     if 'username' not in session:
-        return render_template('login.html')
+        return render_template('login_required.html', message='create a character')
     return render_template('character_create.html')
 
 @app.route('/submit_edit', methods=['GET', 'POST'])
 def submit_edit():
     if 'username' not in session:
-        return render_template('index.html')
+        return render_template('login_required.html', message='edit your character')
     
     if request.method == 'POST':
         CDA = ClientDataAccess()
@@ -185,7 +185,7 @@ def submit_edit():
 @app.route('/character_submit', methods=['GET', 'POST'])
 def character_submit():
     if 'username' not in session:
-        return render_template('index.html')
+        return render_template('login_required.html', message='save this character')
     
     if request.method == 'POST':
         CDA = ClientDataAccess()
@@ -251,7 +251,7 @@ def character_submit():
 @app.route('/character_edit', methods=['GET', 'POST'])
 def character_edit():
     if 'username' not in session:
-        return render_template('index.html')
+        return render_template('login_required.html', message='edit this character')
     DA = DataAccess()
     abilities = DA.getAbilities().all()
     weaknesses = DA.getWeaknesses().all()
