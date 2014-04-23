@@ -149,6 +149,8 @@ class ClientDataAccess():
         character.appearance=cchar.appearance
         character.personality=cchar.personality
         character.other_notes=cchar.other_notes
+        character.portrait_url=cchar.portrait_url
+        character.icon_url=cchar.icon_url
         session.add(character)
         session.commit()
         cchar.id = character.id
