@@ -5,7 +5,7 @@ import os
 import string
 import sqlite3
 from flask import Flask, jsonify, json, request, session, g, redirect, url_for, abort, \
-     render_template, flash
+    render_template, flash
 from flask.ext.mail import Mail, Message
 from dataAccess import DataAccess
 from databaseCreation import Character
@@ -71,17 +71,37 @@ def create_game():
             return render_template('games.html')
     else:
         return render_template('games.html')
-
-@app.route('/character_search', methods=['GET', 'POST'])
-def get_searched_characters():
-    DA = DataAccess()
-    chars = []
-    if request.method == 'POST':
-        name = request.form['char_name']
-        owner_name = request.form['owner_name']
-        chars = searchGameCharacters(name, owner_name)
     
-    return render_template('game_room.html')
+@app.route('/delete_game', methods=['GET', 'POST'])
+def delete_game():
+    DA = DataAccess()
+
+    if request.method == 'POST':
+        if 'game_id' in request.form:
+            game_id = request.form['game_id']
+            DA.deleteGame(game_id)
+	    print 'game deleted'
+            return render_template('games.html')
+        else:
+            return render_template('games.html')
+    else:
+        return render_template('games.html')
+
+#@app.route('/character_search', methods=['GET', 'POST'])
+#def get_searched_characters():
+#    DA = DataAccess()
+#    chars = []
+#    if request.method == 'POST':
+#        name = request.form['char_name']
+#        owner_name = request.form['owner_name']
+#	print type(name)
+#	if name == None:
+#	    print 'noname'
+#	if owner_name == '':
+#	    print 'noname'
+#        chars = searchGameCharacters(name, owner_name)
+#    
+#    return render_template('game_room.html')
 
 @app.route('/add_character', methods=['GET', 'POST'])
 def go_to_add_character():
@@ -178,6 +198,7 @@ def submit_edit():
                                         character['portrait_url'],
                                         character['icon_url'],)
         CDA.updateClientCharacter(new_character,character['char_id'])
+
         return render_template('characters.html')
     else:
         abort(400)
@@ -186,7 +207,7 @@ def submit_edit():
 def character_submit():
     if 'username' not in session:
         return render_template('login_required.html', message='save this character')
-    
+
     if request.method == 'POST':
         CDA = ClientDataAccess()
         character =  json.loads(request.form['json_str'])
@@ -206,7 +227,7 @@ def character_submit():
         for a in character['attack_list']:
             perks = []
             flaws = []
-            
+	    
             for p in a['perks']:
                 perks.append(ClientPerk(p['perk_id'],
                                         p['name'],
@@ -451,7 +472,20 @@ def get_searched_characters_json():
     print name
     print owner_name
     
-    characters_object = DA.searchGameCharacters(name, owner_name)
+    characters_object = []
+    
+    if name == '':
+	if owner_name != '':
+	    print 'just owner'
+	    characters_object = DA.searchGameCharactersUserOnly(owner_name)
+    if owner_name == '':
+	if name != '':
+	    print 'just name'
+	    characters_object = DA.searchGameCharactersNameOnly(name)
+    
+    if name != '' and owner_name != '':
+	print 'both'
+	characters_object = DA.searchGameCharacters(name, owner_name)
     
     character_list = {}
     
@@ -628,7 +662,7 @@ def all_flaws_json():
     for a in flaws:
         flaw_info[a.id] = {}
         flaw_info[a.id]['id'] = a.id
-        flaw_info[a.id]['name'] = a.name
+	flaw_info[a.id]['name'] = a.name
 
     return jsonify(flaw_info)
 

@@ -119,7 +119,7 @@
                     gameE.value = cur_game_id;
                     
                     var form = document.getElementById("delete-form");
-                    form.action = "/game_room?game_id=" + cur_game_id;
+                    form.action = "/delete_game?game_id=" + cur_game_id;
                 });
             </script>
             
@@ -184,8 +184,10 @@
                     </tr>
                 </table>
             </div>
-            <div id=delete_div>
-                <form class="form" id="delete-form" action="">
+            <br>
+            <br>
+            <div id=delete_div style="text-align: center;">
+                <form class="form" id="delete-form" method="post" action="">
                     <input id="gid-delete" type="hidden" name="game_id">
                     <input type="submit" value="Delete Game">
                 </form>
