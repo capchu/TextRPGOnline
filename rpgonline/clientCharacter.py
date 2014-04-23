@@ -92,6 +92,7 @@ class ClientDataAccess():
 
     def addClientCharacter(self, cchar):
         DA = DataAccess()
+        print 'in add client character'
         session = DA.getSession()
         character = Character(user_id=cchar.user_id, name=cchar.name,
                         combat_notes=cchar.combat_notes, defense=cchar.defense,
@@ -102,6 +103,7 @@ class ClientDataAccess():
         session.add(character)
         session.commit()
         cchar.id = character.id
+        print 'here1'
         for at in cchar.attacks:
             attack = CharacterAttack(character_id=character.id, name=at.name,
                                 roll=at.roll, dx=at.dx, end=at.end, note=at.note)
@@ -117,7 +119,7 @@ class ClientDataAccess():
                                    multiplier=fl.multiplier, note=fl.note)
                 session.add(aflaw)
                 session.commit()
-
+        print 'here2'
         for ab in cchar.abilities:
             cability = CharacterAbility(ability_id=ab.ability_id,
                                character_id=character.id,
@@ -125,7 +127,7 @@ class ClientDataAccess():
                                ability_note=ab.note)
             session.add(cability)
             session.commit()
-
+        print 'here3'
         for wk in cchar.weaknesses:
             cweakness = CharacterWeakness(weakness_id=wk.weakness_id,
                                character_id=character.id,
@@ -134,7 +136,7 @@ class ClientDataAccess():
             session.add(cweakness)
             session.commit()
         session.commit()
-
+        print 'here4'
         print cchar.id
 
     def updateClientCharacter(self, cchar, char_id):
